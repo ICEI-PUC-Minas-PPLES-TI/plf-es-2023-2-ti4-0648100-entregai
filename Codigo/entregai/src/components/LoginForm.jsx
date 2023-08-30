@@ -1,24 +1,38 @@
 'use client'
 
-import { TextField, Button } from '@mui/material'
-import Link from 'next/link'
-import styles from './Form.module.scss'
+import { auth } from "@/firebase/Init"
+import { Button, TextField } from "@mui/material"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { useForm } from "react-hook-form"
 
 const LoginForm = () => {
+
+    const { register, handleSubmit} = useForm({
+        defaultValues: {
+            email: "",
+            password: ""
+        }
+    })
+
+    const submitData = async (data) => {
+        const { email, password } = data
+        
+        const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+
+        console.log(userCredentials);
+    }
+
     return (
-        <div className={styles.form}>
+        
+        <form onSubmit={handleSubmit(submitData)}>
 
-            <TextField id="outlined-basic" label="ID" type="email" variant="outlined" />
+            <TextField id="outlined-basic" label="Email" type="email" {...register("email")} variant="outlined" />
 
-            <TextField id="outlined-basic" label="Senha" type="password" variant="outlined" />
+            <TextField id="outlined-basic" label="Senha" type="password" {...register("password")} variant="outlined" />
 
-            <Button variant="contained" color="error">Logar</Button>
+            <Button type="submit" variant="contained" color="success">Logar</Button>
 
-            <Link href="/register">
-                <Button variant="contained" color="primary">Cadastrar</Button>
-            </Link>
-
-        </div>
+        </form>
     )
 }
 

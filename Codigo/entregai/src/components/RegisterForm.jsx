@@ -1,36 +1,38 @@
 'use client'
 
-import { TextField, Button } from '@mui/material'
-import styles from './Form.module.scss'
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
+import { auth } from "@/firebase/Init";
+import { Button, TextField } from "@mui/material";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useForm } from "react-hook-form";
 
 const RegisterForm = () => {
 
-    const form = useForm({
+    const { register, handleSubmit } = useForm({
         defaultValues: {
-            email: "123",
-            password: "123"
+            id: "",
+            password: ""
         }
-    })
+    });
 
-    const { register, handleSubmit} = form
+    const submitData = async (data) => {
+        const { email, password } = data;
 
-    const onSubmit = (data) => {
-        axios.post('/api', data)
+        const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+
+        console.log(userCredentials);
     }
 
     return (
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(submitData)}>
 
-            <TextField id="outlined-basic" label="ID" type="email" {...register("email")} variant="outlined" />
+            <TextField id="outlined-basic" label="Email" type="email" {...register("email")} variant="outlined" />
 
             <TextField id="outlined-basic" label="Senha" type="password" {...register("password")} variant="outlined" />
 
             <Button type="submit" variant="contained" color="success">Cadastrar</Button>
 
         </form>
-    )
+    );
 }
 
-export default RegisterForm
+export default RegisterForm;

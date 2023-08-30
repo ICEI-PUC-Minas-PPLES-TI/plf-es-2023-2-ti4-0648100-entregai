@@ -1,13 +1,16 @@
-import RegisterForm from '@/components/RegisterForm'
+import RegisterForm from "@/components/RegisterForm";
 
 export default function Page() {
+
   return (
     <main>
       
-      <h1>Cadastre-se!</h1>
+      <h1>Cadastro</h1>
 
       <RegisterForm />
 
     </main>
   )
 }
+
+
