@@ -1,35 +1,56 @@
 'use client'
 
-import { auth } from "@/firebase/Init";
 import { Button, TextField } from "@mui/material";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation"
+import axios from "axios";
 
 const RegisterForm = () => {
 
+    const router = useRouter()
+
     const { register, handleSubmit } = useForm({
         defaultValues: {
-            id: "",
-            password: ""
+            fullname: "",
+            cpf: "",
+            password: "",
+            confirmPassword: ""
         }
     });
 
     const submitData = async (data) => {
-        const { email, password } = data;
+        const { fullname, cpf, password, confirmPassword } = data;
 
-        const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+        if (password !== confirmPassword) {
+            // Display error message
+            return;
+        }
 
-        console.log(userCredentials);
+        const email = cpf + "@user.com";
+
+        await axios.post('/register/api', {email, password})
+            .then((response) => {
+                // Display sucess message (response contain the user data)
+                router.push('/home')
+            })
+            .catch((error) => {
+                // Display error message
+                console.log(error);
+            });
     }
 
     return (
         <form onSubmit={handleSubmit(submitData)}>
 
-            <TextField id="outlined-basic" label="Email" type="email" {...register("email")} variant="outlined" />
+            <TextField id="fullname" label="Nome Completo" type="text" {...register("fullname", { required: "Insira o nome completo" })} variant="outlined" />
 
-            <TextField id="outlined-basic" label="Senha" type="password" {...register("password")} variant="outlined" />
+            <TextField id="cpf" label="CPF" type="text" {...register("cpf", { required: "Insira o CPF", maxLength: 11 })} variant="outlined" />
 
-            <Button type="submit" variant="contained" color="success">Cadastrar</Button>
+            <TextField id="password" label="Senha" type="password" {...register("password", { required: "Insira a senha" })} variant="outlined" />
+
+            <TextField id="confirm-password" label="Confirmar Senha" type="password" {...register("confirmPassword", { required: "Repita a senha" })} variant="outlined" />
+
+            <Button id="submit-button" type="submit" variant="contained" color="success">Cadastrar</Button>
 
         </form>
     );
