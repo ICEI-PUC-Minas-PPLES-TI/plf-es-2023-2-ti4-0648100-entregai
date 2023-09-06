@@ -26,7 +26,7 @@ export default function Page() {
 
             <Button id="deslogar" color="error" variant="contained" onClick={userSignOut}>Deslogar</Button>
 
-            <Link href="/register"><Button variant="contained" color="primary">Cadastrar Usuario</Button></Link>
+            <Link href="/main/register"><Button variant="contained" color="primary">Cadastrar Usuario</Button></Link>
 
         </main>
     )
