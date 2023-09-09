@@ -1,22 +1,19 @@
 'use client'
 
-import AuthContext from "@/components/AuthContext";
 import { auth } from "@/firebase/Init";
 import { Button } from "@mui/material";
 import { signOut } from "firebase/auth";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Link from "next/link";
 
 export default function Page() {
 
     const [user] = useAuthState(auth);
-    const router = useRouter();
+    const { push } = useRouter();
 
     const userSignOut = () => {
-        signOut(auth).then(() => {
-            router.push("/")
-        })
+        signOut(auth).then(() => { push("/") })
     }
 
     return (

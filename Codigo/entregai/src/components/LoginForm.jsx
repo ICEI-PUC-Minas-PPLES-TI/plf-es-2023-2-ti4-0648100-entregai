@@ -32,11 +32,6 @@ const LoginForm = () => {
             });
     }
 
-    if (user || loading) { 
-        if (user) router.push('/main');
-        return <></>
-    }
-
     return (
         <div>
 
