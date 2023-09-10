@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, TextField } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation"
 import axios from "axios";
@@ -19,20 +19,18 @@ const RegisterForm = () => {
     });
 
     const submitData = async (data) => {
-        const { fullname, email, password, confirmPassword } = data;
+        const { fullname, email, password, confirmPassword, permission } = data;
 
         if (password !== confirmPassword) {
             // Display error message
             return;
         }
 
-        await axios.post('/main/register/api', {email, password})
+        await axios.post('/main/register/api', {fullname, permission, email, password})
             .then((response) => {
-                // Display sucess message (response contain the user data)
                 router.push('/main')
             })
             .catch((error) => {
-                // Display error message
                 console.log(error);
             });
     }
@@ -50,6 +48,8 @@ const RegisterForm = () => {
                 <TextField id="password" label="Senha" type="password" {...register("password", { required: "Insira a senha" })} variant="outlined" />
 
                 <TextField id="confirm-password" label="Confirmar Senha" type="password" {...register("confirmPassword", { required: "Repita a senha" })} variant="outlined" />
+
+                <FormControlLabel control={<Checkbox {...register("permission")} />} label="Administrador ?" />
 
                 <Button id="submit-button" type="submit" variant="contained" color="success">Cadastrar</Button>
 
