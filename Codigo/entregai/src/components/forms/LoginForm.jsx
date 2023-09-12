@@ -1,7 +1,7 @@
 "use client";
 
 import { auth } from "@/firebase/firebase";
-import { Alert, Button, Snackbar, TextField } from "@mui/material";
+import { Alert, Button, Snackbar, Stack, TextField } from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -40,15 +40,15 @@ const LoginForm = () => {
 	};
 
 	return (
-		<div>
+		<div className="container">
+
+			<form onSubmit={handleSubmit(submitData)} className="form">
 			<h1>Login</h1>
+				<TextField id="outlined-basic" label="Email" type="email" {...register("email")} variant="outlined" className="box"/>
 
-			<form onSubmit={handleSubmit(submitData)}>
-				<TextField id="outlined-basic" label="Email" type="email" {...register("email")} variant="outlined" />
+				<TextField id="outlined-basic" label="Senha" type="password" {...register("password")} variant="outlined" className="box"/>
 
-				<TextField id="outlined-basic" label="Senha" type="password" {...register("password")} variant="outlined" />
-
-				<Button type="submit" variant="contained" color="success">
+				<Button type="submit" variant="contained" color="success" id="submit">
 					Logar
 				</Button>
 
@@ -58,6 +58,7 @@ const LoginForm = () => {
 					</Alert>
 				</Snackbar>
 			</form>
+			<div className="side"></div>
 		</div>
 	);
 };
