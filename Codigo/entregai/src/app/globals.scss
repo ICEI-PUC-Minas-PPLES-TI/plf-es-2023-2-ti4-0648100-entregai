@@ -21,7 +21,7 @@
   flex-direction: column;
   width: 50%;
   align-items: center;
-  background-color: #C7000A;
+  background-color: #F80C13;
 }
 
 .form h1 {
@@ -42,7 +42,7 @@
   width: 40%;
   margin-top: 40px;
   background-color: white;
-  color: #F80C13;
+  color: #FCC500;
   font-weight: bold;
 }
 
@@ -54,5 +54,33 @@
   display: flex;
   width: 50%;
   background-color: whitesmoke;
+}
+
+
+/* Register */
+.registerForm {
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    max-width: 720px;
+    gap: 10px;
+    
+    .MuiTextField-root {
+      width: 100%;  /* Estende os campos, horizontalmente, para a largura da div */
+    }
+    
+    button#submit-button {
+      margin-left: auto;
+    }
+
+  }
+
+  
 }
 

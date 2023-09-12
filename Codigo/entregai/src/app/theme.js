@@ -1,31 +1,30 @@
-import { ThemeOptions } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-export const theme = createTheme({
+const themeOptions = {
   palette: {
     mode: 'light',
     primary: {
-      main: '#C7000A',
+        main: '#F80C13',
+        dark: '#C7000A',
     },
     secondary: {
-      main: '#FCC500',
+        main: '#FCC500',
     },
     error: {
-      main: '#D69094',
-      hover: 'E7BDBF',
+        main: '#D69094',
+        hover: 'E7BDBF',
     },
     success: {
-      main: '#A3C184',
-      hover: '#7F9F5E',
+        main: '#A3C184',
+        hover: '#7F9F5E',
     },
     text: {
-      primary: '#333333',
-      secondary: '#4D4D4D',
+        primary: '#333333',
+        secondary: '#4D4D4D',
     },
-  },
+  },    
+};
 
-  typography: {
-    fontFamily: [
-        'Montserrat',
-    ].join(','),
-  },
-})
+const theme = createTheme(themeOptions);
+
+export default theme;

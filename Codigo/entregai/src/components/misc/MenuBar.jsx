@@ -10,6 +10,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
 import styles from './MenuBar.module.scss'
 import { useUserData } from "../context/UserDataContext";
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../app/theme';
 
 const MenuBar = () => {
 	const [user] = useAuthState(auth);
@@ -33,7 +35,8 @@ const MenuBar = () => {
 	};
 
 	return (
-		<div>
+		<ThemeProvider theme={theme}>
+			<div>
 			<AppBar position="static">
 				<Toolbar>
 					<IconButton size="large" onClick={handleToggle} color="inherit">
@@ -70,7 +73,8 @@ const MenuBar = () => {
 					</Menu>
 				</Toolbar>
 			</AppBar>
-		</div>
+			</div>
+		</ThemeProvider>
 	);
 };
 
