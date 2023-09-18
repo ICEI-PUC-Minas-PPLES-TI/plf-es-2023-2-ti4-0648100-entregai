@@ -1,6 +1,6 @@
 'use client'
 
-import { auth } from '@/firebase/firebase';
+import { auth } from '@/lib/firebase/firebase';
 import { CircularProgress } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';

@@ -1,6 +1,6 @@
 "use client";
 
-import { auth } from "@/firebase/firebase";
+import { auth } from "@/lib/firebase/firebase";
 import { Alert, Button, Snackbar, Stack, TextField } from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
