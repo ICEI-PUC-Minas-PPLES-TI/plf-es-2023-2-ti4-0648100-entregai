@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation"
 import axios from "axios";
 import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../app/theme';
+import theme from '../../lib/theme/theme';
 
 
 const RegisterForm = () => {

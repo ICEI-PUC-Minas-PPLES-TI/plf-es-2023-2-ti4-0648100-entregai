@@ -1,6 +1,6 @@
 'use client'
 
-import { auth, db } from "@/firebase/firebase";
+import { auth, db } from "@/lib/firebase/firebase";
 import { CircularProgress } from "@mui/material";
 import { doc, getDoc } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";

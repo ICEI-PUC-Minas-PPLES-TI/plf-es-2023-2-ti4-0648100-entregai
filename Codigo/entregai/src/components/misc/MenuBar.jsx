@@ -1,6 +1,6 @@
 "use client";
 
-import { auth } from "@/firebase/firebase";
+import { auth } from "@/lib/firebase/firebase";
 import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar } from "@mui/material";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
@@ -11,7 +11,7 @@ import { useState } from "react";
 import styles from './MenuBar.module.scss'
 import { useUserData } from "../context/UserDataContext";
 import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../app/theme';
+import theme from '../../lib/theme/theme';
 
 const MenuBar = () => {
 	const [user] = useAuthState(auth);
