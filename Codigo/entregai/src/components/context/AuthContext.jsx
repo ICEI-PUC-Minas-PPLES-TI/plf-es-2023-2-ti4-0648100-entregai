@@ -1,6 +1,6 @@
 'use client'
 
-import { auth } from '@/lib/firebase/firebase';
+import { auth } from '@/lib/firebase/firebase-config';
 import { CircularProgress } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 const AuthContext = ({ children }) => {
+    
     const [ user, loading ] = useAuthState(auth);
     const { push } = useRouter();
     const pathname = usePathname();

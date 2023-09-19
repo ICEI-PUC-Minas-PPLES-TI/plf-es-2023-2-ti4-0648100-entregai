@@ -1,6 +1,6 @@
 'use client'
 
-import { auth, db } from "@/lib/firebase/firebase";
+import { auth, db } from "@/lib/firebase/firebase-config";
 import { CircularProgress } from "@mui/material";
 import { doc, getDoc } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -9,32 +9,34 @@ import { useAuthState } from "react-firebase-hooks/auth";
 const UserDataContext = createContext();
 
 export const UserDataProvider = ({ children }) => {
-    const [authUser, setAuthUser] = useState(null);
-    const [user] = useAuthState(auth);
+
+    const [userData, setUserData] = useState(null);
+    const [authUser] = useAuthState(auth);
 
     useEffect(() => {
 
         const fetchUserData = async () => {
 
-            const userRef = doc(db, "users", user.uid);
+            const userRef = doc(db, "users", authUser.uid);
 
             const docSnap = await getDoc(userRef);
 
             if (docSnap.exists()) {
 
-                const userData = docSnap.data()
+                const resultData = docSnap.data()
                 
-                setAuthUser(userData);
+                setUserData(resultData);
+
             }
         }
 
         fetchUserData();
 
-    }, [user]);
+    }, [authUser]);
 
     return (
-        <UserDataContext.Provider value={{ authUser }}>
-            {authUser == null ? <CircularProgress /> : children}
+        <UserDataContext.Provider value={{ userData }}>
+            {userData == null ? <CircularProgress /> : children}
         </UserDataContext.Provider>
     )
 }

@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "./lib/firebase/firebase";
+import { auth, db } from "./lib/firebase/firebase-config";
 import { doc, setDoc } from "firebase/firestore";
 
 // Creates the admin user

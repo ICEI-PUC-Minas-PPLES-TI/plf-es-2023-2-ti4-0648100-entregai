@@ -1,4 +1,4 @@
-import { auth, db } from "@/lib/firebase/firebase"
+import { auth, db } from "@/lib/firebase/firebase-config"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { doc, setDoc } from "firebase/firestore"
 import { NextResponse } from "next/server"

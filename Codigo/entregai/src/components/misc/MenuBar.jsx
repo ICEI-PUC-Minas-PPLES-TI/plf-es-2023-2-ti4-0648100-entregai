@@ -1,23 +1,19 @@
 "use client";
 
-import { auth } from "@/lib/firebase/firebase";
+import { auth } from "@/lib/firebase/firebase-config";
 import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar } from "@mui/material";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/navigation";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
 import styles from './MenuBar.module.scss'
 import { useUserData } from "../context/UserDataContext";
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../lib/theme/theme';
 
 const MenuBar = () => {
-	const [user] = useAuthState(auth);
-	const { push } = useRouter();
-	const {authUser} = useUserData();
 
+	const { push } = useRouter();
+	const { userData } = useUserData();
 	const [anchorEl, setAnchorEll] = useState(null);
 
 	const userSignOut = () => {
@@ -35,8 +31,7 @@ const MenuBar = () => {
 	};
 
 	return (
-		<ThemeProvider theme={theme}>
-			<div>
+		<div>
 			<AppBar position="static">
 				<Toolbar>
 					<IconButton size="large" onClick={handleToggle} color="inherit">
@@ -49,7 +44,7 @@ const MenuBar = () => {
                         </Button>
                     </Link>
 
-					{authUser.permission == 1 && <div>
+					{userData.permission == 1 && <div>
 						<Link href="/main/register">
 							<Button variant="contained" color="primary">
 								Cadastro
@@ -73,8 +68,7 @@ const MenuBar = () => {
 					</Menu>
 				</Toolbar>
 			</AppBar>
-			</div>
-		</ThemeProvider>
+		</div>
 	);
 };
 
