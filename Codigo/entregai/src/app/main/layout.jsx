@@ -1,9 +1,14 @@
+'use client'
+
 import { UserDataProvider } from "@/components/context/UserDataContext";
 import MenuBar from "@/components/misc/MenuBar";
+import theme from "@/lib/theme/theme";
+import { ThemeProvider } from "@emotion/react";
 
 export default function MainLayout({ children }) {
 	return (
-        <div>
+		<ThemeProvider theme={theme}>
+
 			<UserDataProvider>
 
 				<MenuBar />
@@ -11,6 +16,7 @@ export default function MainLayout({ children }) {
 				{children}
 
 			</UserDataProvider>
-		</div>
+
+		</ThemeProvider>
 	);
 }
