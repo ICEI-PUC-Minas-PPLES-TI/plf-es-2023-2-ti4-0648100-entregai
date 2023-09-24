@@ -1,11 +1,11 @@
 'use client'
 
 import { auth } from '@/lib/firebase/firebase-config';
-import { CircularProgress } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import BackdropScreen from '../misc/BackdropScreen';
 
 const AuthContext = ({ children }) => {
     
@@ -17,13 +17,13 @@ const AuthContext = ({ children }) => {
         if (!user && pathname !== '/') {
             push('/')
         } else if (user && pathname == '/') {
-            push('/main')
+            push('/main/supermarket')
         }
         
     }, [user, pathname, push])
 
     if (loading || (!user && pathname !== '/') || (user && pathname == '/')) {
-        return <CircularProgress />;
+        return <BackdropScreen />;
     }
 
     return <div>{children}</div>

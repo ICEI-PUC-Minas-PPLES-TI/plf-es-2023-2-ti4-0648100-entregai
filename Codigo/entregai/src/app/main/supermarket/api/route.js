@@ -11,7 +11,6 @@ export async function GET(request) {
       supermarkets.push({ id: doc.id, ...doc.data() });
     });
 
-
     return NextResponse.json({supermarkets}, {status: 200});
 }
 

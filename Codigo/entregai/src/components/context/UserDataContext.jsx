@@ -5,6 +5,7 @@ import { CircularProgress } from "@mui/material";
 import { doc, getDoc } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import BackdropScreen from "../misc/BackdropScreen";
 
 const UserDataContext = createContext();
 
@@ -36,7 +37,7 @@ export const UserDataProvider = ({ children }) => {
 
     return (
         <UserDataContext.Provider value={{ userData }}>
-            {userData == null ? <CircularProgress /> : children}
+            {userData == null ? <BackdropScreen /> : children}
         </UserDataContext.Provider>
     )
 }
