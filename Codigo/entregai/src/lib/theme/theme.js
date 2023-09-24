@@ -22,6 +22,14 @@ const themeOptions = {
         primary: '#333333',
         secondary: '#4D4D4D',
     },
+    yellow: {
+        main: '#FCC500',
+        contrastText: '#111',
+    },
+    darkred: {
+        main: '#b3090e',
+        contrastText: '#fff',
+    },
   },    
 };
 
