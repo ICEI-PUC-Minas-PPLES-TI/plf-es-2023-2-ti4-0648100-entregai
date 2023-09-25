@@ -20,7 +20,7 @@ const MenuBar = () => {
                         </Button>
                     </Link>
 
-					{userData.permissionLevel == 1 && <div>
+					{userData.permissionLevel && <div>
 						<Link href="/main/users">
 							<Button variant="contained" color="darkred">
 								Usuarios
