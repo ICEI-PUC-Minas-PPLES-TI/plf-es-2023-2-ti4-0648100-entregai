@@ -3,6 +3,7 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useState } from "react";
 import UserEdit from "./UserEdit";
+import UserDelete from "./UserDelete";
 
 const UserViewer = ({ usersArray, updateUsers }) => {
 
@@ -49,9 +50,10 @@ const UserViewer = ({ usersArray, updateUsers }) => {
                             <TableRow key={user.id}>
                                 <TableCell align="left">{user.name}</TableCell>
                                 <TableCell align="left">{user.email}</TableCell>
-                                <TableCell align="left">{(user.permissionLevel == 1 ? "ADMIN" : "USER")}</TableCell>
+                                <TableCell align="left">{(user.permissionLevel ? "ADMIN" : "USER")}</TableCell>
                                 <TableCell align="center">
                                     <UserEdit user={user} updateUsers={updateUsers} />
+                                    <UserDelete user={user} updateUsers={updateUsers} />
                                 </TableCell>
                             </TableRow>
                         ))}

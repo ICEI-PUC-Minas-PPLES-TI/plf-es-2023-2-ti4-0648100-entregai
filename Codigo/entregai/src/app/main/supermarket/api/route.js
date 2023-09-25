@@ -1,17 +1,16 @@
-import { db } from "@/lib/firebase/firebase-config";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { getAllSupermarkets, registerSupermarket } from "@/lib/firebase/supermarketHandler";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
-    const supermarketCollection = collection(db, 'supermarkets');
-    const querySnapshot = await getDocs(supermarketCollection);
-    const supermarkets = [];
+    try {
+        const supermarkets = await getAllSupermarkets()
 
-    querySnapshot.forEach((doc) => {
-      supermarkets.push({ id: doc.id, ...doc.data() });
-    });
+        return NextResponse.json({supermarkets}, {status: 200});
 
-    return NextResponse.json({supermarkets}, {status: 200});
+    } catch (error) {
+
+        return NextResponse.json({error}, {status: 200});
+    }
 }
 
 export async function POST(request) {
@@ -19,19 +18,12 @@ export async function POST(request) {
 
     try {
 
-        const supermarketRef = doc(db, "supermarkets", cnpj);
-            
-        await setDoc(supermarketRef, {
-            name,
-            address,
-            phone,
-            orders: [],
-            stock: []
-        });
+        await registerSupermarket(name, address, phone, cnpj)
 
         return NextResponse.json({}, {status: 200})
 
     } catch (error) {
+        
         return NextResponse.json({error}, {status: 500})
     }
 }

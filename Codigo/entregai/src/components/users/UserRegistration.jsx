@@ -23,12 +23,8 @@ const UserRegistration = ({ updateUsers }) => {
     };
 
     const handleChange = (event) => {
-        const {
-          target: { value },
-        } = event;
-        setSelectedSupermarkets(
-          typeof value === 'string' ? value.split(',') : value,
-        );
+        const {  value } = event.target;
+        setSelectedSupermarkets(value);
     };
 
     const { register, handleSubmit } = useForm({
@@ -44,16 +40,23 @@ const UserRegistration = ({ updateUsers }) => {
     const submitData = async (data) => {
         const { name, email, password, confirmPassword, permissionLevel } = data;
 
+        console.log(selectedSupermarkets);
+
+        if (Object.keys(errors).length > 0) {
+            return;
+        }
+
         if (password !== confirmPassword) {
             // Display error message
             return;
         }
 
+        setOpen(false)
+
         await axios.post('/main/users/api', { email, password, name, permissionLevel })
             .then((response) => {
                 if (response.status == 200) {
                     updateUsers()
-                    setOpen(false)
                 }
             }
         )
@@ -64,14 +67,10 @@ const UserRegistration = ({ updateUsers }) => {
     const handleClose = () => { setOpen(false) }
 
     useEffect(() => {
-        const fetchSupermarkets = () => {
-            axios.get('/main/supermarket/api')
-                .then((response) => {
-                    setSupermarkets(response.data.supermarkets)
-                })
-        }
-
-        fetchSupermarkets()
+        axios.get('/main/supermarket/api')
+            .then((response) => {
+                setSupermarkets(response.data.supermarkets)
+            })
     }, [])
 
     return (
@@ -105,12 +104,12 @@ const UserRegistration = ({ updateUsers }) => {
                                 value={selectedSupermarkets}
                                 onChange={handleChange}
                                 input={<OutlinedInput label="Supermercados" />}
-                                renderValue={(selected) => selected.join(', ')}
+                                renderValue={(selected) => selected.map((sup) => sup.name).join(', ')}
                                 MenuProps={MenuProps}
                             >
                             {supermarkets.map((sup) => (
-                                <MenuItem key={sup.id} value={sup.name}>
-                                    <Checkbox checked={selectedSupermarkets.indexOf(sup.name) > -1} />
+                                <MenuItem key={sup.id} value={sup}>
+                                    <Checkbox checked={selectedSupermarkets.some(selectedSup => selectedSup.id === sup.id)} />
                                     <ListItemText primary={sup.name} />
                                 </MenuItem>
                             ))}
@@ -121,9 +120,7 @@ const UserRegistration = ({ updateUsers }) => {
 
 					<DialogActions>
 						<Button onClick={handleClose}>Cancelar</Button>
-						<Button onClick={handleClose} type="submit">
-							Cadastrar
-						</Button>
+						<Button type="submit">Cadastrar</Button>
 					</DialogActions>
 				</form>
 			</Dialog>

@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "./firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import admin from "./firebase-admin-config";
@@ -38,6 +38,25 @@ const registerUser = async (email, password, name, permissionLevel) => {
     })
 }
 
+const deleteUser = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const usersCollection = collection(db, 'users');
+
+            const userDocRef = doc(usersCollection, id)
+
+            await deleteDoc(userDocRef)
+
+            admin.auth().deleteUser(id)
+
+            resolve(userDocRef)
+
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+
 const updateUser = async (id, email, password, name, permissionLevel) => {
     return new Promise(async (resolve, reject) => {
 
@@ -68,4 +87,4 @@ const createUserDocument = async (uid, name, email, permissionLevel) => {
     await setDoc(userRef, { name, email, permissionLevel });
 }
 
-export { registerUser, updateUser, getAllUsers, createUserDocument }
+export { deleteUser, registerUser, updateUser, getAllUsers, createUserDocument }
