@@ -1,16 +1,25 @@
-import { db } from "@/lib/firebase/firebase-config";
-import { getAllUsers, registerUser, updateUser } from "@/lib/firebase/userHandler";
-import { auth } from "firebase-admin";
-import { collection, getDocs } from "firebase/firestore";
+import { deleteUser, getAllUsers, registerUser, updateUser } from "@/lib/firebase/userHandler";
 import { NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function GET(request) {
+
 	try {
-		const { email, password, name, permissionLevel } = await request.json();
+		const users = await getAllUsers()
+
+		return NextResponse.json({users}, {status: 200});
+
+	} catch (err) {
+		return NextResponse.json({err}, {status: 200});
+	}
+}
+
+export async function POST(request) {
+	const { email, password, name, permissionLevel } = await request.json();
+
+	try {
 
 		await registerUser(email, password, name, permissionLevel);
 
-        // Talvez retornar o usuario criado
 		return NextResponse.json({}, { status: 200 });
 
 	} catch (error) {
@@ -18,17 +27,27 @@ export async function POST(request) {
 	}
 }
 
+export async function DELETE(request) {
+	const { id } = await request.params
+
+	try {
+
+		console.log(id);
+
+		await deleteUser(id)
+
+		return NextResponse.json({}, { status: 200 });
+
+	} catch (err) {
+		return NextResponse.json({ err }, { status: 500 });
+	}
+}
+
 export async function PATCH(request) {
     const { id, email, password, name, permissionLevel } = await request.json();
 
+	// try catch
     await updateUser(id, email, password, name, permissionLevel)
 
     return NextResponse.json({}, {status: 200});
-}
-
-export async function GET(request) {
-
-    const users = await getAllUsers()
-
-    return NextResponse.json({users}, {status: 200});
 }

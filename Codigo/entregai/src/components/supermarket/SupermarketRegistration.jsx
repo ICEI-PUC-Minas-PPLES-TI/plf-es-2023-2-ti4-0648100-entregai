@@ -23,11 +23,12 @@ const SupermarketForm = ({ updateSupermarkets }) => {
 
         // Backdrop
 
+        setOpen(false)
+
         axios.post('/main/supermarket/api', { name, address, phone, cnpj })
             .then((response) => {
                 if (response.status == 200) {
                     updateSupermarkets()
-                    setOpen(false)
                 }
             }
         )
@@ -44,9 +45,11 @@ const SupermarketForm = ({ updateSupermarkets }) => {
 			</Button>
 
 			<Dialog open={open} onClose={handleClose}>
+
 				<DialogTitle>Cadastrar Novo Supermercado</DialogTitle>
 
 				<form onSubmit={handleSubmit(submitData)}>
+
 					<DialogContent>
 						<TextField margin="dense" variant="standard" {...register("name")} label="Nome" fullWidth />
 
@@ -61,6 +64,7 @@ const SupermarketForm = ({ updateSupermarkets }) => {
 						<Button onClick={handleClose}>Cancelar</Button>
 						<Button type="submit">Cadastrar</Button>
 					</DialogActions>
+                    
 				</form>
 			</Dialog>
 		</div>

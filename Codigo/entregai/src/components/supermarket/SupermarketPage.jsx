@@ -15,7 +15,8 @@ const SupermarketPage = () => {
         axios.get('/main/supermarket/api')
             .then((response) => {
                 setSupermarkets(response.data.supermarkets)
-            })
+            }
+        )
     }
 
     useEffect(() => {
