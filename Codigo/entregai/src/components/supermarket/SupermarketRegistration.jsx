@@ -25,7 +25,7 @@ const SupermarketForm = ({ updateSupermarkets }) => {
 
         setOpen(false)
 
-        axios.post('/main/supermarket/api', { name, address, phone, cnpj })
+        await axios.post('/main/supermarket/api', { name, address, phone, cnpj })
             .then((response) => {
                 if (response.status == 200) {
                     updateSupermarkets()

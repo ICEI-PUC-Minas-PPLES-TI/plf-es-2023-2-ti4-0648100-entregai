@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "./firebase-config"
 
 const getAllSupermarkets = async () => {
@@ -22,6 +22,7 @@ const getAllSupermarkets = async () => {
 const registerSupermarket = async (name, address, phone, cnpj) => {
     return new Promise(async (resolve, reject) => {
         try {
+
             const supermarketRef = doc(db, "supermarkets", cnpj);
             
             await setDoc(supermarketRef, {

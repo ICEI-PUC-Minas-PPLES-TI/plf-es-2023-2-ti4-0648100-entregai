@@ -27,7 +27,7 @@ const UserRegistration = ({ updateUsers }) => {
         setSelectedSupermarkets(value);
     };
 
-    const { register, handleSubmit } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             name: "",
             email: "",

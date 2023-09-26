@@ -19,7 +19,7 @@ export async function POST(request) {
 	try {
 
 		await registerUser(email, password, name, permissionLevel);
-
+		
 		return NextResponse.json({}, { status: 200 });
 
 	} catch (error) {
