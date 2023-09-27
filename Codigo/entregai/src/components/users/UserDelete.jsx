@@ -15,7 +15,7 @@ const UserDelete = ({ user, updateUsers }) => {
 
         setOpen(false)
 
-        await axios.delete(`/main/users/api/${id}`)
+        await axios.delete(`/main/users/api?userId=${id}`)
             .then((response) => {
                 if (response.status == 200) {
                     updateUsers()
@@ -35,7 +35,7 @@ const UserDelete = ({ user, updateUsers }) => {
             </IconButton>
 
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Deletando Usuário: {user.name}</DialogTitle>
+                <DialogTitle>{user.name}</DialogTitle>
 
                 <DialogContent>Deseja mesmo deletar o este usuário?</DialogContent>
 

@@ -20,7 +20,7 @@ const AuthContext = ({ children }) => {
             push('/main/supermarket')
         }
         
-    }, [user, pathname, push])
+    }, [user, pathname, push, loading])
 
     if (loading || (!user && pathname !== '/') || (user && pathname == '/')) {
         return <BackdropScreen />;

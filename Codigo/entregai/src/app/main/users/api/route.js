@@ -28,11 +28,10 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
-	const { id } = await request.params
+	const searchParams = request.nextUrl.searchParams
+	const id = searchParams.get('userId')
 
 	try {
-
-		console.log(id);
 
 		await deleteUser(id)
 
