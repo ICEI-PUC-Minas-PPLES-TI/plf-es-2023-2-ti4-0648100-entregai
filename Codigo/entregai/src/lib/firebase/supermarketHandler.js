@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "./firebase-config"
 
 const getAllSupermarkets = async () => {
@@ -13,6 +13,21 @@ const getAllSupermarkets = async () => {
             });
 
             resolve(supermarkets)
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+
+const getSupermarketById = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const supermarketRef = doc(db, "supermarkets", id);
+            const docSnap = await getDoc(supermarketRef)
+
+            const resultData = docSnap.data()
+
+            resolve(resultData)
         } catch (err) {
             reject(err)
         }
@@ -41,5 +56,5 @@ const registerSupermarket = async (name, address, phone, cnpj) => {
     })
 }
 
-export { getAllSupermarkets, registerSupermarket }
+export { getSupermarketById, getAllSupermarkets, registerSupermarket }
 

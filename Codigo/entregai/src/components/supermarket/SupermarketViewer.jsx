@@ -1,8 +1,10 @@
 'use client'
 
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import Link from "next/link";
 
 const SupermarketViewer = ({ supermarketsArray }) => {
+
     return (
         <div>
             {supermarketsArray.map((supermarket) => (
@@ -16,7 +18,9 @@ const SupermarketViewer = ({ supermarketsArray }) => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small">Ver mais</Button>
+                        <Link href={`/main/supermarket/${supermarket.id}`}>
+                            <Button size="small">Ver mais</Button>
+                        </Link>
                     </CardActions>
                 </Card>
             ))}
