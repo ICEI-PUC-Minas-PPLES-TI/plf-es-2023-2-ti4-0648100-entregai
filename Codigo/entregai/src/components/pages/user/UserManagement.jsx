@@ -1,11 +1,11 @@
 'use client'
 
+import UserViewer from "./modules/UserViewer"
+import UserRegistration from "./modules/UserRegistration"
 import { useEffect, useState } from "react"
-import UserViewer from "./UserViewer"
 import axios from "axios"
-import UserRegistration from "./UserRegistration"
 
-const UserPage = () => {
+const UserManagement = () => {
 
     const [ users, setUsers ] = useState([])
 
@@ -13,7 +13,8 @@ const UserPage = () => {
         axios.get('/main/users/api')
             .then((response) => {
                 setUsers(response.data.users)
-            })
+            }
+        )
     }
 
     useEffect(() => {
@@ -29,4 +30,4 @@ const UserPage = () => {
     )
 }
 
-export default UserPage
+export default UserManagement

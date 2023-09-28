@@ -1,10 +1,10 @@
-import SupermarketPage from "@/components/supermarket/SupermarketPage";
+import SupermarketManagement from "@/components/pages/supermarket/SupermarketManagement";
 
 export default function Page() {
 
     return (
         <main>
-            <SupermarketPage />
+            <SupermarketManagement />
         </main>
     )
 }

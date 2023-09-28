@@ -1,10 +1,10 @@
 import ProtectedPageContext from "@/components/context/ProtectedPageContext";
-import UserPage from "@/components/users/UserPage";
+import UserManagement from "@/components/pages/user/UserManagement";
 
 export default function Page() {
     return (
         <ProtectedPageContext>
-            <UserPage />
+            <UserManagement />
         </ProtectedPageContext>
     )
 }
