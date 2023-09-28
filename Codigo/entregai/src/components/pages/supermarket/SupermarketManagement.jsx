@@ -1,12 +1,12 @@
 'use client'
 
-import SupermarketCreator from "./SupermarketRegistration"
+import SupermarketCreator from "./modules/SupermarketRegistration"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import SupermarketViewer from "./SupermarketViewer"
-import { useUserData } from "../context/UserDataContext"
+import SupermarketViewer from "./modules/SupermarketViewer"
+import { useUserData } from "../../context/UserDataContext"
 
-const SupermarketPage = () => {
+const SupermarketManagement = () => {
 
     const [ supermarkets, setSupermarkets ] = useState([])
     const { userData } = useUserData()
@@ -32,4 +32,4 @@ const SupermarketPage = () => {
 		);
 }
 
-export default SupermarketPage
+export default SupermarketManagement

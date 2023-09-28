@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const LoginForm = () => {
+const Login = () => {
 
 	const { push } = useRouter();
 	const [snackbar, setSnackbar] = useState({open: false, type: "error", message: "Credenciais invalidas!"});
@@ -60,4 +60,4 @@ const LoginForm = () => {
 	);
 };
 
-export default LoginForm;
+export default Login;
