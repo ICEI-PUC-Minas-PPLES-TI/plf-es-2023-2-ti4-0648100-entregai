@@ -11,7 +11,7 @@ const UserManagement = () => {
     const [ users, setUsers ] = useState<User[]>([])
 
     const fetchUsers = () => {
-        axios.get('/main/users/all/api')
+        axios.get('/main/user/api/all')
             .then((response) => {
                 setUsers(response.data.users)
             }

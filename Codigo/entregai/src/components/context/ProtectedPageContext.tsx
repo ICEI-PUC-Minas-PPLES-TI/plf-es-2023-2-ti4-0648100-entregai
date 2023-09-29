@@ -10,7 +10,7 @@ const ProtectedRouteContext = ({ children }: { children: React.ReactNode }) => {
     const { back } = useRouter()
 
     useEffect(() => {
-        if (!userData?.permissionLevel) {
+        if (!userData.permissionLevel) {
             back()
         }
     }, [back, userData])

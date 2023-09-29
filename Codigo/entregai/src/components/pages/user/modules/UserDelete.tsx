@@ -14,7 +14,7 @@ const UserDelete = ({ user, updateUsers }: { user: User, updateUsers: Function }
 
         setOpen(false)
 
-        await axios.delete(`/main/users/api?userId=${user.id}`)
+        await axios.delete(`/main/user/api?userId=${user.id}`)
             .then((response) => {
                 if (response.status == 200) {
                     updateUsers()

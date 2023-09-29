@@ -65,7 +65,7 @@ const UserEdit = ({ user, updateUsers }: { user: User, updateUsers: Function }) 
 
         setOpen(false)
 
-        await axios.patch('/main/users/api', { id, email, password, name, permissionLevel })
+        await axios.patch('/main/user/api', { id, email, password, name, permissionLevel })
             .then((response) => {
                 if (response.status == 200) {
                     updateUsers()
@@ -79,7 +79,7 @@ const UserEdit = ({ user, updateUsers }: { user: User, updateUsers: Function }) 
     const handleClose = () => { setOpen(false) }
 
     useEffect(() => {
-        axios.get('/main/supermarket/api')
+        axios.get('/main/supermarket/api/all')
             .then((response) => {
                 setSupermarkets(response.data.supermarkets)
             })

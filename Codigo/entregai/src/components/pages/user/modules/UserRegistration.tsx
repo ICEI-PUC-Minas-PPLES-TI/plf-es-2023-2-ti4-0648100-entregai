@@ -62,7 +62,7 @@ const UserRegistration = ({ updateUsers }: { updateUsers: Function }) => {
 
         setOpen(false)
 
-        await axios.post('/main/users/api', { email, password, name, permissionLevel })
+        await axios.post('/main/user/api', { email, password, name, permissionLevel })
             .then((response) => {
                 if (response.status == 200) {
                     updateUsers()
@@ -76,7 +76,7 @@ const UserRegistration = ({ updateUsers }: { updateUsers: Function }) => {
     const handleClose = () => { setOpen(false) }
 
     useEffect(() => {
-        axios.get('/main/supermarket/api')
+        axios.get('/main/supermarket/api/all')
             .then((response) => {
                 setSupermarkets(response.data.supermarkets)
             })
