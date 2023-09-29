@@ -1,11 +1,16 @@
-import { getAllSupermarkets, registerSupermarket } from "@/lib/firebase/supermarketHandler";
+import { getSupermarket, registerSupermarket } from "@/lib/firebase/supermarketHandler";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
-    try {
-        const supermarkets = await getAllSupermarkets()
 
-        return NextResponse.json({supermarkets}, {status: 200});
+export async function GET(request: NextRequest) {
+    
+	const searchParams = request.nextUrl.searchParams
+	const id = searchParams.get('supermarketId')!
+
+    try {
+        const supermarket = await getSupermarket(id)
+
+        return NextResponse.json({supermarket}, {status: 200});
 
     } catch (error) {
 

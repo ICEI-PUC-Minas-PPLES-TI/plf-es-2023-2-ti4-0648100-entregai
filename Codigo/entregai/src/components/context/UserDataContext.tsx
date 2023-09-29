@@ -11,7 +11,7 @@ export const UserDataProvider = ({ children }: { children: React.ReactNode }) =>
 	const [ authUser ] = useAuthState(auth);
 
 	useEffect(() => {
-		axios.get(`/main/users/api?userId=${authUser?.uid}`)
+		axios.get(`/main/user/api?userId=${authUser?.uid}`)
 			.then((response) => {
 				setUserData(response.data.user)
 			})

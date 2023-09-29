@@ -45,7 +45,7 @@ const BurguerMenu = () => {
 				open={Boolean(anchorElevation)}
 				onClose={handleToggle}
 			>
-				<Link href="/main/profile" className={styles.link}>
+				<Link href="/main/user/profile" className={styles.link}>
 					<MenuItem>Perfil</MenuItem>
 				</Link>
 

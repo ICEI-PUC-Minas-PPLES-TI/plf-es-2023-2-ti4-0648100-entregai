@@ -12,7 +12,7 @@ const SupermarketManagement = () => {
     const userData = useUserData()
 
     const fetchSupermarkets = () => {
-        axios.get('/main/supermarket/api')
+        axios.get('/main/supermarket/api/all')
             .then((response) => {
                 setSupermarkets(response.data.supermarkets)
             }

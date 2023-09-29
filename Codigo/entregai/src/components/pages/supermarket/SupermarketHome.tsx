@@ -11,7 +11,7 @@ const SupermarketHome = ({ id }: { id: string }) => {
 
     useEffect(() => {
         
-        axios.get(`/main/supermarket/${id}/api?supermarketId=${id}`)
+        axios.get(`/main/supermarket/api?supermarketId=${id}`)
             .then((response) => {
                 setSupermarket(response.data.supermarket);
             }
