@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import admin from "./firebase-admin-config";
 import { User } from "@/types/User";
 
-const getAllUsers = async () => {
+const getAllUsers = async (): Promise<User[]> => {
     return new Promise(async (resolve, reject) => {
         try {
             const usersCollection = collection(db, 'users');
