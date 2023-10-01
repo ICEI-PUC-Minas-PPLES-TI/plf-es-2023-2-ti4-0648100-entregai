@@ -1,21 +1,20 @@
+'use client'
+
+import { useUserData } from "@/components/context/UserDataContext";
 import { Supermarket } from "../../../../types/Supermarket";
 import SupermarketContainer from "./SupermarketContainer";
 
-async function getSupermarkets() {
-    const response = await fetch(process.env.URL + '/main/supermarket/api/all', { cache: 'no-store' })
+const SupermarketViewer = ({ supermarkets }: { supermarkets: Supermarket[] }) => {
 
-    const { supermarkets } = await response.json()
+    const userData = useUserData()
 
-    return supermarkets
-}
-
-const SupermarketViewer = async () => {
-
-    const supermarkets: Supermarket[] = await getSupermarkets()
+    const filteredSupermarkets = supermarkets.filter((supermarket) =>
+        userData.selectedSupermarkets.includes(supermarket.id)
+    );
 
     return (
         <div>
-            {supermarkets.map((supermarket) => (
+            {filteredSupermarkets.map((supermarket) => (
                 <SupermarketContainer key={supermarket.id} supermarket={supermarket} />
             ))}
         </div>

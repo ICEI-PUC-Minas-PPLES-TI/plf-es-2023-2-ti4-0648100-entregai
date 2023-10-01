@@ -1,8 +1,10 @@
 import { Supermarket } from "../../../types/Supermarket"
+import SupermarketDelete from "./modules/SupermarketDelete"
+import SupermarketEdit from "./modules/SupermarketEdit"
 import SupermarketInfo from "./modules/SupermarketInfo"
 
 async function getSupermarket(id: string) {
-    const response = await fetch(process.env.URL + `/main/supermarket/api?supermarketId=${id}`, { cache: 'no-store' })
+    const response = await fetch(`${process.env.URL}/main/supermarket/api?supermarketId=${id}`, { cache: 'no-store' })
 
     const { supermarket } = await response.json()
 
@@ -16,6 +18,10 @@ const SupermarketHome = async ({ id }: { id: string }) => {
     return (
         <div>
             <SupermarketInfo supermarket={supermarket} />
+
+            <SupermarketDelete supermarket={supermarket} />
+
+            <SupermarketEdit supermarket={supermarket} />
         </div>
     )
 }

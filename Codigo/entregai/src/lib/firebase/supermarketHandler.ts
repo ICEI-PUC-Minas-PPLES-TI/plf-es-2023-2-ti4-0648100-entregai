@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "./firebase-config"
 import { Supermarket } from "@/types/Supermarket";
 
@@ -24,11 +24,15 @@ const getSupermarket = async (id: string) => {
     return new Promise(async (resolve, reject) => {
         try {
             const supermarketRef = doc(db, "supermarkets", id);
+
             const docSnap = await getDoc(supermarketRef)
 
-            const resultData = docSnap.data()
+            if (docSnap.exists()) {
+                const resultData = { id, ...docSnap.data() }
 
-            resolve(resultData)
+                resolve(resultData)
+            }
+
         } catch (err) {
             reject(err)
         }
@@ -58,8 +62,21 @@ const registerSupermarket = async (name: string, address: string, phone: string,
 }
 
 const deleteSupermarket = async (id: string) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const supermarketCollection = collection(db, "supermarkets")
 
+            const supermarketRef = doc(supermarketCollection, id)
+
+            await deleteDoc(supermarketRef)
+
+            resolve(supermarketRef)
+
+        } catch (err) {
+            reject(err)
+        }
+    })
 }
 
-export { getSupermarket, getAllSupermarkets, registerSupermarket }
+export { getSupermarket, deleteSupermarket, getAllSupermarkets, registerSupermarket }
 

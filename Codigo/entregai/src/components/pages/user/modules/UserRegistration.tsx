@@ -33,8 +33,9 @@ const UserRegistration = ({ supermarkets }: { supermarkets: Supermarket[] }) => 
     const router = useRouter()
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
-        const { value } = event.target as HTMLButtonElement
-        setSelectedSupermarkets(typeof value === 'string' ? value.split(',') : value);
+        // const { value } = event.target as HTMLButtonElement
+        // setSelectedSupermarkets(typeof value === 'string' ? value.split(',') : value);
+        setSelectedSupermarkets(event.target.value as string[]);
     };
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -63,7 +64,9 @@ const UserRegistration = ({ supermarkets }: { supermarkets: Supermarket[] }) => 
 
         setOpen(false)
 
-        await axios.post('/main/user/api', { email, password, name, permissionLevel })
+
+        // Client side
+        await axios.post('/main/user/api', { email, password, name, permissionLevel, selectedSupermarkets })
             .then((response) => {
                 if (response.status == 200) {
                     router.refresh()
@@ -107,15 +110,27 @@ const UserRegistration = ({ supermarkets }: { supermarkets: Supermarket[] }) => 
                                 value={selectedSupermarkets}
                                 onChange={handleChange}
                                 input={<OutlinedInput label="Supermercados" />}
-                                renderValue={(selected) => selected.join(', ')}
+                                // renderValue={(selected) => selected.join(', ')}
+                                renderValue={(selected) =>
+                                    selected.map((supermarketId) => {
+                                        const selectedSupermarket = supermarkets.find((sup) => sup.id === supermarketId);
+                                        return selectedSupermarket ? selectedSupermarket.name : '';
+                                    }).join(', ')
+                                }
                                 MenuProps={MenuProps}
                             >
-                            {supermarkets.map((sup: Supermarket) => (
-                                <MenuItem key={sup.id} value={sup.name}>
-                                    <Checkbox checked={selectedSupermarkets.indexOf(sup.name) > -1} />
+                            {/* {supermarkets.map((sup: Supermarket) => (
+                                <MenuItem key={sup.id} value={sup.id}>
+                                    <Checkbox checked={selectedSupermarkets.indexOf(sup.id) > -1} />
                                     <ListItemText primary={sup.name} />
                                 </MenuItem>
-                            ))}
+                            ))} */}
+                                {supermarkets.map((sup: Supermarket) => (
+                                    <MenuItem key={sup.id} value={sup.id}>
+                                        <Checkbox checked={selectedSupermarkets.indexOf(sup.id) > -1} />
+                                        <ListItemText primary={sup.name} />
+                                    </MenuItem>
+                                ))} 
                             </Select>
                         </FormControl>
 

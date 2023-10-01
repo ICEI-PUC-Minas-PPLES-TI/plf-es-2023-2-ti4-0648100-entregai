@@ -16,6 +16,7 @@ const UserDelete = ({ user }: { user: User }) => {
 
         setOpen(false)
 
+        // Client side request
         await axios.delete(`/main/user/api?userId=${user.id}`)
             .then((response) => {
                 if (response.status == 200) {

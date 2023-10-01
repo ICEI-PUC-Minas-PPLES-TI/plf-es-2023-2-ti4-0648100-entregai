@@ -1,13 +1,24 @@
-import SupermarketCreator from "./modules/SupermarketRegistration"
+import { Supermarket } from "@/types/Supermarket"
+import SupermarketRegistration from "./modules/SupermarketRegistration"
 import SupermarketViewer from "./modules/SupermarketViewer"
 
-const SupermarketManagement = () => {
+async function getSupermarkets() {
+    const response = await fetch(`${process.env.URL}/main/supermarket/api/all`, { cache: 'no-store' })
+
+    const { supermarkets } = await response.json()
+
+    return supermarkets
+}
+
+const SupermarketManagement = async () => {
+    
+    const supermarkets: Supermarket[] = await getSupermarkets()
 
     return (
 			<div>
-                <SupermarketCreator />
+                <SupermarketRegistration />
 
-                <SupermarketViewer />
+                <SupermarketViewer supermarkets={supermarkets} />
 			</div>
 		);
 }

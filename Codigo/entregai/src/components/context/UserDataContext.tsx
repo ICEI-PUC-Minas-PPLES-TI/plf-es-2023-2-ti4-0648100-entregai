@@ -12,6 +12,7 @@ export const UserDataProvider = ({ children }: { children: React.ReactNode }) =>
 	useEffect(() => {
 
 		const getUserData = async () => {
+			// Client side não precisa de URL
 			const response = await fetch(`/main/user/api?userId=${authUser?.uid}`)
 
 			const { user } = await response.json()

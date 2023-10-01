@@ -3,4 +3,5 @@ export interface User {
     name: string;
     email: string;
     permissionLevel: boolean;
+    selectedSupermarkets: string[];
 }
