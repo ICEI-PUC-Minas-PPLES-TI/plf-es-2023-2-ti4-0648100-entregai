@@ -45,13 +45,13 @@ const getUser = async (id: string) => {
 
 }
 
-const registerUser = async (email: string, password: string, name: string, permissionLevel: boolean) => {
+const registerUser = async (email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
     return new Promise(async (resolve, reject) => {
         try {
 
             const userCredetial = await createUserWithEmailAndPassword(auth, email, password)
 
-            createUserDocument(userCredetial.user.uid, name, email, permissionLevel)
+            createUserDocument(userCredetial.user.uid, name, email, permissionLevel, selectedSupermarkets)
 
             resolve({uid: userCredetial.user.uid, email, password, name, permissionLevel})
 
@@ -81,7 +81,7 @@ const deleteUser = async (id: string) => {
     })
 }
 
-const updateUser = async (id: string, email: string, password: string, name: string, permissionLevel: boolean) => {
+const updateUser = async (id: string, email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
     return new Promise(async (resolve, reject) => {
 
         try {
@@ -90,7 +90,7 @@ const updateUser = async (id: string, email: string, password: string, name: str
 
             const userDocRef = doc(usersCollection, id)
 
-            const updatedData = { email, name, permissionLevel }
+            const updatedData = { email, name, permissionLevel, selectedSupermarkets }
 
             await updateDoc(userDocRef, updatedData)
 
@@ -98,17 +98,17 @@ const updateUser = async (id: string, email: string, password: string, name: str
 
             admin.auth().updateUser(id, authUpdate)
 
-            resolve({ id, email, password, name, permissionLevel })
+            resolve({ id, email, password, name, permissionLevel, selectedSupermarkets })
         } catch (err) {
             reject(err)
         }
     })
 }
 
-const createUserDocument = async (uid: string, name: string, email: string, permissionLevel: boolean) => {
+const createUserDocument = async (uid: string, name: string, email: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
     const userRef = doc(db, "users", uid);
             
-    await setDoc(userRef, { name, email, permissionLevel });
+    await setDoc(userRef, { name, email, permissionLevel, selectedSupermarkets });
 }
 
 export { deleteUser, getUser, registerUser, updateUser, getAllUsers, createUserDocument }

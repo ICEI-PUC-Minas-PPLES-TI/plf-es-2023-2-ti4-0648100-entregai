@@ -39,8 +39,9 @@ const UserEdit = ({ user, supermarkets }: { user: User, supermarkets: Supermarke
     const router = useRouter()
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
-        const { value } = event.target as HTMLButtonElement
-        setSelectedSupermarkets(typeof value === 'string' ? value.split(',') : value);
+        // const { value } = event.target as HTMLButtonElement
+        // setSelectedSupermarkets(typeof value === 'string' ? value.split(',') : value);
+        setSelectedSupermarkets(event.target.value as string[]);
     };
 
     const { register, handleSubmit, formState: { errors }, getValues } = useForm({
@@ -50,7 +51,8 @@ const UserEdit = ({ user, supermarkets }: { user: User, supermarkets: Supermarke
             email: user.email,
             password: "",
             confirmPassword: "",
-            permissionLevel: user.permissionLevel
+            permissionLevel: user.permissionLevel,
+
         }
     });
 
@@ -67,7 +69,8 @@ const UserEdit = ({ user, supermarkets }: { user: User, supermarkets: Supermarke
 
         setOpen(false)
 
-        await axios.patch('/main/user/api', { id, email, password, name, permissionLevel })
+        // Client side
+        await axios.patch('/main/user/api', { id, email, password, name, permissionLevel, selectedSupermarkets })
             .then((response) => {
                 if (response.status == 200) {
                     router.refresh()
@@ -79,6 +82,10 @@ const UserEdit = ({ user, supermarkets }: { user: User, supermarkets: Supermarke
     const handleOpen = () => { setOpen(true) }
 
     const handleClose = () => { setOpen(false) }
+
+    useEffect(() => {
+        setSelectedSupermarkets(user.selectedSupermarkets || [])
+    }, [user.selectedSupermarkets])
 
     return (
         <div>
@@ -170,12 +177,18 @@ const UserEdit = ({ user, supermarkets }: { user: User, supermarkets: Supermarke
                                 value={selectedSupermarkets}
                                 onChange={handleChange}
                                 input={<OutlinedInput label="Supermercados" />}
-                                renderValue={(selected) => selected.join(', ')}
+                                // renderValue={(selected) => selected.join(', ')}
+                                renderValue={(selected) =>
+                                    selected.map((supermarketId) => {
+                                        const selectedSupermarket = supermarkets.find((sup) => sup.id === supermarketId);
+                                        return selectedSupermarket ? selectedSupermarket.name : '';
+                                    }).join(', ')
+                                }
                                 MenuProps={MenuProps}
                             >
                             {supermarkets.map((sup: Supermarket) => (
-                                <MenuItem key={sup.id} value={sup.name}>
-                                    <Checkbox checked={selectedSupermarkets.indexOf(sup.name) > -1} />
+                                <MenuItem key={sup.id} value={sup.id}>
+                                    <Checkbox checked={selectedSupermarkets.indexOf(sup.id) > -1} />
                                     <ListItemText primary={sup.name} />
                                 </MenuItem>
                             ))}

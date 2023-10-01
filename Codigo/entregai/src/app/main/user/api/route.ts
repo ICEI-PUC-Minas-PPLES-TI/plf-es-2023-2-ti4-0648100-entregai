@@ -17,11 +17,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-	const { email, password, name, permissionLevel } = await request.json();
+	const { email, password, name, permissionLevel, selectedSupermarkets } = await request.json();
 
 	try {
 
-		await registerUser(email, password, name, permissionLevel);
+		await registerUser(email, password, name, permissionLevel, selectedSupermarkets);
 		
 		return NextResponse.json({}, { status: 200 });
 
@@ -49,11 +49,11 @@ export async function DELETE(request: NextRequest) {
 
 
 export async function PATCH(request: NextRequest) {
-    const { id, email, password, name, permissionLevel } = await request.json();
+    const { id, email, password, name, permissionLevel, selectedSupermarkets } = await request.json();
 
 	try {
 
-		await updateUser(id, email, password, name, permissionLevel)
+		await updateUser(id, email, password, name, permissionLevel, selectedSupermarkets)
 
 		return NextResponse.json({}, {status: 200});
 

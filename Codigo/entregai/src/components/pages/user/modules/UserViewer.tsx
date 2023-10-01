@@ -27,12 +27,16 @@ const UserViewer = ({ users, supermarkets }: { users: User[], supermarkets: Supe
         { id: 'name', label: 'Nome', minWidth: 100 },
         { id: 'email', label: 'Email', minWidth: 100 },
         { id: 'permission', label: 'Permissão', minWidth: 100 },
+        { id: 'supermarkets', label: 'Supermercados', minWidth: 100},
         { id: 'editar', label: 'Gerenciar', minWidth: 5 },
     ]
 
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 500 }}>
+                
+                {/* Cabeçalho da Tabela */}
+
                 <TableHead>
                     <TableRow>
                         {columns.map((column) => (
@@ -46,6 +50,9 @@ const UserViewer = ({ users, supermarkets }: { users: User[], supermarkets: Supe
                         ))}
                     </TableRow>
                 </TableHead>
+
+                {/* Corpo da Tabela */}
+
                 <TableBody>
                     {(rowsPerPage > 0
                         ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -55,6 +62,12 @@ const UserViewer = ({ users, supermarkets }: { users: User[], supermarkets: Supe
                                 <TableCell align="left">{user.name}</TableCell>
                                 <TableCell align="left">{user.email}</TableCell>
                                 <TableCell align="left">{(user.permissionLevel ? "ADMIN" : "USER")}</TableCell>
+                                <TableCell align="left">
+                                {user.selectedSupermarkets.map((supermarketId) => {
+                                    const supermarket = supermarkets.find((sup) => sup.id === supermarketId);
+                                    return supermarket ? supermarket.name : "";
+                                }).join(", ")}
+                                </TableCell>
                                 <TableCell align="center">
                                     <UserEdit user={user} supermarkets={supermarkets} />
                                     <UserDelete user={user} />
@@ -63,16 +76,18 @@ const UserViewer = ({ users, supermarkets }: { users: User[], supermarkets: Supe
                         ))}
                         {emptyRows > 0 && (
                             <TableRow style={{ height: 53 * emptyRows }}>
-                                <TableCell colSpan={4} />
+                                <TableCell colSpan={5} />
                             </TableRow>
                         )}
                 </TableBody>
+
+                {/* Rodapé da Tabela */}
             
                 <TableFooter>
                     <TableRow>
                         <TablePagination 
                             rowsPerPageOptions={[5, 10, 25]}
-                            colSpan={4}
+                            colSpan={5}
                             count={users.length}
                             rowsPerPage={rowsPerPage}
                             page={page}

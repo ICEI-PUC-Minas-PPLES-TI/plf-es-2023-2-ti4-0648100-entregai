@@ -2,7 +2,7 @@ import UserViewer from "./modules/UserViewer"
 import UserRegistration from "./modules/UserRegistration"
 
 async function fetchUsers() {
-    const response = await fetch(process.env.URL + '/main/user/api/all', { cache: 'no-store' })
+    const response = await fetch(`${process.env.URL}/main/user/api/all`, { cache: 'no-store' })
 
     const { users } = await response.json()
 
@@ -10,7 +10,7 @@ async function fetchUsers() {
 }
 
 async function fetchSupermarkets() {
-    const response = await fetch(process.env.URL + '/main/supermarket/api/all', { cache: 'no-store' })
+    const response = await fetch(`${process.env.URL}/main/supermarket/api/all`, { cache: 'no-store' })
 
     const { supermarkets } = await response.json()
 
