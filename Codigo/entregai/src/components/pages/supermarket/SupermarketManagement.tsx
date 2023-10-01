@@ -3,7 +3,7 @@ import SupermarketRegistration from "./modules/SupermarketRegistration"
 import SupermarketViewer from "./modules/SupermarketViewer"
 
 async function getSupermarkets() {
-    const response = await fetch(`${process.env.URL}/main/supermarket/api/all`, { cache: 'no-store' })
+    const response = await fetch(`${process.env.URL}/main/supermarket/api/all`, { next: { revalidate: 0 }, cache: 'no-store' })
 
     const { supermarkets } = await response.json()
 

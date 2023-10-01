@@ -4,7 +4,7 @@ import SupermarketEdit from "./modules/SupermarketEdit"
 import SupermarketInfo from "./modules/SupermarketInfo"
 
 async function getSupermarket(id: string) {
-    const response = await fetch(`${process.env.URL}/main/supermarket/api?supermarketId=${id}`, { cache: 'no-store' })
+    const response = await fetch(`${process.env.URL}/main/supermarket/api?supermarketId=${id}`, { next: { revalidate: 0 }, cache: 'no-store' })
 
     const { supermarket } = await response.json()
 
