@@ -44,6 +44,7 @@ const Login = () => {
 				<Button type="submit" variant="contained" color="success" id="submit">Logar</Button>
 
 			</form>
+			
 			<div className="side"></div>
 		</div>
 	);

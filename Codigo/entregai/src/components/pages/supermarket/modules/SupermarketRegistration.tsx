@@ -1,7 +1,9 @@
 'use client'
 
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, useTheme } from "@mui/material"
+import { useUserData } from "@/components/context/UserDataContext";
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material"
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react"
 import { useForm } from "react-hook-form";
 
@@ -12,9 +14,13 @@ interface RegistrationFormData {
     cnpj: string,
 }
 
-const SupermarketRegistration = ({ updateSupermarkets }: { updateSupermarkets: Function }) => {
+const SupermarketRegistration = () => {
 
     const [ open, setOpen ] = useState(false)
+
+    const userData = useUserData()
+
+    const router = useRouter()
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -24,6 +30,10 @@ const SupermarketRegistration = ({ updateSupermarkets }: { updateSupermarkets: F
             cnpj: ""
         }
     })
+
+    if (!userData.permissionLevel) {
+        return null;
+    }
 
     const submitData = async (data: RegistrationFormData) => {
         const { name, address, phone, cnpj } = data
@@ -35,7 +45,7 @@ const SupermarketRegistration = ({ updateSupermarkets }: { updateSupermarkets: F
         await axios.post('/main/supermarket/api', { name, address, phone, cnpj })
             .then((response) => {
                 if (response.status == 200) {
-                    updateSupermarkets()
+                    router.refresh()
                 }
             }
         )

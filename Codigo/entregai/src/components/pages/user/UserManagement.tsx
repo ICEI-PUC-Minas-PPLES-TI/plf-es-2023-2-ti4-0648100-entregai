@@ -1,32 +1,33 @@
-'use client'
-
 import UserViewer from "./modules/UserViewer"
 import UserRegistration from "./modules/UserRegistration"
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { User } from "../../../types/User"
 
-const UserManagement = () => {
+async function fetchUsers() {
+    const response = await fetch(process.env.URL + '/main/user/api/all', { cache: 'no-store' })
 
-    const [ users, setUsers ] = useState<User[]>([])
+    const { users } = await response.json()
 
-    const fetchUsers = () => {
-        axios.get('/main/user/api/all')
-            .then((response) => {
-                setUsers(response.data.users)
-            }
-        )
-    }
+    return users
+}
 
-    useEffect(() => {
-        fetchUsers()
-    }, [])
+async function fetchSupermarkets() {
+    const response = await fetch(process.env.URL + '/main/supermarket/api/all', { cache: 'no-store' })
+
+    const { supermarkets } = await response.json()
+
+    return supermarkets
+}
+
+const UserManagement = async () => {
+
+    const users = await fetchUsers()
+
+    const supermarkets = await fetchSupermarkets()
 
     return (
         <div>
-            <UserRegistration updateUsers={fetchUsers} />
+            <UserRegistration supermarkets={supermarkets} />
 
-            <UserViewer usersArray={users} updateUsers={fetchUsers} />
+            <UserViewer users={users} supermarkets={supermarkets} />
         </div>
     )
 }

@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import Link from "next/link";
 import { Supermarket } from "../../../../types/Supermarket";

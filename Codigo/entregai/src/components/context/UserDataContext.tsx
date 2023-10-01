@@ -2,7 +2,6 @@ import { auth } from "@/lib/firebase/firebase-config";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import BackdropScreen from "../misc/BackdropScreen";
-import axios from "axios";
 import { User } from "../../types/User";
 
 export const UserDataProvider = ({ children }: { children: React.ReactNode }) => {
@@ -11,10 +10,17 @@ export const UserDataProvider = ({ children }: { children: React.ReactNode }) =>
 	const [ authUser ] = useAuthState(auth);
 
 	useEffect(() => {
-		axios.get(`/main/user/api?userId=${authUser?.uid}`)
-			.then((response) => {
-				setUserData(response.data.user)
-			})
+
+		const getUserData = async () => {
+			const response = await fetch(`/main/user/api?userId=${authUser?.uid}`)
+
+			const { user } = await response.json()
+	
+			setUserData(user)
+		}
+
+		getUserData()
+
 	}, [ authUser?.uid ])
 
 	return (
