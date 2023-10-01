@@ -1,23 +1,17 @@
-'use client'
-
-import axios from "axios"
-import { useEffect, useState } from "react"
 import { Supermarket } from "../../../types/Supermarket"
 import SupermarketInfo from "./modules/SupermarketInfo"
 
-const SupermarketHome = ({ id }: { id: string }) => {
+async function getSupermarket(id: string) {
+    const response = await fetch(process.env.URL + `/main/supermarket/api?supermarketId=${id}`, { cache: 'no-store' })
 
-    const [ supermarket, setSupermarket ] = useState<Supermarket>({} as Supermarket)
+    const { supermarket } = await response.json()
 
-    useEffect(() => {
-        
-        axios.get(`/main/supermarket/api?supermarketId=${id}`)
-            .then((response) => {
-                setSupermarket(response.data.supermarket);
-            }
-        )
+    return supermarket
+}
 
-    }, [id])
+const SupermarketHome = async ({ id }: { id: string }) => {
+
+    const supermarket: Supermarket = await getSupermarket(id)
 
     return (
         <div>

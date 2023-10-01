@@ -5,10 +5,12 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useState } from "react";
 import axios from "axios";
 import { User } from "../../../../types/User";
+import { useRouter } from "next/navigation";
 
-const UserDelete = ({ user, updateUsers }: { user: User, updateUsers: Function }) => {
+const UserDelete = ({ user }: { user: User }) => {
 
     const [ open, setOpen ] = useState(false)
+    const router = useRouter()
 
     const submitDelete = async () => {
 
@@ -17,7 +19,7 @@ const UserDelete = ({ user, updateUsers }: { user: User, updateUsers: Function }
         await axios.delete(`/main/user/api?userId=${user.id}`)
             .then((response) => {
                 if (response.status == 200) {
-                    updateUsers()
+                    router.refresh()
                 }
             }
         )

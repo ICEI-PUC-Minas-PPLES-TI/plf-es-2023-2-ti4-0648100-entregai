@@ -1,6 +1,11 @@
-import { User } from "../../../../types/User"
+'use client'
 
-const UserInfo = ({ userData }: { userData: User }) => {
+import { useUserData } from "@/components/context/UserDataContext";
+
+const UserInfo = () => {
+
+    const userData = useUserData();
+
     return (
         <div>
             <h1>Olá {userData.name}</h1>

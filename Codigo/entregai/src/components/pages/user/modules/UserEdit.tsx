@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { User } from "../../../../types/User";
 import { Supermarket } from "../../../../types/Supermarket";
+import { useRouter } from "next/navigation";
 
 interface EditFormData {
     id: string,
@@ -28,13 +29,14 @@ const MenuProps = {
     },
 };
 
-const UserEdit = ({ user, updateUsers }: { user: User, updateUsers: Function }) => {
+const UserEdit = ({ user, supermarkets }: { user: User, supermarkets: Supermarket[] }) => {
 
     const [ open, setOpen ] = useState(false)
     const [ editPassword, setEditPassword ] = useState(false)
 
-    const [ supermarkets, setSupermarkets ] = useState([])
     const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>([]);
+
+    const router = useRouter()
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
         const { value } = event.target as HTMLButtonElement
@@ -68,7 +70,7 @@ const UserEdit = ({ user, updateUsers }: { user: User, updateUsers: Function }) 
         await axios.patch('/main/user/api', { id, email, password, name, permissionLevel })
             .then((response) => {
                 if (response.status == 200) {
-                    updateUsers()
+                    router.refresh()
                 }
             }
         )
@@ -77,13 +79,6 @@ const UserEdit = ({ user, updateUsers }: { user: User, updateUsers: Function }) 
     const handleOpen = () => { setOpen(true) }
 
     const handleClose = () => { setOpen(false) }
-
-    useEffect(() => {
-        axios.get('/main/supermarket/api/all')
-            .then((response) => {
-                setSupermarkets(response.data.supermarkets)
-            })
-    }, [])
 
     return (
         <div>

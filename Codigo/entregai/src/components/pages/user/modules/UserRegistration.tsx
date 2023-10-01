@@ -2,9 +2,10 @@
 
 import { SelectChangeEvent, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@mui/material"
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Supermarket } from "../../../../types/Supermarket";
+import { useRouter } from "next/navigation";
 
 interface RegistrationFormData {
     name: string,
@@ -25,11 +26,11 @@ const MenuProps = {
     },
 };
 
-const UserRegistration = ({ updateUsers }: { updateUsers: Function }) => {
+const UserRegistration = ({ supermarkets }: { supermarkets: Supermarket[] }) => {
 
     const [ open, setOpen ] = useState(false)
-    const [ supermarkets, setSupermarkets ] = useState([])
     const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>([]);
+    const router = useRouter()
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
         const { value } = event.target as HTMLButtonElement
@@ -65,7 +66,7 @@ const UserRegistration = ({ updateUsers }: { updateUsers: Function }) => {
         await axios.post('/main/user/api', { email, password, name, permissionLevel })
             .then((response) => {
                 if (response.status == 200) {
-                    updateUsers()
+                    router.refresh()
                 }
             }
         )
@@ -74,13 +75,6 @@ const UserRegistration = ({ updateUsers }: { updateUsers: Function }) => {
     const handleOpen = () => { setOpen(true) }
 
     const handleClose = () => { setOpen(false) }
-
-    useEffect(() => {
-        axios.get('/main/supermarket/api/all')
-            .then((response) => {
-                setSupermarkets(response.data.supermarkets)
-            })
-    }, [])
 
     return (
         <div>

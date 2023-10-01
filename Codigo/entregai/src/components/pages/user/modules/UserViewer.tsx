@@ -5,13 +5,14 @@ import { useState } from "react";
 import UserEdit from "./UserEdit";
 import UserDelete from "./UserDelete";
 import { User } from "../../../../types/User";
+import { Supermarket } from "@/types/Supermarket";
 
-const UserViewer = ({ usersArray, updateUsers }: { usersArray: User[], updateUsers: Function }) => {
+const UserViewer = ({ users, supermarkets }: { users: User[], supermarkets: Supermarket[] }) => {
 
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(5)
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - usersArray.length) : 0
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0
 
     const handleChangePage = (event: React.MouseEvent | null, newPage: number) => {
          setPage(newPage)
@@ -47,16 +48,16 @@ const UserViewer = ({ usersArray, updateUsers }: { usersArray: User[], updateUse
                 </TableHead>
                 <TableBody>
                     {(rowsPerPage > 0
-                        ? usersArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        : usersArray
+                        ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        : users
                         ).map((user) => (
                             <TableRow key={user.id}>
                                 <TableCell align="left">{user.name}</TableCell>
                                 <TableCell align="left">{user.email}</TableCell>
                                 <TableCell align="left">{(user.permissionLevel ? "ADMIN" : "USER")}</TableCell>
                                 <TableCell align="center">
-                                    <UserEdit user={user} updateUsers={updateUsers} />
-                                    <UserDelete user={user} updateUsers={updateUsers} />
+                                    <UserEdit user={user} supermarkets={supermarkets} />
+                                    <UserDelete user={user} />
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -72,7 +73,7 @@ const UserViewer = ({ usersArray, updateUsers }: { usersArray: User[], updateUse
                         <TablePagination 
                             rowsPerPageOptions={[5, 10, 25]}
                             colSpan={4}
-                            count={usersArray.length}
+                            count={users.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onPageChange={handleChangePage}
