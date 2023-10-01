@@ -2,7 +2,7 @@ import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/fi
 import { db } from "./firebase-config"
 import { Supermarket } from "@/types/Supermarket";
 
-const getAllSupermarkets = async () => {
+const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     return new Promise(async (resolve, reject) => {
         try {
             const supermarketCollection = collection(db, 'supermarkets');
@@ -20,7 +20,7 @@ const getAllSupermarkets = async () => {
     })
 }
 
-const getSupermarket = async (id: string) => {
+const getSupermarketById = async (id: string): Promise<Supermarket> => {
     return new Promise(async (resolve, reject) => {
         try {
             const supermarketRef = doc(db, "supermarkets", id);
@@ -28,7 +28,7 @@ const getSupermarket = async (id: string) => {
             const docSnap = await getDoc(supermarketRef)
 
             if (docSnap.exists()) {
-                const resultData = { id, ...docSnap.data() }
+                const resultData: Supermarket = { id, ...docSnap.data() } as Supermarket
 
                 resolve(resultData)
             }
@@ -78,5 +78,5 @@ const deleteSupermarket = async (id: string) => {
     })
 }
 
-export { getSupermarket, deleteSupermarket, getAllSupermarkets, registerSupermarket }
+export { getSupermarketById, deleteSupermarket, getAllSupermarkets, registerSupermarket }
 

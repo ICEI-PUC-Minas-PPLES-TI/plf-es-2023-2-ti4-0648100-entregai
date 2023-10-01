@@ -1,13 +1,18 @@
 import { Supermarket } from "@/types/Supermarket"
 import SupermarketRegistration from "./modules/SupermarketRegistration"
 import SupermarketViewer from "./modules/SupermarketViewer"
+import { getAllSupermarkets } from "@/lib/firebase/supermarketHandler";
 
 async function getSupermarkets() {
-    const response = await fetch(`${process.env.URL}/main/supermarket/api/all`, { next: { revalidate: 0 }, cache: 'no-store' })
+    // const response = await fetch(`${process.env.URL}/main/supermarket/api/all`, { cache: 'no-store' })
 
-    const { supermarkets } = await response.json()
+    // const { supermarkets } = await response.json()
 
-    return supermarkets
+    // return supermarkets
+
+    const supermarkets = await getAllSupermarkets()
+
+    return supermarkets;
 }
 
 const SupermarketManagement = async () => {

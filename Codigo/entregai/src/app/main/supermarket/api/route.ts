@@ -1,4 +1,4 @@
-import { deleteSupermarket, getSupermarket, registerSupermarket } from "@/lib/firebase/supermarketHandler";
+import { deleteSupermarket, getSupermarketById, registerSupermarket } from "@/lib/firebase/supermarketHandler";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
 	const id = searchParams.get('supermarketId')!
 
     try {
-        const supermarket = await getSupermarket(id)
+        const supermarket = await getSupermarketById(id)
 
         return NextResponse.json({supermarket}, {status: 200});
 
