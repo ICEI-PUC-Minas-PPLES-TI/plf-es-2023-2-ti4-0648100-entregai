@@ -1,32 +1,34 @@
-import { getSupermarketById } from "@/lib/firebase/supermarketHandler"
+'use client'
+
+import { useEffect, useState } from "react"
+import axios from "../../../../node_modules/axios/index"
 import { Supermarket } from "../../../types/Supermarket"
 import SupermarketDelete from "./modules/SupermarketDelete"
 import SupermarketEdit from "./modules/SupermarketEdit"
 import SupermarketInfo from "./modules/SupermarketInfo"
 
-async function getSupermarket(id: string) {
-    // const response = await fetch(`${process.env.URL}/main/supermarket/api?supermarketId=${id}`, { cache: 'no-store' })
+const SupermarketHome = ({ id }: { id: string }) => {
 
-    // const { supermarket } = await response.json()
+    const [ supermarket, setSupermarket ] = useState<Supermarket>({} as Supermarket)
 
-    // return supermarket
+    async function fetchSupermarkets() {
+        const response = await axios.get(`/main/supermarket/api?supermarketId=${id}`);
+        setSupermarket(response.data.supermarket);
+    }
 
-    const supermarket = await getSupermarketById(id)
+    useEffect(() => {
 
-    return supermarket;
-}
-
-const SupermarketHome = async ({ id }: { id: string }) => {
-
-    const supermarket: Supermarket = await getSupermarket(id)
+        fetchSupermarkets()
+        
+    }, [])
 
     return (
         <div>
             <SupermarketInfo supermarket={supermarket} />
 
-            <SupermarketDelete supermarket={supermarket} />
+            <SupermarketDelete supermarket={supermarket} updateSupermarkets={fetchSupermarkets} />
 
-            <SupermarketEdit supermarket={supermarket} />
+            <SupermarketEdit supermarket={supermarket} updateSupermarkets={fetchSupermarkets} />
         </div>
     )
 }

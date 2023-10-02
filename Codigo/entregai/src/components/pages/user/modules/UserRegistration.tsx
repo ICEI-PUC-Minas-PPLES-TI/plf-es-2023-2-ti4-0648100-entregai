@@ -26,7 +26,7 @@ const MenuProps = {
     },
 };
 
-const UserRegistration = ({ supermarkets }: { supermarkets: Supermarket[] }) => {
+const UserRegistration = ({ supermarkets, updateUsers }: { supermarkets: Supermarket[], updateUsers: Function }) => {
 
     const [ open, setOpen ] = useState(false)
     const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>([]);
@@ -69,7 +69,7 @@ const UserRegistration = ({ supermarkets }: { supermarkets: Supermarket[] }) => 
         await axios.post('/main/user/api', { email, password, name, permissionLevel, selectedSupermarkets })
             .then((response) => {
                 if (response.status == 200) {
-                    router.refresh()
+                    updateUsers()
                 }
             }
         )

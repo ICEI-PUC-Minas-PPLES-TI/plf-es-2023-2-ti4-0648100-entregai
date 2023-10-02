@@ -1,45 +1,44 @@
+'use client'
+
 import UserViewer from "./modules/UserViewer"
 import UserRegistration from "./modules/UserRegistration"
-import { getAllUsers } from "@/lib/firebase/userHandler"
-import { getAllSupermarkets } from "@/lib/firebase/supermarketHandler";
 import { Supermarket } from "@/types/Supermarket";
 import { User } from "@/types/User";
+import axios from "../../../../node_modules/axios/index"
+import { useEffect, useState } from "react"
 
-async function fetchUsers() {
-    // const response = await fetch(`${process.env.URL}/main/user/api/all`, { cache: 'no-store' })
+const UserManagement = () => {
 
-    // const { users } = await response.json()
+    const [ users, setUsers ] = useState<User[]>([])
+    const [ supermarkets, setSupermarkets ] = useState<Supermarket[]>([])
 
-    // return users
+    async function fetchUsers() {
+        await axios.get('/main/user/api/all')
+        .then((response) => {
+            setUsers(response.data.users)
+        })
+    }
 
-    const users: User[] = await getAllUsers()
+    async function fetchSupermarkets() {
+        await axios.get('/main/supermarket/api/all')
+            .then((response) => {
+                setSupermarkets(response.data.supermarkets)
+            })
+    }
 
-    return users;
-}
+    useEffect(() => {
 
-async function fetchSupermarkets() {
-    // const response = await fetch(`${process.env.URL}/main/supermarket/api/all`, { cache: 'no-store' })
+        fetchSupermarkets()
 
-    // const { supermarkets } = await response.json()
+        fetchUsers()
 
-    // return supermarkets
-
-    const supermarkets: Supermarket[] = await getAllSupermarkets()
-
-    return supermarkets;
-}
-
-const UserManagement = async () => {
-
-    const users: User[] = await fetchUsers()
-
-    const supermarkets: Supermarket[] = await fetchSupermarkets()
+    }, [])
 
     return (
         <div>
-            <UserRegistration supermarkets={supermarkets} />
+            <UserRegistration supermarkets={supermarkets} updateUsers={fetchUsers} />
 
-            <UserViewer users={users} supermarkets={supermarkets} />
+            <UserViewer users={users} supermarkets={supermarkets} updateUsers={fetchUsers} updateSupermarkets={fetchSupermarkets} />
         </div>
     )
 }

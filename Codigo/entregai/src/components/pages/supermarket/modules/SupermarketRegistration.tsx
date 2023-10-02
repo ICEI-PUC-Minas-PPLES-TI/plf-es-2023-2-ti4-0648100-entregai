@@ -18,7 +18,7 @@ const SupermarketRegistration = () => {
 
     const [ open, setOpen ] = useState(false)
 
-    const userData = useUserData()
+    const {userData} = useUserData()
 
     const router = useRouter()
 

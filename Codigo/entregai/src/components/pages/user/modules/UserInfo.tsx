@@ -4,7 +4,7 @@ import { useUserData } from "@/components/context/UserDataContext";
 
 const UserInfo = () => {
 
-    const userData = useUserData();
+    const {userData} = useUserData();
 
     return (
         <div>

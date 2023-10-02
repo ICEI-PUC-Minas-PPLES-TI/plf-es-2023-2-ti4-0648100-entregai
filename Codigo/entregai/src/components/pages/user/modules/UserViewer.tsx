@@ -7,7 +7,7 @@ import UserDelete from "./UserDelete";
 import { User } from "../../../../types/User";
 import { Supermarket } from "@/types/Supermarket";
 
-const UserViewer = ({ users, supermarkets }: { users: User[], supermarkets: Supermarket[] }) => {
+const UserViewer = ({ users, supermarkets, updateUsers, updateSupermarkets }: { users: User[], supermarkets: Supermarket[], updateUsers: Function, updateSupermarkets: Function }) => {
 
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(5)
@@ -69,8 +69,8 @@ const UserViewer = ({ users, supermarkets }: { users: User[], supermarkets: Supe
                                 }).join(", ")}
                                 </TableCell>
                                 <TableCell align="center">
-                                    <UserEdit user={user} supermarkets={supermarkets} />
-                                    <UserDelete user={user} />
+                                    <UserEdit user={user} supermarkets={supermarkets} updateSupermarkets={updateSupermarkets} updateUsers={updateUsers} />
+                                    <UserDelete user={user} updateUsers={updateUsers} />
                                 </TableCell>
                             </TableRow>
                         ))}

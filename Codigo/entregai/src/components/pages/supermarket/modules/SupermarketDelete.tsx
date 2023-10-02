@@ -6,7 +6,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-const SupermarketDelete = ({ supermarket }: { supermarket: Supermarket }) => {
+const SupermarketDelete = ({ supermarket, updateSupermarkets }: { supermarket: Supermarket, updateSupermarkets: Function }) => {
 
     const [ open, setOpen ] = useState(false)
 
@@ -20,6 +20,7 @@ const SupermarketDelete = ({ supermarket }: { supermarket: Supermarket }) => {
         await axios.delete(`/main/supermarket/api?supermarketId=${supermarket.id}`)
             .then((response) => {
                 if (response.status == 200) {
+                    updateSupermarkets()
                     router.push('/main/supermarket')
                 }
             }
