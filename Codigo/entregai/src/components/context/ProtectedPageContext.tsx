@@ -6,7 +6,7 @@ import { useEffect } from "react"
 
 const ProtectedRouteContext = ({ children }: { children: React.ReactNode }) => {
 
-    const userData = useUserData()
+    const {userData} = useUserData()
     const { back } = useRouter()
 
     useEffect(() => {

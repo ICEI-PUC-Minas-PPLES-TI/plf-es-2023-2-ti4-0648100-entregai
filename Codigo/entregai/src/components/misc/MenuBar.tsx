@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const MenuBar = () => {
 
-	const userData = useUserData();
+	const {userData} = useUserData();
 
 	return (
 		<div>

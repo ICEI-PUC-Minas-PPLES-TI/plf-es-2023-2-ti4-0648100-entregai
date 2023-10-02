@@ -8,6 +8,7 @@ import axios from "axios";
 import { User } from "../../../../types/User";
 import { Supermarket } from "../../../../types/Supermarket";
 import { useRouter } from "next/navigation";
+import { useUserData } from "@/components/context/UserDataContext";
 
 interface EditFormData {
     id: string,
@@ -29,10 +30,11 @@ const MenuProps = {
     },
 };
 
-const UserEdit = ({ user, supermarkets }: { user: User, supermarkets: Supermarket[] }) => {
+const UserEdit = ({ user, supermarkets, updateUsers, updateSupermarkets }: { user: User, supermarkets: Supermarket[], updateUsers: Function, updateSupermarkets: Function }) => {
 
     const [ open, setOpen ] = useState(false)
     const [ editPassword, setEditPassword ] = useState(false)
+    const { userData, fetchUserData } = useUserData()
 
     const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>([]);
 
@@ -73,7 +75,9 @@ const UserEdit = ({ user, supermarkets }: { user: User, supermarkets: Supermarke
         await axios.patch('/main/user/api', { id, email, password, name, permissionLevel, selectedSupermarkets })
             .then((response) => {
                 if (response.status == 200) {
-                    router.refresh()
+                    updateUsers()
+                    updateSupermarkets()
+                    fetchUserData()
                 }
             }
         )

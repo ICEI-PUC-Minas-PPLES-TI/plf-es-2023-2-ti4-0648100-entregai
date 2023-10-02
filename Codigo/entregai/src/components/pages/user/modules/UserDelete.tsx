@@ -7,7 +7,7 @@ import axios from "axios";
 import { User } from "../../../../types/User";
 import { useRouter } from "next/navigation";
 
-const UserDelete = ({ user }: { user: User }) => {
+const UserDelete = ({ user, updateUsers }: { user: User, updateUsers: Function }) => {
 
     const [ open, setOpen ] = useState(false)
     const router = useRouter()
@@ -20,7 +20,7 @@ const UserDelete = ({ user }: { user: User }) => {
         await axios.delete(`/main/user/api?userId=${user.id}`)
             .then((response) => {
                 if (response.status == 200) {
-                    router.refresh()
+                    updateUsers()
                 }
             }
         )
