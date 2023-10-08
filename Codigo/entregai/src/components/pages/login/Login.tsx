@@ -1,7 +1,7 @@
-'use client'
-
-import { auth } from "@/lib/firebase/firebase-config";
+import { auth } from "@/libs/firebase/firebase-config";
 import { Button, TextField } from "@mui/material";
+import axios from "axios";
+import { setCookie } from "cookies-next";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -26,7 +26,16 @@ const Login = () => {
 		const { email, password } = data;
 
 		await signInWithEmailAndPassword(auth, email, password)
-			.then(() => { push("/main/supermarket") })
+			.then(async (userCredential) => { 
+
+				const token = await userCredential.user.getIdToken()
+
+				const res = await axios.post('/api/login/auth', { token })
+
+				setCookie('session', res.data.sessionCookie)
+
+				push("/app/user")
+			})
 	};
 
 

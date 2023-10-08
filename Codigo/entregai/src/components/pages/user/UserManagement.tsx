@@ -1,44 +1,20 @@
-'use client'
+import axios from "axios"
+import UserRegistration from "./modules/outer/UserRegistration"
+import UserVisualizer from "./modules/outer/UserVisualizer"
+import { Supermarket } from "@/libs/types/Supermarket"
+import { getAllSupermarkets } from "@/libs/firebase/supermarketHandler"
+import { User } from "@/libs/types/User"
 
-import UserViewer from "./modules/UserViewer"
-import UserRegistration from "./modules/UserRegistration"
-import { Supermarket } from "@/types/Supermarket";
-import { User } from "@/types/User";
-import axios from "../../../../node_modules/axios/index"
-import { useEffect, useState } from "react"
-
-const UserManagement = () => {
-
-    const [ users, setUsers ] = useState<User[]>([])
-    const [ supermarkets, setSupermarkets ] = useState<Supermarket[]>([])
-
-    async function fetchUsers() {
-        await axios.get('/main/user/api/all')
-        .then((response) => {
-            setUsers(response.data.users)
-        })
-    }
-
-    async function fetchSupermarkets() {
-        await axios.get('/main/supermarket/api/all')
-            .then((response) => {
-                setSupermarkets(response.data.supermarkets)
-            })
-    }
-
-    useEffect(() => {
-
-        fetchSupermarkets()
-
-        fetchUsers()
-
-    }, [])
-
+const UserManagement = ({ systemUsers, systemSupermarkets }: { systemUsers: User[], systemSupermarkets: Supermarket[] }) => {
     return (
         <div>
-            <UserRegistration supermarkets={supermarkets} updateUsers={fetchUsers} />
 
-            <UserViewer users={users} supermarkets={supermarkets} updateUsers={fetchUsers} updateSupermarkets={fetchSupermarkets} />
+            <h2>Gerenciar Usuários</h2>
+
+            <UserRegistration systemSupermarkets={systemSupermarkets} />
+
+            <UserVisualizer systemSupermarkets={systemSupermarkets} systemUsers={systemUsers} />
+
         </div>
     )
 }
