@@ -1,15 +1,17 @@
-import SupermarketRegistration from "./modules/SupermarketRegistration"
-import SupermarketViewer from "./modules/SupermarketViewer"
+import { Supermarket } from "@/libs/types/Supermarket";
+import SupermarketRegistration from "./modules/outer/SupermarketRegistration";
+import SupermarketVisualizer from "./modules/outer/SupermarketVisualizer";
 
-const SupermarketManagement = () => {
-
+const SupermarketManagement = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
     return (
-			<div>
-                <SupermarketRegistration />
+        <div>
 
-                <SupermarketViewer />
-			</div>
-		);
+            <SupermarketRegistration />
+
+            <SupermarketVisualizer systemSupermarkets={systemSupermarkets} />
+
+        </div>
+    )
 }
 
-export default SupermarketManagement
+export default SupermarketManagement;

@@ -1,27 +1,27 @@
 import { AppBar, Button, Toolbar } from "@mui/material";
-import { useUserData } from "../context/UserDataContext";
-import BurguerMenu from "./BurguerMenu";
 import Link from "next/link";
+import { useAuth } from "../context/UserContext";
+import BurguerDropdown from "./BurguerDropdown";
 
 const MenuBar = () => {
 
-	const {userData} = useUserData();
+	const { user } = useAuth()
 
 	return (
 		<div>
 			<AppBar position="static">
 				<Toolbar>
 
-					<BurguerMenu />
+					<BurguerDropdown />
 
-                    <Link href="/main/supermarket">
+                    <Link href="/app/supermarket">
                         <Button variant="contained" color="darkred">
                             Supermercados
                         </Button>
                     </Link>
 
-					{userData.permissionLevel && <div>
-						<Link href="/main/user">
+					{user.permissionLevel && <div>
+						<Link href="/app/user">
 							<Button variant="contained" color="darkred">
 								Usuarios
 							</Button>
