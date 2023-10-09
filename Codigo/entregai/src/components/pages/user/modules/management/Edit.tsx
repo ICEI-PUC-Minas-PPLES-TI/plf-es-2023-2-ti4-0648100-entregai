@@ -23,7 +23,7 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
     const router = useRouter()
     const [ open, setOpen ] = useState(false)
     const [ editPassword, setEditPassword ] = useState(false)
-    const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>([])
+    const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>(targetUser.selectedSupermarkets)
 
     const { register, handleSubmit, formState: { errors }, getValues } = useForm({
         defaultValues: {

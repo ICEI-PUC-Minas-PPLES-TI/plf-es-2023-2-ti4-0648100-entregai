@@ -1,5 +1,6 @@
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent } from "@mui/material";
+import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Chip } from "@mui/material";
+import { Box } from "../../../../../../node_modules/@mui/material/index";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -14,7 +15,9 @@ const MenuProps = {
 
 const Selector = ({ selectedSupermarkets, systemSupermarkets, setSelectedSupermarkets }: { selectedSupermarkets: string[]; systemSupermarkets: Supermarket[]; setSelectedSupermarkets: any }) => {
 	
-	function handleChange(event: SelectChangeEvent<any>) { setSelectedSupermarkets(event.target.value) }
+	function handleChange(event: SelectChangeEvent<any>) {
+		setSelectedSupermarkets(event.target.value) 
+	}
 	
 	return (
 		<FormControl sx={{ width: 300 }}>
@@ -29,13 +32,14 @@ const Selector = ({ selectedSupermarkets, systemSupermarkets, setSelectedSuperma
 				onChange={handleChange}
 				input={<OutlinedInput label="Supermercados" />}
 				MenuProps={MenuProps}
-				renderValue={(selected) =>
-					selected
-						.map((supermarketId) => {
+				renderValue={(selected: string[]) => (
+					<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+						{selected.map((supermarketId: string) => {
 							const selectedSupermarket = systemSupermarkets.find((sup) => sup.id === supermarketId);
-							return selectedSupermarket ? selectedSupermarket.name : "";
-						})
-						.join(", ")}
+							return selectedSupermarket ? <Chip key={selectedSupermarket.id} label={selectedSupermarket.name} /> : "";
+						})}
+					</Box>)
+					}
 				>
 
 				{systemSupermarkets.map((sup: Supermarket) => (

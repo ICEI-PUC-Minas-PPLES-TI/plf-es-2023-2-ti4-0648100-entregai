@@ -1,5 +1,5 @@
 import { Supermarket } from "@/libs/types/Supermarket"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
+import { TextField, Autocomplete, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useState } from "react";
 
 const columns = [
@@ -15,6 +15,7 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
 
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(5)
+	const [ stock, setStock ] = useState(supermarket.stock)
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - supermarket.stock.length) : 0
 
@@ -25,65 +26,90 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
         setPage(0)
     }
 
+	function search(searchString: string) {
+		if (searchString == '') {
+			setStock(supermarket.stock)
+			return
+		}
+
+		const filteredRows = supermarket.stock.filter((stockItem) => {
+			return stockItem.name.toLowerCase().includes(searchString.toLowerCase())
+		})
+
+		setStock(filteredRows)
+	}
+
     return (    
-        <TableContainer component={Paper}>
+		<div>
 
-			<Table sx={{ minWidth: 500 }}>
+			<TextField onChange={(event) => { search(event.target.value) }} label="Busca Item por Nome" />
 
-				{/* Cabeçalho da Tabela */}
+			{/* <Autocomplete
+				id="free-solo-demo"
+				freeSolo
+				options={supermarket.stock.map((stockItem) => stockItem.name)}
+				renderInput={(params) => <TextField {...params} label="Busca Item por Nome" />}
+				/> */}
 
-				<TableHead>
-					<TableRow>
-						{columns.map((column) => (
-							<TableCell key={column.id} align="left" style={{ minWidth: column.minWidth }}>
-								{column.label}
-							</TableCell>
-						))}
-					</TableRow>
-				</TableHead>
+			<TableContainer component={Paper}>
 
-				{/* Corpo da Tabela */}
+				<Table sx={{ minWidth: 500 }}>
 
-				<TableBody>
-					
-                    {(rowsPerPage > 0 ? supermarket.stock.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : supermarket.stock).map((stockItem) => (
+					{/* Cabeçalho da Tabela */}
+
+					<TableHead>
+						<TableRow>
+							{columns.map((column) => (
+								<TableCell key={column.id} align="left" style={{ minWidth: column.minWidth }}>
+									{column.label}
+								</TableCell>
+							))}
+						</TableRow>
+					</TableHead>
+
+					{/* Corpo da Tabela */}
+
+					<TableBody>
 						
-                        // Colocar uma key VALIDA aqui, alterar o objeto "Product" para ter uma key, senão o react reclama
-                        <TableRow key={stockItem.name}>
+						{(rowsPerPage > 0 ? stock.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : stock).map((stockItem) => (
 							
-                            <TableCell align="left">{stockItem.name}</TableCell>
+							// Colocar uma key VALIDA aqui, alterar o objeto "Product" para ter uma key, senão o react reclama
+							<TableRow key={stockItem.name}>
+								
+								<TableCell align="left">{stockItem.name}</TableCell>
 
-							<TableCell align="left">{stockItem.price}</TableCell>
+								<TableCell align="left">{stockItem.price}</TableCell>
 
-							<TableCell align="left">{stockItem.stockQuantity}</TableCell>
+								<TableCell align="left">{stockItem.stockQuantity}</TableCell>
 
-                            <TableCell align="center"></TableCell>
+								<TableCell align="center"></TableCell>
 
-							<TableCell align="center"></TableCell>
+								<TableCell align="center"></TableCell>
 
-                            <TableCell align="center"></TableCell>
+								<TableCell align="center"></TableCell>
 
+							</TableRow>
+						))}
+
+						{emptyRows > 0 && (
+							<TableRow style={{ height: 53 * emptyRows }}>
+								<TableCell colSpan={6} />
+							</TableRow>
+						)}
+
+					</TableBody>
+
+					{/* Rodapé da Tabela */}
+
+					<TableFooter>
+						<TableRow>
+							<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={5} count={stock.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
 						</TableRow>
-					))}
+					</TableFooter>
 
-					{emptyRows > 0 && (
-						<TableRow style={{ height: 53 * emptyRows }}>
-							<TableCell colSpan={6} />
-						</TableRow>
-					)}
-
-				</TableBody>
-
-				{/* Rodapé da Tabela */}
-
-				<TableFooter>
-					<TableRow>
-						<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={5} count={supermarket.stock.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
-					</TableRow>
-				</TableFooter>
-
-			</Table>
-		</TableContainer>
+				</Table>
+			</TableContainer>
+		</div>
     )   
 }
 
