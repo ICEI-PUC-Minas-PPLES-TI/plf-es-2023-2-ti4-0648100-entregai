@@ -1,12 +1,10 @@
-import theme from "@/components/theme";
 import { auth } from "@/libs/firebase/firebase-config";
-import { Button, TextField, ThemeProvider } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import axios from "axios";
 import { setCookie } from "cookies-next";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import themeCustom from "../../theme";
 
 interface LoginFormData {
 	email: string,
@@ -46,16 +44,19 @@ const Login = () => {
 
 	return (
 		<div className="container">
+
+			<form onSubmit={handleSubmit(submitData)} className="form">
+
+				<h1>Login</h1>
+
+				<TextField id="outlined-basic" label="Email" type="email" {...register("email")} variant="outlined" className="box"/>
+
+				<TextField id="outlined-basic" label="Senha" type="password" {...register("password")} variant="outlined" className="box"/>
+
+				<Button type="submit" variant="contained" color="success" id="submit">Logar</Button>
+
+			</form>
 			
-				<form onSubmit={handleSubmit(submitData)} className="form">
-					<h1>Login</h1>
-					<TextField id="outlined-basic" label="Email" type="email" {...register("email")} variant="outlined" className="box"/>
-					<TextField id="outlined-basic" label="Senha" type="password" {...register("password")} variant="outlined" className="box"/>
-					<ThemeProvider theme={themeCustom}>
-						<Button type="submit" variant="contained" color="secondary" id="submit">Logar</Button>
-					</ThemeProvider>
-				</form>
-		
 			<div className="side"></div>
 		</div>
 	);
