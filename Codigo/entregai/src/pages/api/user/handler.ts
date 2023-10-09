@@ -37,12 +37,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'PATCH') {
+
+        const { userId } = req.query
             
-        const { id, email, password, name, permissionLevel, selectedSupermarkets } = req.body
+        const { email, password, name, permissionLevel, selectedSupermarkets } = req.body
 
         try {
 
-            await updateUser(id, email, password, name, permissionLevel, selectedSupermarkets)
+            await updateUser(userId as string, email, password, name, permissionLevel, selectedSupermarkets)
 
             return res.status(200).json({})
 

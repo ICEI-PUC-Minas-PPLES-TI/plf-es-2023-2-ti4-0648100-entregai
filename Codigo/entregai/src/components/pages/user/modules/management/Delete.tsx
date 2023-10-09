@@ -6,7 +6,7 @@ import axios from "axios";
 import { User } from "@/libs/types/User";
 import { useAuth } from "@/components/context/UserContext";
 
-const UserDelete = ({ targetUser }: { targetUser: User }) => {
+const Delete = ({ targetUser }: { targetUser: User }) => {
 
     const [ open, setOpen ] = useState(false)
     const { user } = useAuth()
@@ -58,4 +58,4 @@ const UserDelete = ({ targetUser }: { targetUser: User }) => {
     )
 }
 
-export default UserDelete
+export default Delete

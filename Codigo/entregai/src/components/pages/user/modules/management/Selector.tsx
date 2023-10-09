@@ -12,7 +12,7 @@ const MenuProps = {
 	},
 };
 
-const UserSupermarketSelect = ({ selectedSupermarkets, systemSupermarkets, setSelectedSupermarkets }: { selectedSupermarkets: string[]; systemSupermarkets: Supermarket[]; setSelectedSupermarkets: any }) => {
+const Selector = ({ selectedSupermarkets, systemSupermarkets, setSelectedSupermarkets }: { selectedSupermarkets: string[]; systemSupermarkets: Supermarket[]; setSelectedSupermarkets: any }) => {
 	
 	function handleChange(event: SelectChangeEvent<any>) { setSelectedSupermarkets(event.target.value) }
 	
@@ -51,4 +51,4 @@ const UserSupermarketSelect = ({ selectedSupermarkets, systemSupermarkets, setSe
 	);
 };
 
-export default UserSupermarketSelect;
+export default Selector;

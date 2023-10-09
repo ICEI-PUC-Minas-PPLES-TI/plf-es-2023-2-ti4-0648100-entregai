@@ -36,6 +36,9 @@ const Login = () => {
 
 				push("/app/user")
 			})
+			.catch((err: any) => {
+				alert(err.message)
+			})
 	};
 
 

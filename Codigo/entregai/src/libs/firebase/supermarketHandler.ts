@@ -1,12 +1,16 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase-config"
 import { Supermarket } from "@/libs/types/Supermarket";
+import { Product } from "../types/Product";
 
 const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     return new Promise(async (resolve, reject) => {
         try {
+
             const supermarketCollection = collection(db, 'supermarkets');
+
             const querySnapshot = await getDocs(supermarketCollection);
+
             const supermarkets: Supermarket[] = [];
         
             querySnapshot.forEach((doc) => {
@@ -64,9 +68,7 @@ const registerSupermarket = async (name: string, address: string, phone: string,
 const deleteSupermarket = async (id: string) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const supermarketCollection = collection(db, "supermarkets")
-
-            const supermarketRef = doc(supermarketCollection, id)
+            const supermarketRef = doc(db, "supermarkets", id)
 
             await deleteDoc(supermarketRef)
 
@@ -78,5 +80,30 @@ const deleteSupermarket = async (id: string) => {
     })
 }
 
-export { getSupermarketById, deleteSupermarket, getAllSupermarkets, registerSupermarket }
+const registerProductToStock = async (supermarketId: string, product: Product) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            const supermarketRef = doc(db, "supermarkets", supermarketId);
+
+            const docSnap = await getDoc(supermarketRef);
+
+            if (docSnap.exists()) {
+
+                const { stock } = docSnap.data();
+
+                stock.push(product);
+
+                await updateDoc(supermarketRef, { stock });
+
+                resolve({ supermarketId, product })
+            }
+            
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+
+export { getSupermarketById, deleteSupermarket, getAllSupermarkets, registerSupermarket, registerProductToStock }
 

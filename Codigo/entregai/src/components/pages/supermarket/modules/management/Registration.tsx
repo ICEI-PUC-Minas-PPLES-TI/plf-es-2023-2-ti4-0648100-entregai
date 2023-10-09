@@ -12,7 +12,7 @@ type FormDataType = {
     cnpj: string;
 }
 
-const SupermarketRegistration = () => {
+const Registration = () => {
 
     const router = useRouter()
     const { user } = useAuth()
@@ -85,4 +85,4 @@ const SupermarketRegistration = () => {
 	);
 };
 
-export default SupermarketRegistration;
+export default Registration;
