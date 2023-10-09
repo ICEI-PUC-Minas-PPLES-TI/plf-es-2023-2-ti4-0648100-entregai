@@ -1,6 +1,6 @@
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, IconButton, TextField } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
-import UserSupermarketSelect from "./UserSupermarketSelect";
+import Selector from "./Selector";
 import { useState } from "react";
 import { User } from "@/libs/types/User";
 import { useForm } from "react-hook-form";
@@ -10,7 +10,6 @@ import { Supermarket } from "@/libs/types/Supermarket";
 import { useAuth } from "@/components/context/UserContext";
 
 type FormDataType = {
-    id: string,
     name: string,
     email: string,
     password: string,
@@ -18,7 +17,7 @@ type FormDataType = {
     permissionLevel: boolean,
 }
 
-const UserEdit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupermarkets: Supermarket[] }) => {
+const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupermarkets: Supermarket[] }) => {
 
 	const { user, fetchData } = useAuth()
     const router = useRouter()
@@ -28,7 +27,6 @@ const UserEdit = ({ targetUser, systemSupermarkets }: { targetUser: User, system
 
     const { register, handleSubmit, formState: { errors }, getValues } = useForm({
         defaultValues: {
-            id: targetUser.id,
             name: targetUser.name,
             email: targetUser.email,
             password: "",
@@ -39,7 +37,7 @@ const UserEdit = ({ targetUser, systemSupermarkets }: { targetUser: User, system
     });
 
     async function submitData(data: FormDataType) {
-        const { id, name, email, password, confirmPassword, permissionLevel } = data;
+        const { name, email, password, confirmPassword, permissionLevel } = data;
 
         // Exibir erro
         if (Object.keys(errors).length > 0) {
@@ -58,7 +56,7 @@ const UserEdit = ({ targetUser, systemSupermarkets }: { targetUser: User, system
 
         setOpen(false)
 
-        await axios.patch('/api/user/handler', { id, email, password, name, permissionLevel, selectedSupermarkets })
+        await axios.patch(`/api/user/handler?userId=${targetUser.id}`, { email, password, name, permissionLevel, selectedSupermarkets })
             .then((res) => {
                 if (res.status == 200) {
 					
@@ -167,9 +165,7 @@ const UserEdit = ({ targetUser, systemSupermarkets }: { targetUser: User, system
 
 						<FormControlLabel control={<Checkbox defaultChecked={targetUser.permissionLevel} {...register("permissionLevel")} />} label="Administrador" />
 
-                        <UserSupermarketSelect systemSupermarkets={systemSupermarkets} selectedSupermarkets={selectedSupermarkets} setSelectedSupermarkets={setSelectedSupermarkets} />
-
-						<input type="hidden" {...register("id")} value={targetUser.id} />
+                        <Selector systemSupermarkets={systemSupermarkets} selectedSupermarkets={selectedSupermarkets} setSelectedSupermarkets={setSelectedSupermarkets} />
 
 					</DialogContent>
 
@@ -186,4 +182,4 @@ const UserEdit = ({ targetUser, systemSupermarkets }: { targetUser: User, system
 	);
 };
 
-export default UserEdit;
+export default Edit;

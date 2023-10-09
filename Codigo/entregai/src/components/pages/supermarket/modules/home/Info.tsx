@@ -1,6 +1,6 @@
 import { Supermarket } from "@/libs/types/Supermarket"
 
-const SupermarketInfo = ({ supermarket }: { supermarket: Supermarket }) => {
+const Info = ({ supermarket }: { supermarket: Supermarket }) => {
     return (
         <div>
             <h1>{supermarket.name}</h1>
@@ -8,4 +8,4 @@ const SupermarketInfo = ({ supermarket }: { supermarket: Supermarket }) => {
     )
 }
 
-export default SupermarketInfo
+export default Info

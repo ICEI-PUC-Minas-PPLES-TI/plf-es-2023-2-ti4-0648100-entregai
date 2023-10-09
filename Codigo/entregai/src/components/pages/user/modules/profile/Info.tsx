@@ -1,6 +1,6 @@
 import { useAuth } from "@/components/context/UserContext"
 
-const UserInfo = () => {
+const Info = () => {
 
     const { user } = useAuth()
 
@@ -13,4 +13,4 @@ const UserInfo = () => {
     )
 }
 
-export default UserInfo
+export default Info

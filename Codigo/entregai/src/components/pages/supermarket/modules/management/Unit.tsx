@@ -2,7 +2,7 @@ import { Supermarket } from "@/libs/types/Supermarket";
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import Link from "next/link";
 
-const SupermarketContainer = ({ supermarket }: { supermarket: Supermarket }) => {
+const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
     return (
 		<div>
 			<Card sx={{ maxWidth: 300 }}>
@@ -24,4 +24,4 @@ const SupermarketContainer = ({ supermarket }: { supermarket: Supermarket }) => 
     )
 }
 
-export default SupermarketContainer;
+export default Unit;

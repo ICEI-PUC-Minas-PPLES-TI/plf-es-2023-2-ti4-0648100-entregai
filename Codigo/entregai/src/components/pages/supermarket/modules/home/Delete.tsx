@@ -4,7 +4,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-const SupermarketDelete = ({ supermarket }: { supermarket: Supermarket }) => {
+const Delete = ({ supermarket }: { supermarket: Supermarket }) => {
 
     const router = useRouter()
     const [ open, setOpen ] = useState(false)
@@ -47,4 +47,4 @@ const SupermarketDelete = ({ supermarket }: { supermarket: Supermarket }) => {
     )
 }
 
-export default SupermarketDelete
+export default Delete

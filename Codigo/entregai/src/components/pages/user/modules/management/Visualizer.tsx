@@ -2,8 +2,8 @@ import { Supermarket } from "@/libs/types/Supermarket";
 import { User } from "@/libs/types/User";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useState } from "react";
-import UserEdit from "../inner/UserEdit";
-import UserDelete from "../inner/UserDelete";
+import Edit from "./Edit";
+import Delete from "./Delete";
 
 const columns = [
     { id: 'name', label: 'Nome', minWidth: 100 },
@@ -13,7 +13,7 @@ const columns = [
     { id: 'editar', label: 'Gerenciar', minWidth: 5 },
 ]
 
-const UserVisualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User[], systemSupermarkets: Supermarket[] }) => {
+const Visualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User[], systemSupermarkets: Supermarket[] }) => {
 
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(5)
@@ -69,9 +69,9 @@ const UserVisualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User
 
 							<TableCell align="center">
 
-								<UserEdit targetUser={user} systemSupermarkets={systemSupermarkets} />
+								<Edit targetUser={user} systemSupermarkets={systemSupermarkets} />
 								
-                                <UserDelete targetUser={user} />
+                                <Delete targetUser={user} />
 
 							</TableCell>
 
@@ -99,4 +99,4 @@ const UserVisualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User
 	);
 };
 
-export default UserVisualizer;
+export default Visualizer;

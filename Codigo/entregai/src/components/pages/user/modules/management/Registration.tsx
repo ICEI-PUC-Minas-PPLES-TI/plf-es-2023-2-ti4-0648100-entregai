@@ -1,7 +1,7 @@
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, SelectChangeEvent, TextField } from "@mui/material"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import UserSupermarketSelect from "../inner/UserSupermarketSelect"
+import Selector from "./Selector"
 import { Supermarket } from "@/libs/types/Supermarket"
 import axios from "axios"
 import { useRouter } from "next/navigation"
@@ -79,7 +79,7 @@ const UserRegistration = ({ systemSupermarkets }: { systemSupermarkets: Supermar
 
                         <FormControlLabel control={<Checkbox {...register("permissionLevel")} />} label="Administrador" />
 
-                        <UserSupermarketSelect systemSupermarkets={systemSupermarkets} selectedSupermarkets={selectedSupermarkets} setSelectedSupermarkets={setSelectedSupermarkets} />
+                        <Selector systemSupermarkets={systemSupermarkets} selectedSupermarkets={selectedSupermarkets} setSelectedSupermarkets={setSelectedSupermarkets} />
 
                     </DialogContent>
 

@@ -1,10 +1,10 @@
-import UserInfo from "./modules/outer/UserInfo";
+import Info from "./modules/profile/Info";
 
 const UserProfile = () => {
 
     return (
         <div>
-            <UserInfo />
+            <Info />
         </div>
     )
 }

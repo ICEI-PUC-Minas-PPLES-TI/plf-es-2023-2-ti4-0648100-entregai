@@ -7,14 +7,17 @@ import admin from "./firebase-admin-config";
 const getAllUsers = async (): Promise<User[]> => {
     return new Promise(async (resolve, reject) => {
         try {
+
             const usersCollection = collection(db, 'users');
+
             const querySnapshot = await getDocs(usersCollection);
+
             const users: User[] = [];
         
             querySnapshot.forEach((doc) => {
                 const userData = { id: doc.id, ...doc.data() } as User;
                 users.push(userData);
-              });
+            });
         
             resolve(users)
         } catch (err) {
@@ -65,12 +68,11 @@ const registerUser = async (email: string, password: string, name: string, permi
 const deleteUser = async (id: string) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const usersCollection = collection(db, 'users');
-
-            const userDocRef = doc(usersCollection, id)
+            const userDocRef = doc(db, 'users', id)
 
             await deleteDoc(userDocRef)
 
+            // Deleta da tabela auth
             admin.auth().deleteUser(id)
 
             resolve(userDocRef)
@@ -86,14 +88,13 @@ const updateUser = async (id: string, email: string, password: string, name: str
 
         try {
 
-            const usersCollection = collection(db, 'users');
-
-            const userDocRef = doc(usersCollection, id)
+            const userDocRef = doc(db, 'users', id)
 
             const updatedData = { email, name, permissionLevel, selectedSupermarkets }
 
             await updateDoc(userDocRef, updatedData)
 
+            // Atualiza a tabela auth
             const authUpdate = { email, ...(password !== '' && { password })}
 
             admin.auth().updateUser(id, authUpdate)

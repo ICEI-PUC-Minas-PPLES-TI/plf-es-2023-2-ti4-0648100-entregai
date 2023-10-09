@@ -1,17 +1,20 @@
 import { Supermarket } from "@/libs/types/Supermarket"
-import SupermarketInfo from "./modules/outer/SupermarketInfo"
-import SupermarketDelete from "./modules/outer/SupermarketDelete"
-import SupermarketEdit from "./modules/outer/SupermarketEdit"
+import Info from "./modules/home/Info"
+import Delete from "./modules/home/Delete"
+import Edit from "./modules/home/Edit"
+import Stock from "./modules/home/stock/Stock"
 
 const SupermarketHome = ({ supermarket }: { supermarket: Supermarket }) => {
     return (
         <div>
 
-            <SupermarketInfo supermarket={supermarket} />
+            <Info supermarket={supermarket} />
 
-            <SupermarketDelete supermarket={supermarket} />
+            <Delete supermarket={supermarket} />
 
-            <SupermarketEdit supermarket={supermarket} />
+            <Edit supermarket={supermarket} />
+
+            <Stock supermarket={supermarket} />
 
         </div>
     )
