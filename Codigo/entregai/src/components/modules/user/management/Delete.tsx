@@ -19,6 +19,8 @@ const Delete = ({ targetUser }: { targetUser: User }) => {
             return
         }
 
+        setOpen(false)
+
         await axios.delete(`/api/user/handler?userId=${user.id}`)
             .then((res) => {
                 if (res.status === 200) {

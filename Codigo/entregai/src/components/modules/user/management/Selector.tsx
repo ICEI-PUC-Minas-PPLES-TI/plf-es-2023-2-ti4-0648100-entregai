@@ -1,6 +1,6 @@
 import { Supermarket } from "@/libs/types/Supermarket";
 import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Chip } from "@mui/material";
-import { Box } from "../../../../../../node_modules/@mui/material/index";
+import { Box } from "@mui/material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

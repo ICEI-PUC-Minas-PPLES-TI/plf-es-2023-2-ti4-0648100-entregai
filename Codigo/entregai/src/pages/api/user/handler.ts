@@ -1,4 +1,4 @@
-import { deleteUser, registerUser, updateUser } from "@/libs/firebase/userHandler";
+import { deleteUser, registerUser, updateUser } from "@/libs/handler/userHandler";
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
