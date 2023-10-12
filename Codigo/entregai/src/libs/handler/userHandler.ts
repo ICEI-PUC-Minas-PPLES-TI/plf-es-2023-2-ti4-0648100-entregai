@@ -1,8 +1,8 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { User } from "../types/User";
-import { auth, db } from "./firebase-config";
+import { auth, db } from "../firebase/firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import admin from "./firebase-admin-config";
+import admin from "../firebase/firebase-admin-config";
 
 const getAllUsers = async (): Promise<User[]> => {
     return new Promise(async (resolve, reject) => {

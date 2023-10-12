@@ -1,4 +1,4 @@
-import { deleteSupermarket, registerSupermarket } from "@/libs/firebase/supermarketHandler"
+import { deleteSupermarket, registerSupermarket } from "@/libs/handler/supermarketHandler"
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

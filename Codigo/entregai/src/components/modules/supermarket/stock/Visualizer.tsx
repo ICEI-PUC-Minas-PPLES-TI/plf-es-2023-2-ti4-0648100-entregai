@@ -1,6 +1,9 @@
 import { Supermarket } from "@/libs/types/Supermarket"
 import { TextField, Autocomplete, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useState } from "react";
+import Edit from "./Edit";
+import { Product } from "@/libs/types/Product";
+import Delete from "./Delete";
 
 const columns = [
     { id: 'name', label: 'Nome', minWidth: 100 },
@@ -27,9 +30,9 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
     }
 
 	function search(searchString: string) {
-		if (searchString == '') {
-			setStock(supermarket.stock)
-			return
+
+		if (page !== 0) {
+			setPage(0)
 		}
 
 		const filteredRows = supermarket.stock.filter((stockItem) => {
@@ -43,13 +46,6 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
 		<div>
 
 			<TextField onChange={(event) => { search(event.target.value) }} label="Busca Item por Nome" />
-
-			{/* <Autocomplete
-				id="free-solo-demo"
-				freeSolo
-				options={supermarket.stock.map((stockItem) => stockItem.name)}
-				renderInput={(params) => <TextField {...params} label="Busca Item por Nome" />}
-				/> */}
 
 			<TableContainer component={Paper}>
 
@@ -71,7 +67,7 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
 
 					<TableBody>
 						
-						{(rowsPerPage > 0 ? stock.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : stock).map((stockItem) => (
+						{(rowsPerPage > 0 ? stock.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : stock).map((stockItem: Product) => (
 							
 							// Colocar uma key VALIDA aqui, alterar o objeto "Product" para ter uma key, senão o react reclama
 							<TableRow key={stockItem.name}>
@@ -86,7 +82,13 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
 
 								<TableCell align="center"></TableCell>
 
-								<TableCell align="center"></TableCell>
+								<TableCell align="center">
+
+									<Edit supermarket={supermarket} product={stockItem}/>
+
+									<Delete supermarket={supermarket} product={stockItem}/>
+
+								</TableCell>
 
 							</TableRow>
 						))}

@@ -1,9 +1,8 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "./firebase-config"
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase-config"
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Product } from "../types/Product";
 
-const getAllSupermarkets = async (): Promise<Supermarket[]> => {
+export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -24,7 +23,7 @@ const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     })
 }
 
-const getSupermarketById = async (id: string): Promise<Supermarket> => {
+export const getSupermarketById = async (id: string): Promise<Supermarket> => {
     return new Promise(async (resolve, reject) => {
         try {
             const supermarketRef = doc(db, "supermarkets", id);
@@ -43,7 +42,7 @@ const getSupermarketById = async (id: string): Promise<Supermarket> => {
     })
 }
 
-const registerSupermarket = async (name: string, address: string, phone: string, cnpj: string) => {
+export const registerSupermarket = async (name: string, address: string, phone: string, cnpj: string) => {
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -65,7 +64,7 @@ const registerSupermarket = async (name: string, address: string, phone: string,
     })
 }
 
-const deleteSupermarket = async (id: string) => {
+export const deleteSupermarket = async (id: string) => {
     return new Promise(async (resolve, reject) => {
         try {
             const supermarketRef = doc(db, "supermarkets", id)
@@ -79,31 +78,4 @@ const deleteSupermarket = async (id: string) => {
         }
     })
 }
-
-const registerProductToStock = async (supermarketId: string, product: Product) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-
-            const supermarketRef = doc(db, "supermarkets", supermarketId);
-
-            const docSnap = await getDoc(supermarketRef);
-
-            if (docSnap.exists()) {
-
-                const { stock } = docSnap.data();
-
-                stock.push(product);
-
-                await updateDoc(supermarketRef, { stock });
-
-                resolve({ supermarketId, product })
-            }
-            
-        } catch (err) {
-            reject(err)
-        }
-    })
-}
-
-export { getSupermarketById, deleteSupermarket, getAllSupermarkets, registerSupermarket, registerProductToStock }
 

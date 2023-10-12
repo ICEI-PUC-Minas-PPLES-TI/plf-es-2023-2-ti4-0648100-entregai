@@ -1,6 +1,6 @@
 import { Supermarket } from "@/libs/types/Supermarket";
-import Registration from "./modules/management/Registration";
-import Visualizer from "./modules/management/Visualizer";
+import Registration from "../../modules/supermarket/management/Registration";
+import Visualizer from "../../modules/supermarket/management/Visualizer";
 
 const SupermarketManagement = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
     return (

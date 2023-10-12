@@ -1,4 +1,4 @@
-import Info from "./modules/profile/Info";
+import Info from "../../modules/user/profile/Info";
 
 const UserProfile = () => {
 

@@ -1,6 +1,6 @@
 import AppLayout from "@/components/layout/AppLayout";
 import SupermarketManagement from "@/components/pages/supermarket/SupermarketManagement";
-import { getAllSupermarkets } from "@/libs/firebase/supermarketHandler";
+import { getAllSupermarkets } from "@/libs/handler/supermarketHandler";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { ReactElement } from "react";
 

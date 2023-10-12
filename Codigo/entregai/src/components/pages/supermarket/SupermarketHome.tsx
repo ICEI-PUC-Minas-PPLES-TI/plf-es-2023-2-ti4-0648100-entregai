@@ -1,8 +1,8 @@
 import { Supermarket } from "@/libs/types/Supermarket"
-import Info from "./modules/home/Info"
-import Delete from "./modules/home/Delete"
-import Edit from "./modules/home/Edit"
-import Stock from "./modules/home/stock/Stock"
+import Info from "../../modules/supermarket/home/Info"
+import Delete from "../../modules/supermarket/home/Delete"
+import Edit from "../../modules/supermarket/home/Edit"
+import Stock from "../../modules/supermarket/stock/Stock"
 
 const SupermarketHome = ({ supermarket }: { supermarket: Supermarket }) => {
     return (

@@ -1,4 +1,4 @@
-import { getUser } from "@/libs/firebase/userHandler"
+import { getUser } from "@/libs/handler/userHandler"
 import { User } from "@/libs/types/User"
 import { NextApiRequest, NextApiResponse } from "next"
 
