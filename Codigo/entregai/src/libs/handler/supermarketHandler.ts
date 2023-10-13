@@ -1,6 +1,7 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase-config"
+import { db, storage } from "../firebase/firebase-config"
 import { Supermarket } from "@/libs/types/Supermarket";
+import { getDownloadURL, ref } from "firebase/storage";
 
 export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     return new Promise(async (resolve, reject) => {
@@ -19,6 +20,23 @@ export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
             resolve(supermarkets)
         } catch (err) {
             reject(err)
+        }
+    })
+}
+
+export const getSupermarketImage = async (id: string): Promise<string> => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            const imgRef = ref(storage, `images/${id}`)
+
+            await getDownloadURL(imgRef).then((url) => {
+                resolve(url)
+            })
+
+        } catch (err) {
+            
+            resolve('')
         }
     })
 }
