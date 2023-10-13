@@ -10,7 +10,7 @@ import { Upload } from "@mui/icons-material"
 import ImageUpload from "@/components/modules/supermarket/home/ImageUpload"
 import ImageDisplay from "@/components/modules/supermarket/home/ImageDisplay"
 
-const SupermarketHome = ({ supermarket, imageUrl }: { supermarket: Supermarket, imageUrl: string }) => {
+const SupermarketHome = ({ supermarket }: { supermarket: Supermarket }) => {
     return (
         <div>
 
@@ -18,7 +18,7 @@ const SupermarketHome = ({ supermarket, imageUrl }: { supermarket: Supermarket, 
 
             <Info supermarket={supermarket} />
 
-            <ImageDisplay imageUrl={imageUrl} />
+            <ImageDisplay imageUrl={supermarket.imageUrl!} />
 
             <ImageUpload supermarket={supermarket} />
 
