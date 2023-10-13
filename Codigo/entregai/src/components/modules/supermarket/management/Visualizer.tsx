@@ -14,7 +14,7 @@ const Visualizer = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] 
     return (
         <div>
             {filteredSupermarkets.map((supermarket) => (
-                <Unit 
+                <Unit
                     key={supermarket.id}
                     supermarket={supermarket} 
                 />

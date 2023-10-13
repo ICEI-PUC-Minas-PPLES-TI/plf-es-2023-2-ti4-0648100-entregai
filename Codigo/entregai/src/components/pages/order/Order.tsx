@@ -1,5 +1,6 @@
+import BackButton from "@/components/misc/BackButton";
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { Button, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useMemo, useState } from "react";
 
 const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
@@ -14,6 +15,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     function handleChange(event: SelectChangeEvent) {
         setSelectedSupermarketId(event.target.value);
+        setSelectedItemsId([]);
     };
 
     function handleCheckbox(itemId: string) {
@@ -24,8 +26,14 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
         }
     }
 
+    function handleSubmit() {
+        
+    }
+
 	return (
 		<div>
+            <BackButton />
+
 			<h1>Fazer Encomenda</h1>
 
             <p>Por favor, selecione o supermercado na sua região</p>
@@ -62,6 +70,8 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                     {item.stockQuantity == 0 ? item.name + " (Indisponível)" : item.name}
                 </div>
             ))}
+
+            <Button onClick={handleSubmit} variant="contained">Fazer Encomenda</Button>
 		</div>
 	);
 };

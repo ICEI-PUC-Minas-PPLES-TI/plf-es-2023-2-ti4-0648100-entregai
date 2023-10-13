@@ -12,10 +12,17 @@ export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
             const querySnapshot = await getDocs(supermarketCollection);
 
             const supermarkets: Supermarket[] = [];
-        
-            querySnapshot.forEach((doc) => {
-                supermarkets.push({ id: doc.id, ...doc.data() } as Supermarket);
-            });
+
+            for (const doc of querySnapshot.docs) {
+
+                const supermarket: Supermarket = { id: doc.id, ...doc.data() } as Supermarket
+
+                const url = await getSupermarketImageUrl(doc.id)
+
+                supermarket.imageUrl = url
+
+                supermarkets.push(supermarket);
+            }
 
             resolve(supermarkets)
         } catch (err) {
@@ -24,7 +31,7 @@ export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     })
 }
 
-export const getSupermarketImage = async (id: string): Promise<string> => {
+export const getSupermarketImageUrl = async (id: string): Promise<string> => {
     return new Promise(async (resolve, reject) => {
         try {
 
