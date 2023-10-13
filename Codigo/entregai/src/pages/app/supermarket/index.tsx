@@ -4,11 +4,11 @@ import { getAllSupermarkets } from "@/libs/handler/supermarketHandler";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { ReactElement } from "react";
 
-const SupermarketsPage = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
+const SupermarketsMainPage = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
   return (<SupermarketManagement systemSupermarkets={systemSupermarkets} />)
 }
 
-SupermarketsPage.getLayout = function getLayout(page: ReactElement) {
+SupermarketsMainPage.getLayout = function getLayout(page: ReactElement) {
   return (
       <AppLayout>
           {page}
@@ -27,5 +27,5 @@ export async function getServerSideProps() {
   }
 }
 
-export default SupermarketsPage
+export default SupermarketsMainPage
 
