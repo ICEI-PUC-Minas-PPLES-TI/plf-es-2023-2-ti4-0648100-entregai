@@ -1,13 +1,13 @@
 import AppLayout from "@/components/layout/AppLayout";
 import SupermarketHome from "@/components/pages/supermarket/SupermarketHome";
 import SupermarketManagement from "@/components/pages/supermarket/SupermarketManagement";
-import { getAllSupermarkets, getSupermarketById } from "@/libs/handler/supermarketHandler";
+import { getAllSupermarkets, getSupermarketById, getSupermarketImage } from "@/libs/handler/supermarketHandler";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 
-const SupermarketDetailsPage = ({ supermarket }: { supermarket: Supermarket }) => {
-  return (<SupermarketHome supermarket={supermarket} />)
+const SupermarketDetailsPage = ({ supermarket, imageUrl }: { supermarket: Supermarket, imageUrl: string }) => {
+  return (<SupermarketHome imageUrl={imageUrl} supermarket={supermarket} />)
 }
 
 SupermarketDetailsPage.getLayout = function getLayout(page: ReactElement) {
@@ -25,9 +25,12 @@ export async function getServerSideProps(context: any) {
 
   const supermarket: Supermarket = await getSupermarketById(id)
 
+  const imageUrl: string = await getSupermarketImage(id)
+
   return {
     props: {
-      supermarket
+      supermarket,
+      imageUrl
     }
   }
 }

@@ -6,14 +6,21 @@ import Stock from "../../modules/supermarket/stock/Stock"
 import Link from "next/link"
 import { Button } from "@mui/material"
 import BackButton from "@/components/misc/BackButton"
+import { Upload } from "@mui/icons-material"
+import ImageUpload from "@/components/modules/supermarket/home/ImageUpload"
+import ImageDisplay from "@/components/modules/supermarket/home/ImageDisplay"
 
-const SupermarketHome = ({ supermarket }: { supermarket: Supermarket }) => {
+const SupermarketHome = ({ supermarket, imageUrl }: { supermarket: Supermarket, imageUrl: string }) => {
     return (
         <div>
 
             <BackButton />
 
             <Info supermarket={supermarket} />
+
+            <ImageDisplay imageUrl={imageUrl} />
+
+            <ImageUpload supermarket={supermarket} />
 
             <Link href={`/app/supermarket/${supermarket.id}/orders`}>
                 <Button variant="contained" color="yellow">
