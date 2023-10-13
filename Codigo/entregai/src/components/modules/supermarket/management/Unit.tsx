@@ -16,7 +16,7 @@ const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
 				</CardContent>
 				<CardActions>
 					<Link href={`/app/supermarket/${supermarket.id}`}>
-						<Button size="small">Ver mais</Button>
+						<Button size="small">Gerenciar</Button>
 					</Link>
 				</CardActions>
 			</Card>

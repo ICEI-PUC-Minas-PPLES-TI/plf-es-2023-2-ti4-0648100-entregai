@@ -4,7 +4,7 @@ import { auth, db } from "../firebase/firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import admin from "../firebase/firebase-admin-config";
 
-const getAllUsers = async (): Promise<User[]> => {
+export const getAllUsers = async (): Promise<User[]> => {
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -26,7 +26,7 @@ const getAllUsers = async (): Promise<User[]> => {
     })
 }
 
-const getUser = async (id: string): Promise<User> => {
+export const getUser = async (id: string): Promise<User> => {
     return new Promise(async (resolve, reject) => {
         try {
 			const userRef = doc(db, "users", id);
@@ -48,7 +48,7 @@ const getUser = async (id: string): Promise<User> => {
 
 }
 
-const registerUser = async (email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
+export const registerUser = async (email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -65,7 +65,7 @@ const registerUser = async (email: string, password: string, name: string, permi
     })
 }
 
-const deleteUser = async (id: string) => {
+export const deleteUser = async (id: string) => {
     return new Promise(async (resolve, reject) => {
         try {
             const userDocRef = doc(db, 'users', id)
@@ -83,7 +83,7 @@ const deleteUser = async (id: string) => {
     })
 }
 
-const updateUser = async (id: string, email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
+export const updateUser = async (id: string, email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
     return new Promise(async (resolve, reject) => {
 
         try {
@@ -106,10 +106,30 @@ const updateUser = async (id: string, email: string, password: string, name: str
     })
 }
 
-const createUserDocument = async (uid: string, name: string, email: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
+export const tryToCreateAdminUser = async (email: string, password: string) => {
+    return new Promise(async (resolve, reject) => {
+
+        const email = process.env.ADMIN_EMAIL as string
+        const password = process.env.ADMIN_PASSWORD as string
+
+        if (email !== email && password !== password) {
+            reject("Admin registration denied, invalid credentials")
+        }
+        
+        try {
+
+            registerUser(email, password, 'Administrador', true, [])
+
+            resolve("Admin registration completed successfully")
+
+        } catch (err) {
+            reject("Admin registration already exists in the database")
+        }
+    })
+}
+
+export const createUserDocument = async (uid: string, name: string, email: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
     const userRef = doc(db, "users", uid);
             
     await setDoc(userRef, { name, email, permissionLevel, selectedSupermarkets });
 }
-
-export { deleteUser, getUser, registerUser, updateUser, getAllUsers, createUserDocument }

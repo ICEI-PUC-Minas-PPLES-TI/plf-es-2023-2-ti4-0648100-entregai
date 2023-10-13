@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
         return NextResponse.redirect(process.env.URL + '/')
     }
 
-    if (sessionToken && url === process.env.URL + '/') {
+    if (sessionToken && url === process.env.URL + '/login') {
         return NextResponse.redirect(process.env.URL + '/app/supermarket')
     }
 }

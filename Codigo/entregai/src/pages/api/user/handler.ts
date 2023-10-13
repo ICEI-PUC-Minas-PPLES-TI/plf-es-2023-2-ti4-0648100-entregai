@@ -1,4 +1,4 @@
-import { deleteUser, registerUser, updateUser } from "@/libs/handler/userHandler";
+import { deleteUser, registerUser, tryToCreateAdminUser, updateUser } from "@/libs/handler/userHandler";
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -27,6 +27,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
 
             await deleteUser(userId as string)
+
+            return res.status(200).json({})
+
+        } catch (err: any) {
+
+            return res.status(500).json({ message: err.message })
+        }
+    }
+
+    if (req.method === 'PUT') {
+        
+        const { email, password } = req.query
+
+        try {
+
+            await tryToCreateAdminUser(email as string, password as string)
 
             return res.status(200).json({})
 

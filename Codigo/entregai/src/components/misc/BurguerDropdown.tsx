@@ -20,7 +20,7 @@ const BurguerDropdown = () => {
 				
 				deleteCookie('session')
 
-				replace('/')
+				replace('/login')
 
 				signOut(auth)
 			})
