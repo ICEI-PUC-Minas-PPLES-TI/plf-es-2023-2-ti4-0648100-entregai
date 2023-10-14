@@ -12,13 +12,6 @@ export const registerOrder = async (order: Order, supermarketId: string): Promis
 
             order.date = new Date();
 
-            order.totalPrice = 0
-
-            order.products.forEach(product => {
-                order.totalPrice = order.totalPrice + (product.price * product.quantity)
-                delete product.stockQuantity
-            })
-
             if (docSnap.exists()) {
 
                 const { orders } = docSnap.data();
