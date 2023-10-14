@@ -1,18 +1,18 @@
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import Link from "next/link";
 
 const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
-    return (
+	return (
 		<div>
 			<Card sx={{ maxWidth: 300 }}>
 
 				{supermarket.imageUrl !== '' && <CardMedia
-					sx={{ height: 150 }}
+					sx={{ height: 200 }}
 					image={supermarket.imageUrl}
 					title={supermarket.name}
 				/>}
-				
+
 				<CardContent>
 					<Typography gutterBottom variant="h5" component="div">
 						{supermarket.name}
@@ -21,14 +21,14 @@ const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
 						{supermarket.address}
 					</Typography>
 				</CardContent>
-				<CardActions>
-					<Link href={`/app/supermarket/${supermarket.id}`}>
-						<Button size="small">Gerenciar</Button>
-					</Link>
-				</CardActions>
+				<Box display="flex" justifyContent="flex-end" p={2}>
+					<Button variant="contained" size="small" href={`/app/supermarket/${supermarket.id}`}>
+						Gerenciar
+					</Button>
+				</Box>
 			</Card>
 		</div>
-    )
+	)
 }
 
 export default Unit;

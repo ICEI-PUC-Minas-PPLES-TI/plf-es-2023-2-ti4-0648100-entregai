@@ -1,5 +1,6 @@
 import { useAuth } from "@/components/context/UserContext";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -47,7 +48,7 @@ const Registration = () => {
 	return (
 		<div>
 			
-            {user.permissionLevel && <Button variant="contained" color="yellow" onClick={handleOpen}>
+            {user.permissionLevel && <Button variant="contained" startIcon={<AddIcon />} color="yellow" onClick={handleOpen}>
 				Cadastrar Supermercado
 			</Button>}
 
