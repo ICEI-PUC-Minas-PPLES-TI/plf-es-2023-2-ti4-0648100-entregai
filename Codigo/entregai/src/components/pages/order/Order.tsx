@@ -2,10 +2,11 @@ import BackButton from "@/components/misc/BackButton";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { Button, Checkbox, FormControl, IconButton, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import axios from "axios";
-import { useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useForm } from "react-hook-form";
+import { Product } from "@/libs/types/Product";
 
 const MAX_NUMBER_OF_STEPS = 2
 
@@ -15,9 +16,97 @@ type FormDataType = {
     address: string,
 }
 
+
 const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
 
-    const OrderBuyerDetails = () => {
+    const [step, setStep] = useState(0)
+
+    const [selectedSupermarketId, setSelectedSupermarketId] = useState('');
+
+    const [selectedItems, setSelectedItems] = useState<Product[]>([]);
+    
+    const selectedSupermarket: Supermarket = useMemo(() => {
+        return systemSupermarkets.find((sup) => sup.id === selectedSupermarketId) as Supermarket;
+    }, [selectedSupermarketId, systemSupermarkets]);
+
+    const { register, getValues, trigger, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            name: "",
+            phone: "",
+            address: "",
+        }
+    })
+
+    const ItemStep = () => {
+        
+        function handleSupermarket(event: SelectChangeEvent) {
+            setSelectedSupermarketId(event.target.value);
+            setSelectedItems([]);
+        };
+
+        function handleCheckbox(item: Product) {
+            if (selectedItems.includes(item)) {
+                setSelectedItems(selectedItems.filter((includedItem) => includedItem !== item));
+            } else {
+                setSelectedItems([...selectedItems, item]);
+            }
+        }
+
+        function handleTextField(item: Product, event: ChangeEvent) {
+            
+        }
+
+        return (
+            <div>
+                <p>Por favor, selecione o supermercado na sua região</p>
+
+                <FormControl sx={{ width: 150 }}>
+                    
+                    <InputLabel id="supermarketSelectLabel">Supermercados</InputLabel>
+                    
+                    <Select
+                        labelId="supermarketSelectLabel"
+                        id="supermarketSelect" 
+                        value={selectedSupermarketId} 
+                        onChange={handleSupermarket}
+                        label="Supermercados"
+                        required
+                    >
+                        {systemSupermarkets.map((sup: Supermarket) => (
+                            <MenuItem key={sup.id} value={sup.id}>
+                                <ListItemText primary={sup.name} />
+                            </MenuItem>
+                        ))}
+                    
+                    </Select>
+
+                </FormControl>
+
+                <p>Por favor, selecione os itens que deseja encomendar</p>
+
+                {selectedSupermarket?.stock.map((item: Product) => (
+                    <div key={item.id}>
+                        <Checkbox 
+                            checked={selectedItems.includes(item)} 
+                            onChange={() => handleCheckbox(item)}
+                        />
+                        <TextField
+                            onChange={(event) => handleTextField(item, event)}
+                            disabled={!selectedItems.includes(item)}
+                        />
+                        {item.stockQuantity == 0 ? item.name + " (Indisponível)" : item.name}
+                    </div>
+                ))}
+            </div>
+        )
+    }
+
+    const BuyerStep = () => {
+
+        function validate() {
+
+        }
+
         return (
             <div>
 
@@ -49,7 +138,8 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
         )
     }
 
-    const OrderConfirmationDetails = () => {
+    const ConfirmationStep = () => {
+        
         return (
             <div>
 
@@ -60,7 +150,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 <p>Itens:</p>
 
                 {selectedSupermarket?.stock.map((item) => (
-                    selectedItemsId.includes(item.id) && <p key={item.id}>{item.name}</p>
+                    selectedItems.includes(item) && <p key={item.id}>{item.name}</p>
                 ))}
 
                 <p>Nome: {getValues("name")}</p>
@@ -74,112 +164,72 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
         )
     }
 
-    const OrderSupermarketDetails = () => {
+    const Arrows = () => {
+
+        async function handleFowardStep() {
+
+            const valid = await validateStep()
+    
+            if (valid && step < MAX_NUMBER_OF_STEPS) {
+                setStep((prev) => prev + 1)
+            }
+        }
+    
+        function handleBackwardsStep() {
+            if (step > 0) {
+                setStep((prev) => prev - 1)
+            }
+        }
+
         return (
             <div>
-                <p>Por favor, selecione o supermercado na sua região</p>
+                {step !== 0 && <IconButton onClick={handleBackwardsStep}>
+                    <ArrowBackIosIcon />
+                </IconButton>}
 
-                <FormControl sx={{ width: 150 }}>
-                    
-                    <InputLabel id="supermarketSelectLabel">Supermercados</InputLabel>
-                    
-                    <Select
-                        labelId="supermarketSelectLabel"
-                        id="supermarketSelect" 
-                        value={selectedSupermarketId} 
-                        onChange={handleSupermarket}
-                        label="Supermercados"
-                    >
-                        {systemSupermarkets.map((sup: Supermarket) => (
-                            <MenuItem key={sup.id} value={sup.id}>
-                                <ListItemText primary={sup.name} />
-                            </MenuItem>
-                        ))}
-                    
-                    </Select>
-
-                </FormControl>
-
-                <p>Por favor, selecione os itens que deseja encomendar</p>
-
-                {selectedSupermarket?.stock.map((item) => (
-                    <div key={item.id}>
-                        <Checkbox 
-                            checked={selectedItemsId.includes(item.id)} 
-                            onChange={() => handleCheckbox(item.id)}
-                        />
-                        {item.stockQuantity == 0 ? item.name + " (Indisponível)" : item.name}
-                    </div>
-                ))}
+                {step !== MAX_NUMBER_OF_STEPS && <IconButton onClick={handleFowardStep}>
+                    <ArrowForwardIosIcon />
+                </IconButton>}
             </div>
         )
     }
 
-    const [step, setStep] = useState(0)
-    const [selectedSupermarketId, setSelectedSupermarketId] = useState('');
-    const [selectedItemsId, setSelectedItemsId] = useState<string[]>([]);
-    const { register, getValues, trigger, handleSubmit, formState: { errors } } = useForm({
-        defaultValues: {
-            name: "",
-            phone: "",
-            address: "",
-        }
-    })
+    async function validateStep() {
+        switch (stepOrder[step]) {
 
-    const selectedSupermarket: Supermarket = useMemo(() => {
-        return systemSupermarkets.find((sup) => sup.id === selectedSupermarketId) as Supermarket;
-    }, [selectedSupermarketId, systemSupermarkets]);
+            case ItemStep:
 
-    function handleSupermarket(event: SelectChangeEvent) {
-        setSelectedSupermarketId(event.target.value);
-        setSelectedItemsId([]);
-    };
+                if (selectedSupermarketId === '') {
+                    alert('Por favor, selecione um supermercado');
+                    return false;
+                }
 
-    function handleCheckbox(itemId: string) {
-        if (selectedItemsId.includes(itemId)) {
-            setSelectedItemsId(selectedItemsId.filter((id) => id !== itemId));
-        } else {
-            setSelectedItemsId([...selectedItemsId, itemId]);
-        }
-    }
+                if (selectedItems.length === 0) {
+                    alert('Por favor, selecione pelo menos um item');
+                    return false;
+                }
 
-    async function handleFowardStep() {
-        if (step === 0) {
-            if (selectedSupermarketId === '') {
-                
-                return;
-            }
+                break;
 
-            if (selectedItemsId.length === 0) {
-                alert('Por favor, selecione pelo menos um item');
-                return;
-            }
+            case BuyerStep:
+
+                const valid = await trigger()
+
+                if (!valid) {
+                    return false;
+                }
+
+                break;
         }
 
-        if (step === 1) {
-            const valid = await trigger()
-
-            if (!valid) {
-                return;
-            }
-        }
-
-        if (step < MAX_NUMBER_OF_STEPS) {
-            setStep((prev) => prev + 1)
-        }
-    }
-
-    function handleBackwardsStep() {
-        if (step > 0) {
-            setStep((prev) => prev - 1)
-        }
+        return true
     }
 
     async function submitData(data: FormDataType) {
 
-        const orderData = { selectedSupermarketId, selectedItemsId, ...data }
+        const orderData = { selectedSupermarketId, selectedItems, ...data }
 
-        await axios.post('/api/order', orderData)
+        await axios.post('/api/order/handler', orderData)
             .then((res) => {
                 if (res.status === 200) {
                     alert('Encomenda feita com sucesso');
@@ -187,25 +237,17 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
             })
     }
 
+    const stepOrder = [ItemStep, BuyerStep, ConfirmationStep];
+
 	return (
 		<div>
             <BackButton />
 
 			<h1>Fazer Encomenda</h1>
 
-            { step === 0 && <OrderSupermarketDetails /> }
+            { stepOrder[step]() }
 
-            { step === 1 && <OrderBuyerDetails /> }
-
-            { step === 2 && <OrderConfirmationDetails /> }
-
-            {step !== 0 && <IconButton onClick={handleBackwardsStep}>
-                <ArrowBackIosIcon />
-            </IconButton>}
-
-            {step !== MAX_NUMBER_OF_STEPS && <IconButton onClick={handleFowardStep}>
-                <ArrowForwardIosIcon />
-            </IconButton>}
+            <Arrows />
 		</div>
 	);
 };
