@@ -1,24 +1,20 @@
-import * as React from 'react';
-import { AppBar, Button, Toolbar } from "@mui/material";
-import Link from "next/link";
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
-import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
-import { signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
-import { auth } from "@/libs/firebase/firebase-config";
-import { deleteCookie, getCookie } from "cookies-next";
-import axios from "axios";
+import React from 'react';
+import { AppBar, Toolbar } from '@mui/material';
+import Link from 'next/link';
+import { Box, Drawer, List, Typography, Divider } from '@mui/material';
+import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import {
+	StorefrontOutlined as StorefrontOutlinedIcon,
+	GroupOutlined as GroupOutlinedIcon,
+	PersonOutlineOutlined as PersonOutlineOutlinedIcon,
+	ExitToAppOutlined as ExitToAppOutlinedIcon,
+} from '@mui/icons-material';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
+import { auth } from '@/libs/firebase/firebase-config';
+import { deleteCookie, getCookie } from 'cookies-next';
+import axios from 'axios';
+
 
 const drawerWidth = 240;
 
@@ -34,11 +30,8 @@ const MenuBar = () => {
 	const userSignOut = async () => {
 		await axios.patch('/api/login/auth', { token: getCookie('session') })
 			.then(() => {
-
 				deleteCookie('session')
-
 				replace('/login')
-
 				signOut(auth)
 			})
 	};
@@ -82,7 +75,7 @@ const MenuBar = () => {
 
 					<List>
 						{/* Item "Meu Perfil" */}
-						<ListItem>
+						<ListItem disablePadding>
 							<Link href="/app/user/profile">
 								<ListItemButton>
 									<ListItemIcon>
@@ -94,7 +87,7 @@ const MenuBar = () => {
 						</ListItem>
 
 						{/* Item "Deslogar" */}
-						<ListItem>
+						<ListItem disablePadding>
 							<ListItemButton onClick={userSignOut}>
 								<ListItemIcon>
 									<ExitToAppOutlinedIcon />
