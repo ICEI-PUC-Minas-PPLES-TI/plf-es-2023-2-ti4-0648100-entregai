@@ -1,84 +1,14 @@
-// * {
-//   margin: 0;
-//   padding: 0;
-//   box-sizing: border-box;
-// }
+.Card {
+  display: flex;
+  flex-direction: column;
 
+  .CardMedia {
+    max-height: 200px;
+    width: 100%;
+  }
 
-// /* Login */
-// .container {
-//   display: flex;
-//   height: 650px;
-//   width: 950px;
-//   border: 1px solid black;
-//   align-self: center;
-//   margin: 150px auto;
-//   box-shadow: 15px 15px 20px black;
-// }
-
-// .form {
-//   display: flex;
-//   flex-direction: column;
-//   width: 50%;
-//   align-items: center;
-//   background-color: #F80C13;
-// }
-
-// .form h1 {
-//   font-size: 3rem;
-//   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-//   margin: 40px;
-//   color: white;
-// }
-
-// .box {
-//   padding: 12px;
-//   width: 65%;
-//   margin: 15px;
-// }
-
-// #submit {
-//   padding: 12px 30px;
-//   width: 40%;
-//   margin-top: 40px;
-//   font-weight: bold;
-// }
-
-// #submit:hover{
-//   cursor: pointer;
-// }
-
-// .side {
-//   display: flex;
-//   width: 50%;
-//   background-color: whitesmoke;
-// }
-
-
-// /* Register */
-// .registerForm {
-//   padding: 2%;
-//   display: flex;
-//   flex-direction: column;
-//   gap: 16px; 
-
-//   form {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: flex-start; 
-//     max-width: 720px;
-//     gap: 10px;
-    
-//     .MuiTextField-root {
-//       width: 100%;  /* Estende os campos, horizontalmente, para a largura da div */
-//     }
-    
-//     button#submit-button {
-//       margin-left: auto;
-//     }
-
-//   }
-
-  
-// }
-
+  .CardActions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
