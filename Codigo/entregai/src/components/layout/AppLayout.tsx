@@ -1,13 +1,16 @@
 import MenuBar from "../misc/MenuBar";
+import Box from '@mui/material/Box';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div>
+      <div style={{ display: 'flex' }}>
 
-            <MenuBar />
+        <MenuBar />
 
-            { children }
+        <Box component="main" className="main-content" sx={{ flexGrow: 1, padding: 3, marginTop: 10 }}>
+          {children}
+        </Box>
 
-        </div>
-    )
-}
+      </div>
+    );
+  }
