@@ -1,15 +1,8 @@
-import BackButton from "@/components/misc/BackButton"
 import { Button, TextField } from "@mui/material"
 
-const Tracking = () => {
+const Tracker = () => {
     return (
         <div>
-            <BackButton />
-
-            <h1>Acompanhar Encomenda</h1>
-        
-            <p>Por favor, digite o código do seu pedido</p>
-
             <TextField 
                 id="orderCode" 
                 label="Código da Encomenda" 
@@ -23,4 +16,4 @@ const Tracking = () => {
     )
 }
 
-export default Tracking
+export default Tracker
