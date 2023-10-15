@@ -10,8 +10,6 @@ export const registerOrder = async (order: Order, supermarketId: string): Promis
 
             const docSnap = await getDoc(supermarketRef);
 
-            order.date = new Date();
-
             if (docSnap.exists()) {
 
                 const { orders } = docSnap.data();

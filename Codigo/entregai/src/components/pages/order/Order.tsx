@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Product } from "@/libs/types/Product";
+import { Item } from "@/libs/types/Item";
 
 const MAX_NUMBER_OF_STEPS = 2
 
@@ -23,7 +24,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     const [selectedSupermarketId, setSelectedSupermarketId] = useState('');
 
-    const [selectedItems, setSelectedItems] = useState<Product[]>([]);
+    const [selectedItems, setSelectedItems] = useState<Item[]>([]);
     
     const selectedSupermarket: Supermarket = useMemo(() => {
         return systemSupermarkets.find((sup) => sup.id === selectedSupermarketId) as Supermarket;
@@ -44,16 +45,34 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
             setSelectedItems([]);
         };
 
-        function handleCheckbox(item: Product) {
-            if (selectedItems.includes(item)) {
-                setSelectedItems(selectedItems.filter((includedItem) => includedItem !== item));
+        function handleCheckbox(itemId: string) {
+
+            if (selectedItems.some((selectedItem: Item) => selectedItem.productId === itemId)) {
+                
+                setSelectedItems(selectedItems.filter((includedItem) => includedItem.productId !== itemId));
+            
             } else {
-                setSelectedItems([...selectedItems, item]);
+
+                const newItem : Item = { productId: itemId, quantity: 1 }
+                
+                setSelectedItems([...selectedItems, newItem]);
             }
         }
 
-        function handleTextField(item: Product, event: ChangeEvent) {
-            
+        function handleTextField(itemId: string, event: ChangeEvent) {
+            // update the "quantity" field of the Item in the selectedItems array that corresponds to the itemId
+            const newQuantity = parseInt((event.target as HTMLInputElement).value);
+
+            const newItem : Item = { productId: itemId, quantity: newQuantity }
+
+            const newSelectedItems = selectedItems.map((item) => {
+                if (item.productId === newItem.productId) {
+                    return newItem;
+                }
+                return item;
+            });
+
+            setSelectedItems(newSelectedItems);
         }
 
         return (
@@ -87,12 +106,13 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 {selectedSupermarket?.stock.map((item: Product) => (
                     <div key={item.id}>
                         <Checkbox 
-                            checked={selectedItems.includes(item)} 
-                            onChange={() => handleCheckbox(item)}
+                            checked={selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)} 
+                            onChange={() => handleCheckbox(item.id)}
                         />
                         <TextField
-                            onChange={(event) => handleTextField(item, event)}
-                            disabled={!selectedItems.includes(item)}
+                            onChange={(event) => handleTextField(item.id, event)}
+                            value={selectedItems.find((selectedItem: Item) => selectedItem.productId === item.id)?.quantity}
+                            disabled={!selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)}
                         />
                         {item.stockQuantity == 0 ? item.name + " (Indisponível)" : item.name}
                     </div>
@@ -102,10 +122,6 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
     }
 
     const BuyerStep = () => {
-
-        function validate() {
-
-        }
 
         return (
             <div>
@@ -134,24 +150,49 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                     variant="outlined" 
                 />
 
+                {/* Input de forma de pagamento: Credito, Debito ou Dinheiro */}
+
             </div>
         )
     }
 
     const ConfirmationStep = () => {
+
+        const selectedProducts = selectedItems.map((item) => {
+            const product = selectedSupermarket?.stock.find((stockItem) => stockItem.id === item.productId) as Product;
+            return { id: product.id, itemName: product.name, price: product.price, quantity: item.quantity };
+        })
         
         return (
             <div>
 
                 <p>Por favor, confirme os dados da sua encomenda</p>
 
-                <p>Supermercado: {selectedSupermarket?.name}</p>
+                <h3>Supermercado:</h3>
 
-                <p>Itens:</p>
+                <p>{selectedSupermarket?.name}</p>
 
-                {selectedSupermarket?.stock.map((item) => (
-                    selectedItems.includes(item) && <p key={item.id}>{item.name}</p>
-                ))}
+                <h3>Itens:</h3>
+
+
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Sub-Total</th>
+                    </tr>
+                    {selectedProducts.map((selectedProduct) => (
+                    <tr key={selectedProduct.id}>
+                        <td>{selectedProduct.itemName}</td>
+                        <td>{selectedProduct.price}</td>
+                        <td>{selectedProduct.quantity}</td>
+                        <td>{selectedProduct.quantity * selectedProduct.price}</td>
+                    </tr>
+                    ))}
+                </table>
+
+                <h3>Dados</h3>
 
                 <p>Nome: {getValues("name")}</p>
 

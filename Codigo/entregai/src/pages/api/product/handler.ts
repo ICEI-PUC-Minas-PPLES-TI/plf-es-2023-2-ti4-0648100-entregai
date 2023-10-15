@@ -1,4 +1,4 @@
-import { deleteProductInStock, registerProductToStock, updateProductInStock } from "@/libs/handler/productHandler"
+import { deleteProductInStock, registerProductToStock, updateProductInStock } from "@/libs/service/productService"
 import { Product } from "@/libs/types/Product"
 import { randomUUID } from "crypto"
 import { NextApiRequest, NextApiResponse } from "next"
@@ -11,11 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const { name, price, stockQuantity } = req.body
 
-        const id = randomUUID()
-
-        const product: Product = { name, price, stockQuantity, id }
-
         try {
+
+            const product: Product = { name, price, stockQuantity, id: randomUUID() }
 
             await registerProductToStock(supermarketId as string, product)
 
@@ -33,9 +31,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const { name, price, stockQuantity } = req.body
 
-        const product: Product = { name, price, stockQuantity, id: productId as string }
-
         try {
+
+            const product: Product = { name, price, stockQuantity, id: productId as string }
 
             await updateProductInStock(supermarketId as string, product)
 

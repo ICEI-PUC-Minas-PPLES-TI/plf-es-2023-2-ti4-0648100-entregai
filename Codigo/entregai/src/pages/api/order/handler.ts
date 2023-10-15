@@ -1,4 +1,4 @@
-import { registerOrder } from "@/libs/handler/orderHandler"
+import { registerOrder } from "@/libs/service/orderService"
 import { Buyer } from "@/libs/types/Buyer"
 import { Order } from "@/libs/types/Order"
 import { Product } from "@/libs/types/Product"
@@ -11,7 +11,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { name, phone, address, selectedSupermarketId, selectedItems } = req.body
 
         const order: Order = {
-            products: selectedItems, 
+            date: new Date().toLocaleString(),
+            items: selectedItems, 
             buyer: { name, phone, address } as Buyer 
         }
 
