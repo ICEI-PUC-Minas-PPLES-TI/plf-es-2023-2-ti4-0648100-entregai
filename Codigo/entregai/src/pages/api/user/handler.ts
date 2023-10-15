@@ -1,4 +1,5 @@
-import { deleteUser, registerUser, tryToCreateAdminUser, updateUser } from "@/libs/handler/userHandler";
+import { deleteUser, registerUser, tryToCreateAdminUser, updateUser } from "@/libs/service/userService";
+import { User } from "@/libs/types/User";
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -36,22 +37,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
     }
 
-    if (req.method === 'PUT') {
-        
-        const { email, password } = req.query
-
-        try {
-
-            await tryToCreateAdminUser(email as string, password as string)
-
-            return res.status(200).json({})
-
-        } catch (err: any) {
-
-            return res.status(500).json({ message: err.message })
-        }
-    }
-
     if (req.method === 'PATCH') {
 
         const { userId } = req.query
@@ -60,7 +45,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
 
-            await updateUser(userId as string, email, password, name, permissionLevel, selectedSupermarkets)
+            const user: User = {
+                id: userId as string,
+                email,
+                name,
+                permissionLevel,
+                selectedSupermarkets,
+                password 
+            }
+
+            await updateUser(user)
+
+            return res.status(200).json({})
+
+        } catch (err: any) {
+
+            return res.status(500).json({ message: err.message })
+        }
+    }
+    
+    if (req.method === 'PUT') {
+        
+        const { email, password } = req.query
+
+        try {
+
+            await tryToCreateAdminUser(email as string, password as string)
 
             return res.status(200).json({})
 

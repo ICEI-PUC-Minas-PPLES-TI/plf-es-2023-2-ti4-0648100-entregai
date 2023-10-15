@@ -1,6 +1,6 @@
 import ClientLayout from "@/components/layout/ClientLayout";
 import Order from "@/components/pages/order/Order";
-import { getAllSupermarkets } from "@/libs/handler/supermarketHandler";
+import { getAllSupermarkets } from "@/libs/service/supermarketService";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { ReactElement } from "react";
 

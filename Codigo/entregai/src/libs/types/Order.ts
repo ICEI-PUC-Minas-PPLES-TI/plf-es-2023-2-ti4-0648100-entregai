@@ -1,9 +1,7 @@
 import { Buyer } from "./Buyer";
-import { Product } from "./Product";
+import { Item } from "./Item";
 export interface Order {
-    products: Product[],
+    date: string,
     buyer: Buyer,
-    date: Date,
+    items: Item[]
 }
-
-// Melhorar essa interface depois

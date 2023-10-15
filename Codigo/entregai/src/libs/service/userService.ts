@@ -13,11 +13,13 @@ export const getAllUsers = async (): Promise<User[]> => {
             const querySnapshot = await getDocs(usersCollection);
 
             const users: User[] = [];
-        
-            querySnapshot.forEach((doc) => {
+
+            for (const doc of querySnapshot.docs) {
+
                 const userData = { id: doc.id, ...doc.data() } as User;
+
                 users.push(userData);
-            });
+            }
         
             resolve(users)
         } catch (err) {
@@ -48,15 +50,17 @@ export const getUser = async (id: string): Promise<User> => {
 
 }
 
-export const registerUser = async (email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
+export const registerUser = async (email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]): Promise<User> => {
     return new Promise(async (resolve, reject) => {
         try {
 
             const userCredetial = await createUserWithEmailAndPassword(auth, email, password)
 
-            createUserDocument(userCredetial.user.uid, name, email, permissionLevel, selectedSupermarkets)
+            const id = userCredetial.user.uid
 
-            resolve({uid: userCredetial.user.uid, email, password, name, permissionLevel})
+            createUserDocument(id, name, email, permissionLevel, selectedSupermarkets)
+
+            resolve({ id, email, name, permissionLevel, selectedSupermarkets })
 
         } catch (err) {
 
@@ -65,17 +69,16 @@ export const registerUser = async (email: string, password: string, name: string
     })
 }
 
-export const deleteUser = async (id: string) => {
+export const deleteUser = async (id: string): Promise<void> => {
     return new Promise(async (resolve, reject) => {
         try {
             const userDocRef = doc(db, 'users', id)
 
             await deleteDoc(userDocRef)
 
-            // Deleta da tabela auth
             admin.auth().deleteUser(id)
 
-            resolve(userDocRef)
+            resolve()
 
         } catch (err) {
             reject(err)
@@ -83,30 +86,30 @@ export const deleteUser = async (id: string) => {
     })
 }
 
-export const updateUser = async (id: string, email: string, password: string, name: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
+export const updateUser = async (user: User): Promise<User> => {
     return new Promise(async (resolve, reject) => {
 
         try {
 
+            const { id, email, name, permissionLevel, selectedSupermarkets, password } = user
+
             const userDocRef = doc(db, 'users', id)
 
-            const updatedData = { email, name, permissionLevel, selectedSupermarkets }
+            await updateDoc(userDocRef, { email, name, permissionLevel, selectedSupermarkets })
 
-            await updateDoc(userDocRef, updatedData)
-
-            // Atualiza a tabela auth
             const authUpdate = { email, ...(password !== '' && { password })}
 
             admin.auth().updateUser(id, authUpdate)
 
-            resolve({ id, email, password, name, permissionLevel, selectedSupermarkets })
+            resolve(user)
+            
         } catch (err) {
             reject(err)
         }
     })
 }
 
-export const tryToCreateAdminUser = async (email: string, password: string) => {
+export const tryToCreateAdminUser = async (email: string, password: string): Promise<string> => {
     return new Promise(async (resolve, reject) => {
 
         const email = process.env.ADMIN_EMAIL as string

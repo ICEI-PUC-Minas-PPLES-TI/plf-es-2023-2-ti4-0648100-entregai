@@ -15,7 +15,7 @@ export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
 
             for (const doc of querySnapshot.docs) {
 
-                const supermarket: Supermarket = { id: doc.id, ...doc.data() } as Supermarket
+                const supermarket = { id: doc.id, ...doc.data() } as Supermarket
 
                 const url = await getSupermarketImageUrl(doc.id)
 
@@ -32,7 +32,7 @@ export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
 }
 
 export const getSupermarketImageUrl = async (id: string): Promise<string> => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         try {
 
             const imgRef = ref(storage, `images/${id}`)
@@ -56,7 +56,8 @@ export const getSupermarketById = async (id: string): Promise<Supermarket> => {
             const docSnap = await getDoc(supermarketRef)
 
             if (docSnap.exists()) {
-                const resultData: Supermarket = { id, ...docSnap.data() } as Supermarket
+                
+                const resultData = { id, ...docSnap.data() } as Supermarket
 
                 resolve(resultData)
             }
@@ -72,7 +73,7 @@ export const registerSupermarket = async (name: string, address: string, phone: 
         try {
 
             const supermarketRef = doc(db, "supermarkets", cnpj);
-            
+
             await setDoc(supermarketRef, {
                 name,
                 address,

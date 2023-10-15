@@ -1,4 +1,4 @@
-import { getUser } from "@/libs/handler/userHandler"
+import { getUser } from "@/libs/service/userService"
 import { User } from "@/libs/types/User"
 import { NextApiRequest, NextApiResponse } from "next"
 

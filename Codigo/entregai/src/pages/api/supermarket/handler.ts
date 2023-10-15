@@ -1,4 +1,4 @@
-import { deleteSupermarket, registerSupermarket } from "@/libs/handler/supermarketHandler"
+import { deleteSupermarket, registerSupermarket } from "@/libs/service/supermarketService"
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -17,6 +17,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             return res.status(500).json({ message: err.message })
         }
+    }
+
+    if (req.method === 'PATCH') {
+        
     }
 
     if (req.method === 'DELETE') {
