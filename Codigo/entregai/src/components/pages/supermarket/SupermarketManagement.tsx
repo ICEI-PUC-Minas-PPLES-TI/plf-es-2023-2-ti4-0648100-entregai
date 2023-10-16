@@ -11,7 +11,7 @@ const SupermarketManagement = ({ systemSupermarkets }: { systemSupermarkets: Sup
                     <Registration />
                 </Grid>
                 {systemSupermarkets.map((supermarket, index) => (
-                    <Grid item xs={4} key={index}>
+                    <Grid item xs={2.4} key={index}>
                         <Visualizer systemSupermarkets={[supermarket]} />
                     </Grid>
                 ))}
