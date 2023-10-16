@@ -45,7 +45,7 @@ const Registration = ({ supermarket }: { supermarket: Supermarket }) => {
 
     return (
         <div>
-            <Button variant="contained" color="yellow" onClick={handleOpen}>
+            <Button variant="contained" onClick={handleOpen}>
 				Novo Produto
 			</Button>
 

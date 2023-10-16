@@ -59,7 +59,7 @@ const UserRegistration = ({ systemSupermarkets }: { systemSupermarkets: Supermar
 
     return (
         <div>
-            <Button variant="contained" color="yellow" onClick={handleOpen}>Adicionar Usuário</Button>
+            <Button variant="contained" onClick={handleOpen}>Adicionar Usuário</Button>
         
             <Dialog open={open} onClose={handleClose}>
 
