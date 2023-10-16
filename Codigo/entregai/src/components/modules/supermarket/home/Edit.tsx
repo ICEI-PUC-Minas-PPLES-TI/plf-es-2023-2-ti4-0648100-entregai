@@ -4,7 +4,7 @@ import { Button } from "@mui/material"
 const Edit = ({ supermarket }: { supermarket: Supermarket }) => {
     return (
         <div>
-            <Button variant="contained" color="yellow">Editar Supermercado</Button>
+            <Button variant="contained">Editar Supermercado</Button>
         </div>
     )
 }

@@ -48,7 +48,7 @@ const Registration = () => {
 	return (
 		<div>
 			
-            {user.permissionLevel && <Button variant="contained" startIcon={<AddIcon />} color="yellow" onClick={handleOpen}>
+            {user.permissionLevel && <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
 				Cadastrar Supermercado
 			</Button>}
 

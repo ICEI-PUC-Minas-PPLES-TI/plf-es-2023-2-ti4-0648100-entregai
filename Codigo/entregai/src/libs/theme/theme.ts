@@ -1,53 +1,34 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/';
 
-// Augment the palette to include a violet color
+// Expandindo o objeto 'background'
 declare module "@mui/material/styles" {
-	interface Palette {
-		darkred: Palette["primary"],
-		yellow: Palette["primary"],
-	}
-
-	interface PaletteOptions {
-		darkred?: PaletteOptions["primary"],
-		yellow?: PaletteOptions["primary"],
-	}
-}
-
-// Update the Button's color options to include a violet option
-declare module "@mui/material/Button" {
-	interface ButtonPropsColorOverrides {
-		violet: true, darkred: true, yellow: true;
+	interface TypeBackground {
+		dark?: string;
 	}
 }
 
 const theme = createTheme({
 	palette: {
 		mode: 'light',
+
 		primary: {
-			main: "#F80C13",
+			main: '#0082d9',
+			dark: '#400084',
+			contrastText: '#ffffff'
 		},
+
 		secondary: {
-			main: "#FCC500",
+			main: '#f3ec6b',
+			dark: '#eeba0f',
+			contrastText: '#1f2041'
 		},
-		error: {
-			main: "#D69094",
+
+		background: {
+			default: '#ffffff',
+			paper: '#e5e5e5',
+			dark: '#1f2041'
 		},
-		success: {
-			main: "#A3C184",
-		},
-		text: {
-			primary: "#333333",
-			secondary: "#4D4D4D",
-		},
-		yellow: {
-			main: "#FCC500",
-			contrastText: "#111",
-		},
-		darkred: {
-			main: "#b3090e",
-			contrastText: "#fff",
-		},
-	},
+	}
 });
 
-export default theme;
+export default theme

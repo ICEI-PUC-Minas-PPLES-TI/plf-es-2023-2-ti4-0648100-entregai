@@ -23,7 +23,7 @@ const SupermarketHome = ({ supermarket }: { supermarket: Supermarket }) => {
             <ImageUpload supermarket={supermarket} />
 
             <Link href={`/app/supermarket/${supermarket.id}/orders`}>
-                <Button variant="contained" color="yellow">
+                <Button variant="contained" color="primary">
                     Encomendas
                 </Button>
 			</Link>
