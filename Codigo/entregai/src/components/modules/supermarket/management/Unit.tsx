@@ -1,6 +1,5 @@
 import { Supermarket } from "@/libs/types/Supermarket";
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
-import Link from "next/link";
 
 const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
 	return (
@@ -14,7 +13,7 @@ const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
 				/>}
 
 				<CardContent>
-					<Typography gutterBottom variant="h5" component="div">
+					<Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'fontWeightMedium' }}>
 						{supermarket.name}
 					</Typography>
 					<Typography variant="body2" color="text.secondary">
@@ -22,7 +21,12 @@ const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
 					</Typography>
 				</CardContent>
 				<Box display="flex" justifyContent="flex-end" p={2}>
-					<Button variant="contained" size="small" href={`/app/supermarket/${supermarket.id}`}>
+					<Button
+						sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText' }}
+						variant="contained"
+						size="small"
+						href={`/app/supermarket/${supermarket.id}`}
+					>
 						Gerenciar
 					</Button>
 				</Box>

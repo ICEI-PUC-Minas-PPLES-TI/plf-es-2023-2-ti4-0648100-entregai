@@ -37,20 +37,20 @@ const MenuBar = () => {
 	};
 
 	return (
-		<Box sx={{ display: 'flex' }}>
-			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+		<Box sx={{ display: 'flex' }} >
+			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, boxShadow: 'none' }}>
 				<Toolbar>
-					<Typography variant="h6" noWrap component="div">
+					<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightBold' }}>
 						Entregaí
 					</Typography>
 				</Toolbar>
-			</AppBar>
+			</AppBar >
 			<Drawer
 				variant="permanent"
 				sx={{
 					width: drawerWidth,
 					flexShrink: 0,
-					[`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+					[`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', backgroundColor: 'background.dark', },
 				}}
 			>
 				<Toolbar />
@@ -61,27 +61,27 @@ const MenuBar = () => {
 							<ListItem key={item.text} disablePadding> {/* Ex.: Supermercados */}
 								<Link href={`/app/${item.link}`}> {/* Ex.: /app/supermarket */}
 									<ListItemButton>
-										<ListItemIcon>
+										<ListItemIcon sx={{ color: 'primary.contrastText' }}>
 											{<item.icon />}
 										</ListItemIcon>
-										<ListItemText primary={item.text} />
+										<ListItemText primary={item.text} sx={{ color: 'primary.contrastText' }} />
 									</ListItemButton>
 								</Link>
 							</ListItem>
 						))}
 					</List>
 
-					<Divider />
+					<Divider sx={{ backgroundColor: 'primary.contrastText' }} />
 
 					<List>
 						{/* Item "Meu Perfil" */}
 						<ListItem disablePadding>
 							<Link href="/app/user/profile">
 								<ListItemButton>
-									<ListItemIcon>
+									<ListItemIcon sx={{ color: 'primary.contrastText' }}>
 										<PersonOutlineOutlinedIcon />
 									</ListItemIcon>
-									<ListItemText primary="Meu Perfil" />
+									<ListItemText primary="Meu Perfil" sx={{ color: 'primary.contrastText' }} />
 								</ListItemButton>
 							</Link>
 						</ListItem>
@@ -89,13 +89,12 @@ const MenuBar = () => {
 						{/* Item "Deslogar" */}
 						<ListItem disablePadding>
 							<ListItemButton onClick={userSignOut}>
-								<ListItemIcon>
+								<ListItemIcon sx={{ color: 'primary.contrastText' }}>
 									<ExitToAppOutlinedIcon />
 								</ListItemIcon>
-								<ListItemText primary="Sair" />
+								<ListItemText primary="Sair" sx={{ color: 'primary.contrastText' }} />
 							</ListItemButton>
 						</ListItem>
-
 					</List>
 				</Box>
 			</Drawer>

@@ -1,6 +1,5 @@
 import { Supermarket } from "@/libs/types/Supermarket";
 import { useAuth } from "@/components/context/UserContext";
-import { useEffect } from "react";
 import Unit from "./Unit";
 
 const Visualizer = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {

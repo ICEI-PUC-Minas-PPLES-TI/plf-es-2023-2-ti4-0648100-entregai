@@ -1,16 +1,35 @@
-.Card {
-  display: flex;
-  flex-direction: column;
+/* raleway-300 - latin */
+@font-face {
+  font-display: swap;
+  font-weight: 300;
+  src: url('./fonts/raleway-v29-latin-300.woff2') format('woff2');
+}
 
-  .CardMedia {
-    max-height: 200px;
-    width: 100%;
-  }
+/* raleway-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/raleway-v29-latin-regular.woff2') format('woff2');
+}
 
-  .CardActions {
-    display: flex;
-    justify-content: flex-end;
-  }
+/* raleway-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/raleway-v29-latin-700.woff2') format('woff2');
+}
+
+/* raleway-900 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 900;
+  src: url('./fonts/raleway-v29-latin-900.woff2') format('woff2');
 }
 
 a {
