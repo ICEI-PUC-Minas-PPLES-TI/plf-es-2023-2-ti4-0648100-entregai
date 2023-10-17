@@ -41,6 +41,7 @@ const Form = () => {
 				router.push("/app/user")
 			})
 			.catch((err: any) => {
+				console.log(err);
 				alert(err.message)
 			})
 	};
