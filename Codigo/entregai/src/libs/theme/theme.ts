@@ -1,6 +1,6 @@
-import { createTheme } from '@mui/material/';
+import { createTheme, ThemeProvider } from '@mui/material/';
 
-// Expandindo o objeto 'background'
+// Expandindo o objeto 'typeBackground' para adicionar propriedade 'dark'
 declare module "@mui/material/styles" {
 	interface TypeBackground {
 		dark?: string;
@@ -25,10 +25,26 @@ const theme = createTheme({
 
 		background: {
 			default: '#ffffff',
-			paper: '#e5e5e5',
+			paper: '#e1e1e1',
 			dark: '#1f2041'
 		},
-	}
+	},
+
+	typography: {
+		fontFamily: 'Raleway, Arial',
+		fontWeightBold: 900,
+		fontWeightMedium: 700,
+		fontWeightRegular: 400,
+		fontWeightLight: 300,
+	},
+
+	components: {
+		MuiButton: {
+			defaultProps: {
+				disableElevation: true,
+			},
+		}
+	},
 });
 
 export default theme

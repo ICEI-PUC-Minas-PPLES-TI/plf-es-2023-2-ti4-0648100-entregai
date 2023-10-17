@@ -1,10 +1,14 @@
 import { auth } from "@/libs/firebase/firebase-config";
-import { Button, TextField } from "@mui/material";
+import { Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
 import axios from "axios";
 import { setCookie } from "cookies-next";
+import Image from 'next/image';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import theme from "@/libs/theme/theme";
+import styles from './Form.module.scss';
+import loginCoverImage from "../../../styles/img/login_cover.png";
 
 interface FormDataType {
 	email: string,
@@ -13,7 +17,7 @@ interface FormDataType {
 
 const Form = () => {
 
-    const router = useRouter();
+	const router = useRouter();
 
 	const { register, handleSubmit } = useForm({
 		defaultValues: {
@@ -26,7 +30,7 @@ const Form = () => {
 		const { email, password } = data;
 
 		await signInWithEmailAndPassword(auth, email, password)
-			.then(async (userCredential) => { 
+			.then(async (userCredential) => {
 
 				const token = await userCredential.user.getIdToken()
 
@@ -41,24 +45,64 @@ const Form = () => {
 			})
 	};
 
-    return (
-        <div className="container">
+	return (
+		<ThemeProvider theme={theme}>
+			<div className={styles.container} >
+				<Grid container spacing={2} className={styles.box}>
+					<Grid item xs={6}>
+						<div className={styles.formContainer}>
+							<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', padding: '1rem' }}>
+								Login
+							</Typography>
 
-            <form onSubmit={handleSubmit(submitData)} className="form">
+							<form onSubmit={handleSubmit(submitData)} className={styles.form}>
 
-                <h1>Login</h1>
+								<Grid container spacing={2}>
+									<Grid item xs={12}>
+										<TextField
+											id="outlined-basic"
+											label="Email"
+											type="email" {...register("email")}
+											variant="outlined"
+											className={styles.label}
+										/>
+									</Grid>
 
-                <TextField id="outlined-basic" label="Email" type="email" {...register("email")} variant="outlined" className="box"/>
+									<Grid item xs={12}>
+										<TextField
+											id="outlined-basic"
+											label="Senha"
+											type="password" {...register("password")}
+											variant="outlined"
+											className={styles.label}
+										/>
+									</Grid>
 
-                <TextField id="outlined-basic" label="Senha" type="password" {...register("password")} variant="outlined" className="box"/>
+									<Grid item xs={12}>
+										<Button
+											type="submit"
+											variant="contained"
+											id="submit"
+											className={styles.button}
+											sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText' }}
+										>
+											Logar
+										</Button>
+									</Grid>
+								</Grid>
+							</form>
+						</div>
+					</Grid>
 
-                <Button type="submit" variant="contained" color="success" id="submit">Logar</Button>
-
-            </form>
-        
-            <div className="side"></div>
-        </div>
-    )
+					<Grid item xs={6}>
+						<div className={styles.imageContainer}>
+							<Image src={loginCoverImage} alt="Some text" />
+						</div>
+					</Grid>
+				</Grid>
+			</div>
+		</ThemeProvider>
+	)
 }
 
 export default Form

@@ -17,7 +17,7 @@ const Registration = () => {
 
     const router = useRouter()
     const { user } = useAuth()
-    const [ open, setOpen ] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -45,45 +45,51 @@ const Registration = () => {
 
     function handleClose() { setOpen(false) }
 
-	return (
-		<div>
-			
-            {user.permissionLevel && <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
-				Cadastrar Supermercado
-			</Button>}
+    return (
+        <div>
 
-			<Dialog open={open} onClose={handleClose}>
+            {user.permissionLevel
+                && <Button
+                    sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText' }}
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={handleOpen}
+                >
+                    Cadastrar Supermercado
+                </Button>}
 
-				<DialogTitle>Cadastrar Novo Supermercado</DialogTitle>
+            <Dialog open={open} onClose={handleClose}>
 
-				<form onSubmit={handleSubmit(submitData)}>
+                <DialogTitle>Cadastrar Novo Supermercado</DialogTitle>
 
-					<DialogContent>
+                <form onSubmit={handleSubmit(submitData)}>
 
-						<TextField margin="dense" variant="standard" {...register("name")} label="Nome" fullWidth />
+                    <DialogContent>
 
-						<TextField margin="dense" variant="standard" {...register("address")} label="Endereço" fullWidth />
+                        <TextField margin="dense" variant="standard" {...register("name")} label="Nome" fullWidth />
 
-						<TextField margin="dense" variant="standard" {...register("phone")} label="Telefone" fullWidth />
+                        <TextField margin="dense" variant="standard" {...register("address")} label="Endereço" fullWidth />
 
-						<TextField margin="dense" variant="standard" {...register("cnpj")} label="CNPJ" fullWidth />
-					
+                        <TextField margin="dense" variant="standard" {...register("phone")} label="Telefone" fullWidth />
+
+                        <TextField margin="dense" variant="standard" {...register("cnpj")} label="CNPJ" fullWidth />
+
                     </DialogContent>
 
-					<DialogActions>
+                    <DialogActions>
 
-						<Button onClick={handleClose}>Cancelar</Button>
+                        <Button onClick={handleClose}>Cancelar</Button>
 
-						<Button type="submit">Cadastrar</Button>
+                        <Button type="submit">Cadastrar</Button>
 
-					</DialogActions>
+                    </DialogActions>
 
-				</form>
+                </form>
 
-			</Dialog>
+            </Dialog>
 
-		</div>
-	);
+        </div>
+    );
 };
 
 export default Registration;
