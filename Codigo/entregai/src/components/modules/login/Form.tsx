@@ -42,7 +42,7 @@ const Form = () => {
 	
 					setCookie('session', res.data.sessionCookie)
 	
-					router.push("/app/user")
+					router.push("/app/supermarket")
 				})
 			},
 			{
