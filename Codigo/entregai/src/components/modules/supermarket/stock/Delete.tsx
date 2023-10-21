@@ -5,21 +5,30 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import toastConfig from "@/libs/toast/toastConfig";
 
-const Delete = ({ supermarket, product }: { supermarket: Supermarket, product: Product }) => {
+const Delete = ({ setSupermarketDetails, supermarket, product }: { setSupermarketDetails: Function, supermarket: Supermarket, product: Product }) => {
 
     const [ open, setOpen ] = useState(false)
-    const router = useRouter()
 
-    async function submitDelete() {
+    function submitDelete() {
         setOpen(false)
 
-        await axios.delete(`/api/product/handler?supermarketId=${supermarket.id}&productId=${product.id}`)
-            .then((res) => {
-                if (res.status === 200) {
-                    router.refresh()
-                }
-            })
+        toast.promise(
+            async () => {
+                await axios.delete(`/api/product/handler?supermarketId=${supermarket.id}&productId=${product.id}`)
+                    .then((res) => {
+                        setSupermarketDetails(res.data.supermarket)
+                    })
+            },
+            {
+                pending: "Removendo produto...",
+                success: "Produto removido com sucesso!",
+                error: "Erro ao remover produto"
+            },
+            toastConfig
+        )
     }
 
     function handleOpen() { setOpen(true) }

@@ -1,4 +1,4 @@
-import { getAuth } from "firebase-admin/auth"
+import { auth } from "@/libs/firebase/firebase-admin-config"
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -8,10 +8,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
 
-            return getAuth()
+            return auth
                 .verifySessionCookie(token)
                 .then((decodedClaims) => {
-                    getAuth().revokeRefreshTokens(decodedClaims.sub)
+                    auth.revokeRefreshTokens(decodedClaims.sub)
                 })
                 .then(() => {
                     return res.status(200).json({})
@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
 
-            return getAuth()
+            return auth
                 .createSessionCookie(token, { expiresIn })
                 .then(async (sessionCookie) => {
                     return res.status(200).json({ sessionCookie })
