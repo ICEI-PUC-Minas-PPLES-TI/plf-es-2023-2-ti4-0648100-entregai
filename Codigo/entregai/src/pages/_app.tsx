@@ -29,9 +29,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 					</div>
 				)}
 
-				<ToastContainer pauseOnFocusLoss={false} />
-
 			</UserContextProvider>
+
+			<ToastContainer pauseOnFocusLoss={false} />
 		</ThemeProvider>
 	)
 }
