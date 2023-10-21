@@ -25,13 +25,14 @@ const ClientMainPage = () => {
 }
 
 ClientMainPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-      <ClientLayout>
+    
+    return (
+        <ClientLayout>
 
           {page}
 
-      </ClientLayout>
-  )
+        </ClientLayout>
+    )
 }
 
 export default ClientMainPage

@@ -2,7 +2,7 @@ import ".././styles/globals.scss";
 import { Suspense, type ReactElement, type ReactNode, useState } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { ThemeProvider } from "@mui/material";
+import { CircularProgress, ThemeProvider } from "@mui/material";
 import theme from "@/libs/theme/theme";
 import { UserContextProvider } from "@/components/context/UserContext";
 import { ToastContainer } from "react-toastify";
@@ -41,9 +41,11 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 					)) 
 				} */}
 
-				{ getLayout(
+				{/* { getLayout(
 					( loading ? <h1>Loading</h1> : <Component {...pageProps} /> )
-				)}
+				)} */}
+
+				{ getLayout( loading ? <CircularProgress color="inherit" /> : <Component {...pageProps } /> )}
 
 				{/* { getLayout(
 					<Component {...pageProps} />
