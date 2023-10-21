@@ -1,42 +1,49 @@
+import toastConfig from "@/libs/toast/toastConfig";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material"
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 type FormDataType = {
     name: string;
-    price: number | null;
-    stockQuantity: number | null;
+    price: string;
+    stockQuantity: string;
 }
 
-const Registration = ({ supermarket }: { supermarket: Supermarket }) => {
+const Registration = ({ supermarket, setSupermarketDetails }: { supermarket: Supermarket, setSupermarketDetails: Function }) => {
 
-    const router = useRouter()
     const [ open, setOpen ] = useState(false);
 
-    const { register, handleSubmit } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             name: "",
-            price: null,
-            stockQuantity: null
+            price: "",
+            stockQuantity: ""
         }
     })
 
-    async function submitData(data: FormDataType) {
+    function submitData(data: FormDataType) {
         const { name, price, stockQuantity } = data
 
         setOpen(false)
 
-        await axios.post(`/api/product/handler?supermarketId=${supermarket.id}`, { name, price, stockQuantity })
-            .then((res) => {
-                if (res.status == 200) {
-                    router.refresh()
-                } else {
-                    // Produto não pode ser inserido
-                }
-            })
+        toast.promise(
+            async () => {
+                return await axios.post(`/api/product/handler?supermarketId=${supermarket.id}`, { name, price, stockQuantity })
+                    .then((res) => {
+                        setSupermarketDetails(res.data.supermarket)
+                    })
+            },
+            {
+                pending: "Inserindo produto...",
+                success: "Produto inserido com sucesso!",
+                error: "Erro ao inserir produto"
+            },
+            toastConfig
+        )
     }
 
     function handleOpen() { setOpen(true) }
@@ -57,17 +64,53 @@ const Registration = ({ supermarket }: { supermarket: Supermarket }) => {
 
 					<DialogContent>
 
-                        {/* 
-                        
-                        Validar campos com numeros
-                        
-                        Nome, Preço, Quantidade em Estoque, Quantidade Vendida, Lucro Total */}
+						<TextField 
+                            margin="dense" 
+                            variant="standard" 
+                            {...register("name", { 
+                                required: "Insira o nome do item",
+                            })}
+                            error={Boolean(errors.name?.message)}
+							helperText={errors.name?.message}
+                            label="Nome" 
+                            fullWidth 
+                        />
 
-						<TextField margin="dense" variant="standard" {...register("name")} label="Nome" fullWidth />
+						<TextField 
+                            margin="dense" 
+                            variant="standard" 
+                            {...register("price", { 
+                                required: "Insira o preço do item",
+                                validate: (value) => {
+                                    if (!/^[0-9]+(\.[0-9]{2,})?$/.test(value)) {
+                                        return "Insira um valor numérico positivo com pelo menos duas casas decimais"
+                                    }
+                                    return true
+                                }
+                            })}
+                            error={Boolean(errors.price?.message)}
+							helperText={errors.price?.message}
+                            label="Preço" 
+                            fullWidth 
+                        />
 
-						<TextField margin="dense" variant="standard" {...register("price")} label="Preço" fullWidth />
-
-						<TextField margin="dense" variant="standard" {...register("stockQuantity")} label="Quantidade em Estoque" fullWidth />
+						<TextField 
+                            margin="dense" 
+                            variant="standard" 
+                            {...register("stockQuantity", { 
+                                required: "Insira a quantidade em estoque do item",
+                                validate: (value) => {
+                                    if (!/^[1-9]\d*$/.test(value)) {
+                                        return "Insira um valor numérico positivo não decimal e diferente de zero"
+                                    }
+                                    return true
+                                }
+                            })}
+                            error={Boolean(errors.stockQuantity?.message)}
+							helperText={errors.stockQuantity?.message}
+                            label="Quantidade em Estoque" 
+                            fullWidth 
+                        />
 					
                     </DialogContent>
 
