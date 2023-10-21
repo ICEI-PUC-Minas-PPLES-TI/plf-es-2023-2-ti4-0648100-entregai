@@ -1,19 +1,45 @@
 import { Supermarket } from "@/libs/types/Supermarket"
 import Picture from "./Picture"
+import { Box, Grid, ThemeProvider, Typography } from "@mui/material"
+import theme from "@/libs/theme/theme"
 
 const Info = ({ supermarket }: { supermarket: Supermarket }) => {
     return (
-        <div>
-            <h1>{supermarket.name}</h1>
+        <ThemeProvider theme={theme}>
+            <div>
+                <Typography variant="h4" noWrap component="div" sx={{ padding: '1.5rem 0 1.5rem 0' }}>
+                    {supermarket.name}
+                </Typography>
 
-            <Picture imageUrl={supermarket.imageUrl!} />
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <Picture imageUrl={supermarket.imageUrl!} />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Box>
+                            <Typography variant="body1" noWrap component="body">
+                                <Typography variant="button" sx={{ color: 'primary.dark' }}>Endereço: </Typography>
+                                {supermarket.address}
+                            </Typography>
 
-            <p>Endereço: {supermarket.address}</p>
+                            <Typography variant="body1" noWrap component="body">
+                                <Typography variant="button" sx={{ color: 'primary.dark' }}>Telefone: </Typography>
+                                {supermarket.phone}
+                            </Typography>
 
-            <p>Telefone: {supermarket.phone}</p>
+                            <Typography variant="body1" noWrap component="body">
+                                <Typography variant="button" sx={{ color: 'primary.dark' }}>CNPJ: </Typography>
+                                {supermarket.cnpj}
+                            </Typography>
+                        </Box>
+                    </Grid>
 
-            <p>CNPJ: {supermarket.cnpj}</p>
-        </div>
+                </Grid>
+
+
+
+            </div>
+        </ThemeProvider>
     )
 }
 

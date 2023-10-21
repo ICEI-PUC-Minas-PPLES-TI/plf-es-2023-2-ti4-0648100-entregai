@@ -18,7 +18,7 @@ type FormDataType = {
 const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
 
     const { user } = useAuth()
-    const [ open, setOpen ] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -57,14 +57,17 @@ const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
     return (
         <div>
 
-            {user.permissionLevel && 
-                <Fab onClick={handleOpen} sx={{ 
-                    backgroundColor: 'secondary.main', 
-                    color: 'secondary.contrastText',
-                    position: 'absolute',
-                    bottom: 30,
-                    right: 30,
-
+            {user.permissionLevel &&
+                <Fab onClick={handleOpen}
+                    sx={{
+                        backgroundColor: 'secondary.main',
+                        color: 'secondary.contrastText',
+                        position: 'fixed',
+                        bottom: 30,
+                        right: 30,
+                        '&:hover': {
+                            backgroundColor: 'secondary.dark',
+                        },
                     }}>
                     <AddIcon />
                 </Fab>
@@ -78,56 +81,56 @@ const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
 
                     <DialogContent>
 
-                        <TextField 
-                            margin="dense" 
-                            variant="standard" 
-                            {...register("name", { required: "Insira o nome do supermercado" })} 
+                        <TextField
+                            margin="dense"
+                            variant="standard"
+                            {...register("name", { required: "Insira o nome do supermercado" })}
                             error={Boolean(errors.name?.message)}
-							helperText={errors.name?.message}
-                            label="Nome" 
-                            fullWidth 
+                            helperText={errors.name?.message}
+                            label="Nome"
+                            fullWidth
                         />
 
-                        <TextField 
-                            margin="dense" 
-                            variant="standard" 
-                            {...register("address", { required: "Insira o endereço" })} 
+                        <TextField
+                            margin="dense"
+                            variant="standard"
+                            {...register("address", { required: "Insira o endereço" })}
                             error={Boolean(errors.address?.message)}
-							helperText={errors.address?.message}
-                            label="Endereço" 
-                            fullWidth 
+                            helperText={errors.address?.message}
+                            label="Endereço"
+                            fullWidth
                         />
 
-                        <TextField 
-                            margin="dense" 
-                            variant="standard" 
-                            {...register("phone", { 
-                                required: "Insira o telefone", 
+                        <TextField
+                            margin="dense"
+                            variant="standard"
+                            {...register("phone", {
+                                required: "Insira o telefone",
                                 pattern: {
                                     value: /^\d+$/,
                                     message: "Insira apenas números"
                                 }
-                            })} 
+                            })}
                             error={Boolean(errors.phone?.message)}
-							helperText={errors.phone?.message}
-                            label="Telefone" 
-                            fullWidth 
+                            helperText={errors.phone?.message}
+                            label="Telefone"
+                            fullWidth
                         />
 
-                        <TextField 
-                            margin="dense" 
-                            variant="standard" 
+                        <TextField
+                            margin="dense"
+                            variant="standard"
                             {...register("cnpj", {
                                 required: "Insira o CNPJ",
                                 pattern: {
                                     value: /^\d+$/,
                                     message: "Insira apenas números"
                                 }
-                            })} 
+                            })}
                             error={Boolean(errors.cnpj?.message)}
-							helperText={errors.cnpj?.message}
-                            label="CNPJ" 
-                            fullWidth 
+                            helperText={errors.cnpj?.message}
+                            label="CNPJ"
+                            fullWidth
                         />
 
                     </DialogContent>

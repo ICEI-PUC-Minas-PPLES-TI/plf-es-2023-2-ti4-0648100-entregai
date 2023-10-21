@@ -1,0 +1,12 @@
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.options {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column; // Display the child elements in a column layout
+    align-items: flex-start;
+}

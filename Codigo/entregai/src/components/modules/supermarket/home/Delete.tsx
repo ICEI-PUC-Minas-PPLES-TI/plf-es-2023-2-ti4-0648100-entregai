@@ -5,6 +5,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "react-toastify"
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Delete = ({ supermarket }: { supermarket: Supermarket }) => {
 
@@ -37,7 +38,7 @@ const Delete = ({ supermarket }: { supermarket: Supermarket }) => {
 
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen}>
+            <Button variant="outlined" onClick={handleOpen} startIcon={<DeleteIcon/>}>
                 Apagar Supermercado
             </Button>
 
