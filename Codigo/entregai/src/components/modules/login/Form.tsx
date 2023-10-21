@@ -85,7 +85,13 @@ const Form = () => {
 											variant="contained"
 											id="submit"
 											className={styles.button}
-											sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText' }}
+											sx={{
+												backgroundColor: 'secondary.main',
+												color: 'secondary.contrastText',
+												'&:hover': {
+													backgroundColor: 'secondary.dark',
+												},
+											}}
 										>
 											Logar
 										</Button>

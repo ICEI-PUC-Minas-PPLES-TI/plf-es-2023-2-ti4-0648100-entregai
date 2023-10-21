@@ -49,7 +49,7 @@ const ImageUpload = ({ supermarket, setSupermarketDetails }: { supermarket: Supe
     }
 
     return (
-        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+        <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />}>
             Carregar Imagem
             <VisuallyHiddenInput onChange={(event) => {
                 const image: File | undefined = event.target.files?.[0]

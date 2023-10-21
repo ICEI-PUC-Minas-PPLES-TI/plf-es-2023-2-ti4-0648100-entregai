@@ -8,7 +8,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         <MenuBar />
 
-        <Box component="main" className="main-content" sx={{ flexGrow: 1, padding: 3, marginTop: 10 }}>
+        <Box component="main" className="main-content" sx={{ flexGrow: 1, padding: 3, marginTop: 5.5 }}>
           {children}
         </Box>
 
