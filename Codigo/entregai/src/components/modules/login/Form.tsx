@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import theme from "@/libs/theme/theme";
 import styles from './Form.module.scss';
 import loginCoverImage from "../../../styles/img/login_cover.png";
+import { toast } from "react-toastify";
+import toastConfig from "@/libs/toast/toastConfig";
 
 interface FormDataType {
 	email: string,
@@ -29,21 +31,27 @@ const Form = () => {
 	const submitData = async (data: FormDataType) => {
 		const { email, password } = data;
 
-		await signInWithEmailAndPassword(auth, email, password)
-			.then(async (userCredential) => {
-
-				const token = await userCredential.user.getIdToken()
-
-				const res = await axios.post('/api/login/auth', { token })
-
-				setCookie('session', res.data.sessionCookie)
-
-				router.push("/app/user")
-			})
-			.catch((err: any) => {
-				console.log(err);
-				alert(err.message)
-			})
+		toast.promise(
+			async () => {
+				return await signInWithEmailAndPassword(auth, email, password)
+					.then(async (userCredential) => {
+	
+					const token = await userCredential.user.getIdToken()
+	
+					const res = await axios.post('/api/login/auth', { token })
+	
+					setCookie('session', res.data.sessionCookie)
+	
+					router.push("/app/user")
+				})
+			},
+			{
+				pending: 'Carregando...',
+				success: 'Logado com sucesso!',
+				error: 'Erro ao logar!',
+			},
+			toastConfig
+		)
 	};
 
 	return (
