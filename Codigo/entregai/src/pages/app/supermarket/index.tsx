@@ -2,7 +2,7 @@ import AppLayout from "@/components/layout/AppLayout";
 import SupermarketManagement from "@/components/pages/supermarket/SupermarketManagement";
 import { getAllSupermarkets } from "@/libs/service/supermarketService";
 import { Supermarket } from "@/libs/types/Supermarket";
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 
 const SupermarketsMainPage = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
   return (<SupermarketManagement systemSupermarkets={systemSupermarkets} />)
