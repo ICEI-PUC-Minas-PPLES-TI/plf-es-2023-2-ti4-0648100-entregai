@@ -10,6 +10,6 @@ export function middleware(req: NextRequest) {
     }
 
     if (sessionToken && url === process.env.URL + '/login') {
-        return NextResponse.redirect(process.env.URL + '/app/supermarket')
+        return NextResponse.redirect(process.env.URL + '/app/user')
     }
 }

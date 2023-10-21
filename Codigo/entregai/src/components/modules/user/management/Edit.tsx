@@ -1,5 +1,5 @@
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, IconButton, TextField } from "@mui/material";
-import SettingsIcon from '@mui/icons-material/Settings';
+import EditIcon from '@mui/icons-material/Edit';
 import Selector from "./Selector";
 import { useState } from "react";
 import { User } from "@/libs/types/User";
@@ -8,6 +8,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { useAuth } from "@/components/context/UserContext";
+import { toast } from "react-toastify";
+import toastConfig from "@/libs/toast/toastConfig";
 
 type FormDataType = {
     name: string,
@@ -17,7 +19,7 @@ type FormDataType = {
     permissionLevel: boolean,
 }
 
-const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupermarkets: Supermarket[] }) => {
+const Edit = ({ targetUser, systemSupermarkets, setUsers }: { targetUser: User, systemSupermarkets: Supermarket[], setUsers: Function }) => {
 
 	const { user, fetchData } = useAuth()
     const router = useRouter()
@@ -25,7 +27,7 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
     const [ editPassword, setEditPassword ] = useState(false)
     const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>(targetUser.selectedSupermarkets)
 
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm({
+    const { register, handleSubmit, clearErrors, formState: { errors }, getValues } = useForm({
         defaultValues: {
             name: targetUser.name,
             email: targetUser.email,
@@ -36,7 +38,7 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
         }
     });
 
-    async function submitData(data: FormDataType) {
+    function submitData(data: FormDataType) {
         const { name, email, password, confirmPassword, permissionLevel } = data;
 
         // Exibir erro
@@ -51,23 +53,31 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
 
 		// Usuario está tentando alterar o nivel de permissão dele mesmo
 		if ((targetUser.id == user.id) && (targetUser.permissionLevel != permissionLevel)) {
+			toast.error("Você não pode alterar seu próprio nível de permissão", toastConfig)
 			return;
 		}
 
         setOpen(false)
 
-        await axios.patch(`/api/user/handler?userId=${targetUser.id}`, { email, password, name, permissionLevel, selectedSupermarkets })
-            .then((res) => {
-                if (res.status == 200) {
-					
-					if (targetUser.id == user.id) {
-						fetchData(user.id)
-					}
-
-                    router.replace('/app/user')
-                }
-            })
-    }
+		toast.promise(
+			async () => {
+				return await axios.patch(`/api/user/handler?userId=${targetUser.id}`, { email, password, name, permissionLevel, selectedSupermarkets })
+					.then((res) => {
+						if (targetUser.id == user.id) {
+							fetchData(user.id)
+						}
+	
+						setUsers(res.data.users)
+				})
+			},
+			{
+				pending: "Atualizando usuário...",
+				success: "Usuário atualizado com sucesso!",
+				error: "Erro ao atualizar usuário"
+			},
+			toastConfig
+		)
+	}
 
     function handleOpen() { setOpen(true) }
 
@@ -77,7 +87,7 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
 		<div>
 			<IconButton color="inherit" onClick={handleOpen}>
 
-				<SettingsIcon />
+				<EditIcon />
 
 			</IconButton>
 
@@ -93,9 +103,8 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
 							margin="dense"
 							variant="standard"
 							type="text"
-							{...register("name", {
-								required: "Insira o nome completo",
-							})}
+							{...register("name", { required: "Insira o nome completo", })}
+							error={Boolean(errors.name?.message)}
 							helperText={errors.name?.message}
 							label="Nome Completo"
 							fullWidth
@@ -105,9 +114,8 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
 							margin="dense"
 							variant="standard"
 							type="email"
-							{...register("email", {
-								required: "Insira o email",
-							})}
+							{...register("email", { required: "Insira o email", })}
+							error={Boolean(errors.email?.message)}
 							helperText={errors.email?.message}
 							label="Email"
 							fullWidth
@@ -118,9 +126,13 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
 						<FormControlLabel
 							control={
 								<Checkbox
-									defaultChecked={editPassword}
+									checked={editPassword}
 									onChange={() => {
 										setEditPassword(!editPassword);
+
+										if (editPassword) {
+											clearErrors(["password", "confirmPassword"])
+										}
 									}}
 								/>
 							}
@@ -135,11 +147,17 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
 							{...register("password", {
 								validate: (value) => {
 									if (editPassword) {
-										return value ? true : "Insira a senha";
+
+										if (!value) return "Insira a senha";
+
+										if (value.length < 6) return "A senha deve ter pelo menos 6 caracteres";
+
 									}
+									
 									return true;
 								},
 							})}
+							error={Boolean(errors.password?.message)}
 							helperText={errors.password?.message}
 							label="Senha"
 							fullWidth
@@ -158,12 +176,20 @@ const Edit = ({ targetUser, systemSupermarkets }: { targetUser: User, systemSupe
 									return true;
 								},
 							})}
+							error={Boolean(errors.confirmPassword?.message)}
 							helperText={errors.confirmPassword?.message}
 							label="Confirme a Senha"
 							fullWidth
 						/>
 
-						<FormControlLabel control={<Checkbox defaultChecked={targetUser.permissionLevel} {...register("permissionLevel")} />} label="Administrador" />
+						<FormControlLabel control={
+							<Checkbox 
+								defaultChecked={targetUser.permissionLevel} 
+								{...register("permissionLevel")}
+							/>}
+							
+						label="Administrador" 
+						/>
 
                         <Selector systemSupermarkets={systemSupermarkets} selectedSupermarkets={selectedSupermarkets} setSelectedSupermarkets={setSelectedSupermarkets} />
 

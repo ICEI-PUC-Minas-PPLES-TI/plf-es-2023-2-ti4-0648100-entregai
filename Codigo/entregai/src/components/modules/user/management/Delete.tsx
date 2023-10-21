@@ -5,28 +5,37 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { User } from "@/libs/types/User";
 import { useAuth } from "@/components/context/UserContext";
+import { toast } from "react-toastify";
+import toastConfig from "@/libs/toast/toastConfig";
 
-const Delete = ({ targetUser }: { targetUser: User }) => {
+const Delete = ({ targetUser, setUsers }: { targetUser: User, setUsers: Function }) => {
 
     const [ open, setOpen ] = useState(false)
     const { user } = useAuth()
-    const router = useRouter()
 
-    async function submitDelete() {
+    function submitDelete() {
 
         if (targetUser.id == user.id) {
-            // Exibir mensagem de usuário não pode se apagar
-            return
+            toast.error("Você não pode deletar a si mesmo", toastConfig)
+            return;
         }
 
         setOpen(false)
 
-        await axios.delete(`/api/user/handler?userId=${user.id}`)
-            .then((res) => {
-                if (res.status === 200) {
-                    router.replace('/app/user')
-                }
-            })
+        toast.promise(
+            async () => {
+                return await axios.delete(`/api/user/handler?userId=${targetUser.id}`)
+                    .then((res) => {
+                        setUsers(res.data.users)
+                    })
+            },
+            {
+                pending: "Deletando usuário...",
+                success: "Usuário deletado com sucesso!",
+                error: "Erro ao deletar usuário"
+            },
+            toastConfig
+        )
     }
 
     function handleOpen() { setOpen(true) }
@@ -43,7 +52,7 @@ const Delete = ({ targetUser }: { targetUser: User }) => {
 
             <Dialog open={open} onClose={handleClose}>
 
-                <DialogTitle>{user.name}</DialogTitle>
+                <DialogTitle>Deletando Usuário: {targetUser.name}</DialogTitle>
 
                 <DialogContent>Deseja mesmo deletar este usuário?</DialogContent>
 
@@ -56,6 +65,7 @@ const Delete = ({ targetUser }: { targetUser: User }) => {
                 </DialogActions>
 
             </Dialog>
+
         </div>      
     )
 }

@@ -6,33 +6,37 @@ import Stock from "../../modules/supermarket/stock/Stock"
 import Link from "next/link"
 import { Button } from "@mui/material"
 import BackButton from "@/components/misc/BackButton"
-import { Upload } from "@mui/icons-material"
-import ImageUpload from "@/components/modules/supermarket/home/ImageUpload"
-import ImageDisplay from "@/components/modules/supermarket/home/ImageDisplay"
+import Upload from "@/components/modules/supermarket/home/Upload"
+import { useState } from "react"
 
 const SupermarketHome = ({ supermarket }: { supermarket: Supermarket }) => {
+
+    const [ supermarketDetails, setSupermarketDetails ] = useState<Supermarket>(supermarket)
+
     return (
         <div>
 
             <BackButton />
 
-            <Info supermarket={supermarket} />
+            <Info supermarket={supermarketDetails} />
 
-            <ImageDisplay imageUrl={supermarket.imageUrl!} />
+            <Upload setSupermarketDetails={setSupermarketDetails} supermarket={supermarketDetails} />
 
-            <ImageUpload supermarket={supermarket} />
-
-            <Link href={`/app/supermarket/${supermarket.id}/orders`}>
+            <Link href={`/app/supermarket/${supermarketDetails.id}/orders`}>
                 <Button variant="contained" color="primary">
-                    Encomendas
+                    Pedidos
                 </Button>
 			</Link>
 
-            <Delete supermarket={supermarket} />
+            <Link href={`/app/supermarket/${supermarketDetails.id}/stock`}>
+                <Button variant="contained" color="primary">
+                    Estoque
+                </Button>
+			</Link>
 
-            <Edit supermarket={supermarket} />
+            <Delete supermarket={supermarketDetails} />
 
-            <Stock supermarket={supermarket} />
+            <Edit setSupermarketDetails={setSupermarketDetails} supermarket={supermarketDetails} />
 
         </div>
     )

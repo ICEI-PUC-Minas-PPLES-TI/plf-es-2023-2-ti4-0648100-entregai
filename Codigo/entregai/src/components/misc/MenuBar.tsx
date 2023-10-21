@@ -19,8 +19,8 @@ import axios from 'axios';
 const drawerWidth = 240;
 
 const menuItems = [
-	{ text: 'Supermercados', link: '/supermarket', icon: StorefrontOutlinedIcon },
-	{ text: 'Usuários', link: '/user', icon: GroupOutlinedIcon },
+	{ text: 'Supermercados', link: 'supermarket', icon: StorefrontOutlinedIcon },
+	{ text: 'Usuários', link: 'user', icon: GroupOutlinedIcon },
 ];
 
 const MenuBar = () => {

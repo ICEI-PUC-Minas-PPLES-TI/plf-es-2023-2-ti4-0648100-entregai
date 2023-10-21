@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-const ImageDisplay = ({ imageUrl }: { imageUrl: string }) => {
+const Picture = ({ imageUrl }: { imageUrl: string }) => {
     
     return (
         <div>
@@ -8,4 +8,4 @@ const ImageDisplay = ({ imageUrl }: { imageUrl: string }) => {
         </div>)
 }
 
-export default ImageDisplay
+export default Picture

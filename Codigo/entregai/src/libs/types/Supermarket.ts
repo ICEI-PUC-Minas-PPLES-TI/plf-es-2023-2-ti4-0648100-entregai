@@ -5,8 +5,9 @@ export interface Supermarket {
     id: string,
     name: string,
     address: string,
+    cnpj: string,
     phone: string,
-    orders: Order[],
-    stock: Product[],
+    orders?: Order[],
+    stock?: Product[],
     imageUrl?: string
 }
