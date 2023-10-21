@@ -1,4 +1,4 @@
-import { deleteUser, registerUser, tryToCreateAdminUser, updateUser } from "@/libs/service/userService";
+import { deleteUser, getAllUsers, registerUser, tryToCreateAdminUser, updateUser } from "@/libs/service/userService";
 import { User } from "@/libs/types/User";
 import { NextApiRequest, NextApiResponse } from "next"
 
@@ -12,7 +12,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             await registerUser(email, password, name, permissionLevel, selectedSupermarkets);
 
-            return res.status(200).json({})
+            const users: User[] = await getAllUsers()
+
+            return res.status(200).json({ users })
 
         } catch (err: any) {
 
@@ -29,7 +31,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             await deleteUser(userId as string)
 
-            return res.status(200).json({})
+            const users: User[] = await getAllUsers()
+
+            return res.status(200).json({ users })
 
         } catch (err: any) {
 
@@ -56,7 +60,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             await updateUser(user)
 
-            return res.status(200).json({})
+            const users: User[] = await getAllUsers()
+
+            return res.status(200).json({ users })
 
         } catch (err: any) {
 

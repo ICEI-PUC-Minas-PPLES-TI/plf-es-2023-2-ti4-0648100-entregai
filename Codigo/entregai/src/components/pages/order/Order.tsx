@@ -103,7 +103,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                 <p>Por favor, selecione os itens que deseja encomendar</p>
 
-                {selectedSupermarket?.stock.map((item: Product) => (
+                {selectedSupermarket?.stock?.map((item: Product) => (
                     <div key={item.id}>
                         <Checkbox 
                             checked={selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)} 
@@ -159,7 +159,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
     const ConfirmationStep = () => {
 
         const selectedProducts = selectedItems.map((item) => {
-            const product = selectedSupermarket?.stock.find((stockItem) => stockItem.id === item.productId) as Product;
+            const product = selectedSupermarket?.stock?.find((stockItem) => stockItem.id === item.productId) as Product;
             return { id: product.id, itemName: product.name, price: product.price, quantity: item.quantity };
         })
         

@@ -2,7 +2,7 @@ import { Product } from "@/libs/types/Product"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import SettingsIcon from '@mui/icons-material/Settings';
+import EditIcon from '@mui/icons-material/Edit';
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Supermarket } from "@/libs/types/Supermarket";
@@ -53,7 +53,7 @@ const Edit = ({ supermarket, product }: { supermarket: Supermarket, product: Pro
 
             <IconButton color="inherit" onClick={handleOpen}>
 
-                <SettingsIcon />
+                <EditIcon />
 
             </IconButton>
 

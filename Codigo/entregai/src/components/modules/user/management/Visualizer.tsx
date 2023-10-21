@@ -13,12 +13,12 @@ const columns = [
     { id: 'editar', label: 'Gerenciar', minWidth: 5 },
 ]
 
-const Visualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User[], systemSupermarkets: Supermarket[] }) => {
+const Visualizer = ({ users, setUsers, systemSupermarkets }: { users: User[], setUsers: Function, systemSupermarkets: Supermarket[] }) => {
 
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(5)
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - systemUsers.length) : 0
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0
 
     function handleChangePage(event: React.MouseEvent | null, newPage: number) { setPage(newPage) }
 
@@ -48,7 +48,7 @@ const Visualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User[], 
 
 				<TableBody>
 					
-                    {(rowsPerPage > 0 ? systemUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : systemUsers).map((user) => (
+                    {(rowsPerPage > 0 ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : users).map((user) => (
 						
                         <TableRow key={user.id}>
 							
@@ -56,7 +56,7 @@ const Visualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User[], 
 
 							<TableCell align="left">{user.email}</TableCell>
 
-							<TableCell align="left">{user.permissionLevel ? "ADMIN" : "USER"}</TableCell>
+							<TableCell align="left">{user.permissionLevel ? "ADMINISTRADOR" : "USUÁRIO"}</TableCell>
 							
                             <TableCell align="left">
 								{user.selectedSupermarkets
@@ -69,9 +69,9 @@ const Visualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User[], 
 
 							<TableCell align="center">
 
-								<Edit targetUser={user} systemSupermarkets={systemSupermarkets} />
+								<Edit targetUser={user} setUsers={setUsers} systemSupermarkets={systemSupermarkets} />
 								
-                                <Delete targetUser={user} />
+                                <Delete targetUser={user} setUsers={setUsers} />
 
 							</TableCell>
 
@@ -90,7 +90,7 @@ const Visualizer = ({ systemUsers, systemSupermarkets }: { systemUsers: User[], 
 
 				<TableFooter>
 					<TableRow>
-						<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={5} count={systemUsers.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+						<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={5} count={users.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
 					</TableRow>
 				</TableFooter>
 

@@ -1,21 +1,34 @@
+import toastConfig from "@/libs/toast/toastConfig"
 import { Supermarket } from "@/libs/types/Supermarket"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { toast } from "react-toastify"
 
 const Delete = ({ supermarket }: { supermarket: Supermarket }) => {
 
     const router = useRouter()
     const [ open, setOpen ] = useState(false)
 
-    async function submitDelete() {
-        await axios.delete(`/api/supermarket/handler?supermarketId=${supermarket.id}`)
-            .then((res) => {
-                if (res.status === 200) {
-                    router.replace(`/app/supermarket/`)
-                }
-            })
+    function submitDelete() {
+
+        setOpen(false)
+
+        toast.promise(
+            async () => {
+                return await axios.delete(`/api/supermarket/handler?supermarketId=${supermarket.id}`)
+                    .then((res) => {
+                        router.replace(`/app/supermarket/`)
+                    })
+            },
+            {
+                pending: "Deletando supermercado...",
+                success: "Supermercado deletado com sucesso!",
+                error: "Erro ao deletar supermercado"
+            },
+            toastConfig
+        )
     }
 
     function handleOpen() { setOpen(true) }

@@ -1,4 +1,6 @@
-import { deleteSupermarket, registerSupermarket } from "@/libs/service/supermarketService"
+import { deleteSupermarket, getAllSupermarkets, registerSupermarket, updateSupermarket } from "@/libs/service/supermarketService"
+import { Supermarket } from "@/libs/types/Supermarket"
+import { randomUUID } from "crypto"
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -9,9 +11,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
 
-            await registerSupermarket(name, address, phone, cnpj)
+            const id = randomUUID()
 
-            return res.status(200).json({})
+            await registerSupermarket(id, name, address, phone, cnpj)
+
+            const supermarkets: Supermarket[] = await getAllSupermarkets()
+
+            return res.status(200).json({ supermarkets })
 
         } catch (err: any) {
 
@@ -21,6 +27,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === 'PATCH') {
         
+        const { supermarketId } = req.query
+
+        const { name, address, phone, cnpj } = req.body
+
+        try {
+
+            const supermarket: Supermarket = {
+                id: supermarketId as string,
+                cnpj,
+                name,
+                address,
+                phone,
+            }
+
+            const updatedSupermarket: Supermarket = await updateSupermarket(supermarket)
+
+            res.status(200).json({ updatedSupermarket })
+
+        } catch (err: any) {
+
+        }
+
     }
 
     if (req.method === 'DELETE') {
@@ -31,7 +59,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             await deleteSupermarket(supermarketId as string)
 
-            return res.status(200).json({})
+            const supermarkets: Supermarket[] = await getAllSupermarkets()
+
+            return res.status(200).json({ supermarkets })
 
         } catch (err: any) {
 

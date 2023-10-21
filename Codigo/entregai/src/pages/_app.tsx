@@ -5,6 +5,8 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material";
 import theme from "@/libs/theme/theme";
 import { UserContextProvider } from "@/components/context/UserContext";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -20,11 +22,15 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	return (
 		<ThemeProvider theme={theme}>
 			<UserContextProvider>
+
 				{getLayout(
 					<div>
 						<Component {...pageProps} />
 					</div>
 				)}
+
+				<ToastContainer pauseOnFocusLoss={false} />
+
 			</UserContextProvider>
 		</ThemeProvider>
 	)

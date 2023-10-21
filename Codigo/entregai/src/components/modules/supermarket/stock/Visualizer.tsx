@@ -20,7 +20,7 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
     const [ rowsPerPage, setRowsPerPage ] = useState(5)
 	const [ stock, setStock ] = useState(supermarket.stock)
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - supermarket.stock.length) : 0
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - supermarket.stock!.length) : 0
 
     function handleChangePage(event: React.MouseEvent | null, newPage: number) { setPage(newPage) }
 
@@ -35,7 +35,7 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
 			setPage(0)
 		}
 
-		const filteredRows = supermarket.stock.filter((stockItem) => {
+		const filteredRows = supermarket.stock!.filter((stockItem) => {
 			return stockItem.name.toLowerCase().includes(searchString.toLowerCase())
 		})
 
@@ -67,7 +67,7 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
 
 					<TableBody>
 						
-						{(rowsPerPage > 0 ? stock.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : stock).map((stockItem: Product) => (
+						{(rowsPerPage > 0 ? stock!.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : stock!).map((stockItem: Product) => (
 							
 							// Colocar uma key VALIDA aqui, alterar o objeto "Product" para ter uma key, senão o react reclama
 							<TableRow key={stockItem.name}>
@@ -105,7 +105,7 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
 
 					<TableFooter>
 						<TableRow>
-							<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={5} count={stock.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+							<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={5} count={stock!.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
 						</TableRow>
 					</TableFooter>
 

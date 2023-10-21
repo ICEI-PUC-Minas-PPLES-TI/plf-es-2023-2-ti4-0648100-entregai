@@ -5,6 +5,8 @@ import Selector from "./Selector"
 import { Supermarket } from "@/libs/types/Supermarket"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import { toast } from "react-toastify"
+import toastConfig from "@/libs/toast/toastConfig"
 
 type FormDataType = {
     name: string,
@@ -14,13 +16,12 @@ type FormDataType = {
     permissionLevel: boolean,
 }
 
-const UserRegistration = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
+const UserRegistration = ({ systemSupermarkets, setUsers }: { systemSupermarkets: Supermarket[], setUsers: Function }) => {
 
-    const router = useRouter()
     const [ open, setOpen ] = useState(false)
     const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>([])
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, trigger, getValues, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             name: "",
             email: "",
@@ -30,7 +31,7 @@ const UserRegistration = ({ systemSupermarkets }: { systemSupermarkets: Supermar
         }
     })
 
-    async function submitData(data: FormDataType) {
+    function submitData(data: FormDataType) {
         const { name, email, password, confirmPassword, permissionLevel } = data;
 
         // Exibir erro
@@ -45,12 +46,20 @@ const UserRegistration = ({ systemSupermarkets }: { systemSupermarkets: Supermar
 
         setOpen(false)
 
-        await axios.post('/api/user/handler', { email, password, name, permissionLevel, selectedSupermarkets })
-            .then((res) => {
-                if (res.status == 200) {
-                    router.replace('/app/user')
-                }
-            })
+        toast.promise(
+            async () => {
+                return await axios.post('/api/user/handler', { email, password, name, permissionLevel, selectedSupermarkets })
+                    .then((res) => {
+                        setUsers(res.data.users)
+                })
+            },
+            {
+                pending: "Cadastrando usuário...",
+                success: "Usuário cadastrado com sucesso!",
+                error: "Erro ao cadastrar usuário"
+            },
+            toastConfig
+        )
     }
 
     function handleOpen() { setOpen(true) }
@@ -69,13 +78,56 @@ const UserRegistration = ({ systemSupermarkets }: { systemSupermarkets: Supermar
 
                     <DialogContent>
 
-                        <TextField margin="dense" variant="standard" type="text" {...register("name", { required: "Insira o nome completo" })} label="Nome Completo" fullWidth />
+                        <TextField
+                            margin="dense" 
+                            variant="standard" 
+                            type="text" 
+                            {...register("name", { required: "Insira o nome completo" })} 
+                            error={Boolean(errors.name?.message)}
+							helperText={errors.name?.message}
+                            label="Nome Completo" 
+                            fullWidth 
+                        />
 
-                        <TextField margin="dense" variant="standard" type="email" {...register("email", { required: "Insira o email" })} label="Email" fullWidth />
+                        <TextField 
+                            margin="dense" 
+                            variant="standard" 
+                            type="email" 
+                            {...register("email", { required: "Insira o email" })} 
+                            error={Boolean(errors.email?.message)}
+							helperText={errors.email?.message}
+                            label="Email" 
+                            fullWidth 
+                        />
 
-                        <TextField margin="dense" variant="standard" type="password" {...register("password", { required: "Insira a senha" })} label="Senha" fullWidth />
+                        <TextField 
+                            margin="dense" 
+                            variant="standard" 
+                            type="password" 
+                            {...register("password", { 
+                                required: "Insira a senha",
+                                minLength: { value: 6, message: "A senha deve ter pelo menos 6 caracteres" }
+                            })} 
+                            error={Boolean(errors.password?.message)}
+							helperText={errors.password?.message}
+                            label="Senha" 
+                            fullWidth 
+                        />
 
-                        <TextField margin="dense" variant="standard" type="password" {...register("confirmPassword", { required: "Repita a senha" })} label="Confirme a Senha" fullWidth />
+                        <TextField 
+                            margin="dense" 
+                            variant="standard" 
+                            type="password" 
+                            {...register("confirmPassword", { 
+                                validate: (value) => {
+                                    return value === getValues("password") || "Senhas não coincidem";
+                                },
+                            })}
+                            error={Boolean(errors.confirmPassword?.message)}
+							helperText={errors.confirmPassword?.message}
+                            label="Confirme a Senha" 
+                            fullWidth 
+                        />
 
                         <FormControlLabel control={<Checkbox {...register("permissionLevel")} />} label="Administrador" />
 

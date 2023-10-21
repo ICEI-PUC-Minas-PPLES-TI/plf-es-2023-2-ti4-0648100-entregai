@@ -1,7 +1,7 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../firebase/firebase-config"
 import { Supermarket } from "@/libs/types/Supermarket";
-import { getDownloadURL, ref } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 
 export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     return new Promise(async (resolve, reject) => {
@@ -31,6 +31,24 @@ export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     })
 }
 
+export const updateSupermarket = async (supermarket: Supermarket): Promise<Supermarket> => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            const { id, name, address, phone, cnpj } = supermarket
+
+            const supermarketRef = doc(db, "supermarkets", id);
+
+            await updateDoc(supermarketRef, { name, address, phone, cnpj })
+
+            resolve(supermarket)
+            
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+
 export const getSupermarketImageUrl = async (id: string): Promise<string> => {
     return new Promise(async (resolve) => {
         try {
@@ -44,6 +62,22 @@ export const getSupermarketImageUrl = async (id: string): Promise<string> => {
         } catch (err) {
             
             resolve('')
+        }
+    })
+}
+
+export const deleteSupermarketImage = async (id: string): Promise<void> => {
+    return new Promise(async (resolve) => {
+        try {
+
+            const imgRef = ref(storage, `images/${id}`)
+
+            await deleteObject(imgRef)
+
+            resolve()
+
+        } catch (err) {
+            resolve()
         }
     })
 }
@@ -68,21 +102,22 @@ export const getSupermarketById = async (id: string): Promise<Supermarket> => {
     })
 }
 
-export const registerSupermarket = async (name: string, address: string, phone: string, cnpj: string) => {
+export const registerSupermarket = async (id: string, name: string, address: string, phone: string, cnpj: string) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            const supermarketRef = doc(db, "supermarkets", cnpj);
+            const supermarketRef = doc(db, "supermarkets", id);
 
             await setDoc(supermarketRef, {
                 name,
                 address,
+                cnpj,
                 phone,
                 orders: [],
                 stock: []
             });
 
-            resolve({ name, address, phone, cnpj })
+            resolve({ id, name, address, phone, cnpj })
 
         } catch (err) {
             reject(err)
@@ -96,6 +131,8 @@ export const deleteSupermarket = async (id: string) => {
             const supermarketRef = doc(db, "supermarkets", id)
 
             await deleteDoc(supermarketRef)
+
+            await deleteSupermarketImage(id)
 
             resolve(supermarketRef)
 
