@@ -8,11 +8,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === 'POST') {
 
-        const { name, phone, address, selectedSupermarketId, selectedItems } = req.body
+        const { name, phone, address, paymentMethod, selectedSupermarketId, selectedItems } = req.body
 
         const order: Order = {
             date: new Date().toLocaleString(),
             items: selectedItems, 
+            paymentMethod,
+            status: 0,
             buyer: { name, phone, address } as Buyer 
         }
 

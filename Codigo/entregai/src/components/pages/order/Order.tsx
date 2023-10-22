@@ -1,17 +1,21 @@
 import BackButton from "@/components/misc/BackButton";
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Button, Checkbox, FormControl, IconButton, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormHelperText, IconButton, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import axios from "axios";
 import { ChangeEvent, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Product } from "@/libs/types/Product";
 import { Item } from "@/libs/types/Item";
+import { toast } from "react-toastify";
+import toastConfig from "@/libs/toast/toastConfig";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const MAX_NUMBER_OF_STEPS = 2
 
 type FormDataType = {
+    paymentMethod: string,
     name: string,
     phone: string,
     address: string,
@@ -22,6 +26,8 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     const [step, setStep] = useState(0)
 
+    const [ completed, setCompleted ] = useState<boolean>(false)
+
     const [selectedSupermarketId, setSelectedSupermarketId] = useState('');
 
     const [selectedItems, setSelectedItems] = useState<Item[]>([]);
@@ -30,8 +36,9 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
         return systemSupermarkets.find((sup) => sup.id === selectedSupermarketId) as Supermarket;
     }, [selectedSupermarketId, systemSupermarkets]);
 
-    const { register, getValues, trigger, handleSubmit, formState: { errors } } = useForm({
+    const { register, getValues, reset, trigger, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
+            paymentMethod: "",
             name: "",
             phone: "",
             address: "",
@@ -61,7 +68,11 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
         function handleTextField(itemId: string, event: ChangeEvent) {
             // update the "quantity" field of the Item in the selectedItems array that corresponds to the itemId
-            const newQuantity = parseInt((event.target as HTMLInputElement).value);
+            var newQuantity = parseInt((event.target as HTMLInputElement).value);
+
+            if (isNaN(newQuantity)) {
+                newQuantity = 0
+            }
 
             const newItem : Item = { productId: itemId, quantity: newQuantity }
 
@@ -104,17 +115,25 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 <p>Por favor, selecione os itens que deseja encomendar</p>
 
                 {selectedSupermarket?.stock?.map((item: Product) => (
+
                     <div key={item.id}>
+
                         <Checkbox 
                             checked={selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)} 
                             onChange={() => handleCheckbox(item.id)}
                         />
+
                         <TextField
                             onChange={(event) => handleTextField(item.id, event)}
                             value={selectedItems.find((selectedItem: Item) => selectedItem.productId === item.id)?.quantity}
                             disabled={!selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)}
+                            variant="outlined"
+                            size="small"
+                            sx={{ width: 70 }}
                         />
+
                         {item.stockQuantity == 0 ? item.name + " (Indisponível)" : item.name}
+
                     </div>
                 ))}
             </div>
@@ -134,12 +153,18 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                     variant="outlined"
                 />
 
-                <TextField 
-                    label="Telefone" 
-                    {...register("phone", { required: "Insira o telefone" })} 
+                <TextField
+                    variant="outlined"
+                    {...register("phone", {
+                        required: "Insira o telefone",
+                        pattern: {
+                            value: /^\d+$/,
+                            message: "Insira apenas números"
+                        }
+                    })}
                     error={Boolean(errors.phone?.message)}
                     helperText={errors.phone?.message}
-                    variant="outlined" 
+                    label="Telefone"
                 />
 
                 <TextField 
@@ -149,6 +174,31 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                     helperText={errors.address?.message}
                     variant="outlined" 
                 />
+
+                <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth error={Boolean(errors.paymentMethod?.message)}>
+                        <InputLabel id="selectLabel">Forma de Pagamento</InputLabel>
+                        <Controller
+                            name="paymentMethod"
+                            control={control}
+                            rules={{ required: 'Escolha a forma de pagamento' }}
+                            render={({ field: { onChange, value} }) => (
+                                <Select 
+                                    value={value}
+                                    onChange={onChange}
+                                    label="Forma de Pagamento" 
+                                    labelId="selectLabel"
+                                >
+                                    <MenuItem value={"Credito"}>Credito</MenuItem>
+                                    <MenuItem value={"Debito"}>Debito</MenuItem>
+                                    <MenuItem value={"Dinheiro"}>Dinheiro</MenuItem>
+                                </Select>
+                            )}
+                            defaultValue=""
+                        />
+                        {errors.paymentMethod?.message && <FormHelperText>{errors.paymentMethod?.message}</FormHelperText>}
+                    </FormControl>
+                </Box>
 
                 {/* Input de forma de pagamento: Credito, Debito ou Dinheiro */}
 
@@ -173,7 +223,6 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 <p>{selectedSupermarket?.name}</p>
 
                 <h3>Itens:</h3>
-
 
                 <table>
                     <tr>
@@ -200,7 +249,31 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                 <p>Endereço: {getValues("address")}</p>
 
+                <p>Forma de Pagamento: {getValues("paymentMethod")}</p>
+
                 <Button onClick={handleSubmit(submitData)} variant="contained">Fazer Encomenda</Button>
+            </div>
+        )
+    }
+
+    const Completed = () => {
+            
+        return (
+            <div>
+                <h3>Encomenda feita com sucesso!</h3>
+
+                <CheckCircleIcon />
+
+                <p>Seu pedido será entregue em breve.</p>
+
+                <Button onClick={() => { 
+                    setCompleted(false)
+                    setStep(0)
+                    setSelectedSupermarketId('')
+                    setSelectedItems([])
+                    reset()
+                }} 
+                variant="contained">Fazer outra encomenda</Button>
             </div>
         )
     }
@@ -241,12 +314,17 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
             case ItemStep:
 
                 if (selectedSupermarketId === '') {
-                    alert('Por favor, selecione um supermercado');
+                    toast.error('Por favor, selecione um supermercado', toastConfig)
                     return false;
                 }
 
                 if (selectedItems.length === 0) {
-                    alert('Por favor, selecione pelo menos um item');
+                    toast.error('Por favor, selecione pelo menos um item', toastConfig)
+                    return false;
+                }
+
+                if (selectedItems.find((item) => { return item.quantity <= 0 })) {
+                    toast.error('Por favor, insira uma quantidade válida para todos os itens', toastConfig)
                     return false;
                 }
 
@@ -270,25 +348,45 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
         const orderData = { selectedSupermarketId, selectedItems, ...data }
 
-        await axios.post('/api/order/handler', orderData)
-            .then((res) => {
-                if (res.status === 200) {
-                    alert('Encomenda feita com sucesso');
-                }
-            })
+        toast.promise(
+            async () => {
+                return await axios.post('/api/order/handler', orderData)
+                    .then((res) => {
+                        setCompleted(true)
+                    })
+            },
+            {
+                pending: 'Fazendo encomenda...',
+                success: 'Encomenda feita com sucesso!',
+                error: 'Não foi possível fazer a encomenda.',
+            },
+            toastConfig
+        )
     }
 
     const stepOrder = [ItemStep, BuyerStep, ConfirmationStep];
 
 	return (
 		<div>
-            <BackButton />
+            { completed ?
+                
+                (<Completed />) 
+                
+                : 
+                
+                (<div>
+                
+                    <BackButton />
 
-			<h1>Fazer Encomenda</h1>
+                    <h1>Fazer Encomenda</h1>
 
-            { stepOrder[step]() }
+                    { stepOrder[step]() }
 
-            <Arrows />
+                    <Arrows />
+
+                </div>)
+            }
+            
 		</div>
 	);
 };
