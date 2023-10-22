@@ -1,9 +1,10 @@
 import { Supermarket } from "@/libs/types/Supermarket";
 import { User } from "@/libs/types/User";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
+import { Box, Collapse, Fade, Grow, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Zoom } from "@mui/material";
 import { useState } from "react";
 import Edit from "./Edit";
 import Delete from "./Delete";
+import { TransitionGroup } from "react-transition-group";
 
 const columns = [
     { id: 'name', label: 'Nome', minWidth: 100 },
@@ -47,42 +48,51 @@ const Visualizer = ({ users, setUsers, systemSupermarkets }: { users: User[], se
 				{/* Corpo da Tabela */}
 
 				<TableBody>
-					
-                    {(rowsPerPage > 0 ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : users).map((user) => (
-						
-                        <TableRow key={user.id}>
+
+					<TransitionGroup component={null}>
+
+						{(rowsPerPage > 0 ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : users).map((user) => (
 							
-                            <TableCell align="left">{user.name}</TableCell>
+							<Fade in key={user.id}>
 
-							<TableCell align="left">{user.email}</TableCell>
+								<TableRow>
 
-							<TableCell align="left">{user.permissionLevel ? "ADMINISTRADOR" : "USUÁRIO"}</TableCell>
-							
-                            <TableCell align="left">
-								{user.selectedSupermarkets
-									.map((supermarketId) => {
-										const supermarket = systemSupermarkets.find((sup) => sup.id === supermarketId);
-										return supermarket ? supermarket.name : "";
-									})
-									.join(", ")}
-						    </TableCell>
+									<TableCell align="left">{user.name}</TableCell>
 
-							<TableCell align="center">
+									<TableCell align="left">{user.email}</TableCell>
 
-								<Edit targetUser={user} setUsers={setUsers} systemSupermarkets={systemSupermarkets} />
-								
-                                <Delete targetUser={user} setUsers={setUsers} />
+									<TableCell align="left">{user.permissionLevel ? "ADMINISTRADOR" : "USUÁRIO"}</TableCell>
 
-							</TableCell>
+									<TableCell align="left">
+										{user.selectedSupermarkets
+											.map((supermarketId) => {
+												const supermarket = systemSupermarkets.find((sup) => sup.id === supermarketId);
+												return supermarket ? supermarket.name : "";
+											})
+											.join(", ")}
+									</TableCell>
 
-						</TableRow>
-					))}
+									<TableCell align="center">
 
-					{emptyRows > 0 && (
-						<TableRow style={{ height: 53 * emptyRows }}>
-							<TableCell colSpan={5} />
-						</TableRow>
-					)}
+										<Edit targetUser={user} setUsers={setUsers} systemSupermarkets={systemSupermarkets} />
+										
+										<Delete targetUser={user} setUsers={setUsers} />
+
+									</TableCell>
+
+								</TableRow>
+
+							</Fade>
+
+						))}
+
+					</TransitionGroup>
+
+				{emptyRows > 0 && (
+					<TableRow style={{ height: 53 * emptyRows }}>
+						<TableCell colSpan={5} />
+					</TableRow>
+				)}
 
 				</TableBody>
 
