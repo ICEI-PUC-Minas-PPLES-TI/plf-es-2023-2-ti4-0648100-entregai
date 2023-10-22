@@ -1,9 +1,10 @@
 import { Supermarket } from "@/libs/types/Supermarket"
-import { TextField, Autocomplete, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
+import { TextField, Autocomplete, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Fade } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import Edit from "./Edit";
 import { Product } from "@/libs/types/Product";
 import Delete from "./Delete";
+import { TransitionGroup } from "react-transition-group";
 
 const columns = [
 	{ id: 'code', label: 'Codigo', minWidth: 100 },
@@ -70,33 +71,41 @@ const Visualizer = ({ supermarket, setSupermarketDetails }: { supermarket: Super
 					{/* Corpo da Tabela */}
 
 					<TableBody>
+
+						<TransitionGroup component={null}>
 						
-						{(rowsPerPage > 0 ? stock!.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : stock!).map((stockItem: Product) => (
-							
-							<TableRow key={stockItem.id}>
+							{(rowsPerPage > 0 ? stock!.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : stock!).map((stockItem: Product) => (
 								
-								<TableCell align="left">{stockItem.id.substring(0, 5)}</TableCell>
+								<Fade in timeout={500} key={stockItem.id}>
 
-								<TableCell align="left">{stockItem.name}</TableCell>
+									<TableRow>
+										
+										<TableCell align="left">{stockItem.id.substring(0, 5)}</TableCell>
 
-								<TableCell align="left">{stockItem.price.toFixed(2)}</TableCell>
+										<TableCell align="left">{stockItem.name}</TableCell>
 
-								<TableCell align="left">{stockItem.stockQuantity}</TableCell>
+										<TableCell align="left">{stockItem.price.toFixed(2)}</TableCell>
 
-								<TableCell align="center">{stockItem.soldQuantity}</TableCell>
+										<TableCell align="left">{stockItem.stockQuantity}</TableCell>
 
-								<TableCell align="center">{(Number(stockItem.soldQuantity) * Number(stockItem.price))}</TableCell>
+										<TableCell align="center">{stockItem.soldQuantity}</TableCell>
 
-								<TableCell align="center">
+										<TableCell align="center">{(Number(stockItem.soldQuantity) * Number(stockItem.price))}</TableCell>
 
-									<Edit setSupermarketDetails={setSupermarketDetails} supermarket={supermarket} product={stockItem}/>
+										<TableCell align="center">
 
-									<Delete setSupermarketDetails={setSupermarketDetails} supermarket={supermarket} product={stockItem}/>
+											<Edit setSupermarketDetails={setSupermarketDetails} supermarket={supermarket} product={stockItem}/>
 
-								</TableCell>
+											<Delete setSupermarketDetails={setSupermarketDetails} supermarket={supermarket} product={stockItem}/>
 
-							</TableRow>
-						))}
+										</TableCell>
+
+									</TableRow>
+
+								</Fade>
+							))}
+
+						</TransitionGroup>
 
 						{emptyRows > 0 && (
 							<TableRow style={{ height: 53 * emptyRows }}>

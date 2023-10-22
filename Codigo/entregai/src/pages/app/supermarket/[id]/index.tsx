@@ -1,12 +1,10 @@
 import AppLayout from "@/components/layout/AppLayout";
 import SupermarketHome from "@/components/pages/supermarket/SupermarketHome";
-import SupermarketManagement from "@/components/pages/supermarket/SupermarketManagement";
 import { getSupermarketById, getSupermarketImageUrl } from "@/libs/service/supermarketService";
 import { Supermarket } from "@/libs/types/Supermarket";
-import { useRouter } from "next/router";
 import { ReactElement } from "react";
 
-const SupermarketDetailsPage = ({ supermarket, imageUrl }: { supermarket: Supermarket, imageUrl: string }) => {
+const SupermarketDetailsPage = ({ supermarket }: { supermarket: Supermarket }) => {
   return (<SupermarketHome supermarket={supermarket} />)
 }
 

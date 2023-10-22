@@ -4,13 +4,8 @@ import { getAllSupermarkets } from "@/libs/service/supermarketService";
 import { Supermarket } from "@/libs/types/Supermarket";
 import React, { ReactElement } from "react";
 
-const SupermarketsMainPage = ({ systemSupermarkets, children }: { systemSupermarkets: Supermarket[], children: React.ReactNode }) => {
-  return (
-    <div>
-      <SupermarketManagement systemSupermarkets={systemSupermarkets} />
-      {children}
-      </div>
-  )
+const SupermarketsMainPage = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
+  return (<SupermarketManagement systemSupermarkets={systemSupermarkets} />)
 }
 
 SupermarketsMainPage.getLayout = function getLayout(page: ReactElement) {
