@@ -5,7 +5,7 @@ import { Supermarket } from "@/libs/types/Supermarket";
 import { ReactElement } from "react";
 
 const SupermarketOrdersPage = ({ supermarket }: { supermarket: Supermarket }) => {
-  return (<SupermarketOrders supermarket={supermarket} />)
+  return (<SupermarketOrders supermarketInfo={supermarket} />)
 }
 
 SupermarketOrdersPage.getLayout = function getLayout(page: ReactElement) {
