@@ -1,8 +1,8 @@
 import BackButton from "@/components/misc/BackButton";
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Box, Button, Checkbox, FormControl, FormHelperText, IconButton, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { Box, Button, Checkbox, Fade, FormControl, FormHelperText, IconButton, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent, Slide, Table, TableBody, TableCell, TableHead, TableRow, TextField } from "@mui/material";
 import axios from "axios";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -24,17 +24,39 @@ type FormDataType = {
 
 const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
 
+    const pricePerKilometer = 2.5
+
     const [step, setStep] = useState(0)
 
     const [ completed, setCompleted ] = useState<boolean>(false)
 
+    const [ frete, setFrete ] = useState('0')
+
     const [selectedSupermarketId, setSelectedSupermarketId] = useState('');
 
     const [selectedItems, setSelectedItems] = useState<Item[]>([]);
-    
+
     const selectedSupermarket: Supermarket = useMemo(() => {
         return systemSupermarkets.find((sup) => sup.id === selectedSupermarketId) as Supermarket;
     }, [selectedSupermarketId, systemSupermarkets]);
+
+    const selectedProducts = selectedItems.map((item) => {
+        const product = selectedSupermarket?.stock?.find((stockItem) => stockItem.id === item.productId) as Product;
+        return { id: product.id, itemName: product.name, price: product.price, quantity: item.quantity };
+    })
+
+    const subtotal = selectedProducts.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0)
+
+    const shipping = async () => {
+    
+        await axios.post('/api/order/shipping', { selectedSupermarketId, address: getValues("address") })
+            .then((res) => {
+
+                var price = (Number(res.data.distance) / 1000) * pricePerKilometer
+
+                setFrete(price.toFixed(2))
+        })
+    }
 
     const { register, getValues, reset, trigger, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
@@ -87,64 +109,66 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
         }
 
         return (
-            <div>
-                <p>Por favor, selecione o supermercado na sua região</p>
-
-                <FormControl sx={{ width: 150 }}>
+                <div>
                     
-                    <InputLabel id="supermarketSelectLabel">Supermercados</InputLabel>
-                    
-                    <Select
-                        labelId="supermarketSelectLabel"
-                        id="supermarketSelect" 
-                        value={selectedSupermarketId} 
-                        onChange={handleSupermarket}
-                        label="Supermercados"
-                        required
-                    >
-                        {systemSupermarkets.map((sup: Supermarket) => (
-                            <MenuItem key={sup.id} value={sup.id}>
-                                <ListItemText primary={sup.name} />
-                            </MenuItem>
-                        ))}
-                    
-                    </Select>
+                    <p>Por favor, selecione o supermercado na sua região</p>
 
-                </FormControl>
+                    <FormControl sx={{ width: 150 }}>
+                        
+                        <InputLabel id="supermarketSelectLabel">Supermercados</InputLabel>
+                        
+                        <Select
+                            labelId="supermarketSelectLabel"
+                            id="supermarketSelect" 
+                            value={selectedSupermarketId} 
+                            onChange={handleSupermarket}
+                            label="Supermercados"
+                            required
+                        >
+                            {systemSupermarkets.map((sup: Supermarket) => (
+                                <MenuItem key={sup.id} value={sup.id}>
+                                    <ListItemText primary={sup.name} />
+                                </MenuItem>
+                            ))}
+                        
+                        </Select>
 
-                <p>Por favor, selecione os itens que deseja encomendar</p>
+                    </FormControl>
 
-                {selectedSupermarket?.stock?.map((item: Product) => (
+                    <p>Por favor, selecione os itens que deseja encomendar</p>
 
-                    <div key={item.id}>
+                    {selectedSupermarket?.stock?.map((item: Product) => (
 
-                        <Checkbox 
-                            checked={selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)} 
-                            onChange={() => handleCheckbox(item.id)}
-                        />
+                        <div key={item.id}>
 
-                        <TextField
-                            onChange={(event) => handleTextField(item.id, event)}
-                            value={selectedItems.find((selectedItem: Item) => selectedItem.productId === item.id)?.quantity}
-                            disabled={!selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)}
-                            variant="outlined"
-                            size="small"
-                            sx={{ width: 70 }}
-                        />
+                            <Checkbox 
+                                checked={selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)} 
+                                onChange={() => handleCheckbox(item.id)}
+                            />
 
-                        {item.stockQuantity == 0 ? item.name + " (Indisponível)" : item.name}
+                            <TextField
+                                onChange={(event) => handleTextField(item.id, event)}
+                                value={selectedItems.find((selectedItem: Item) => selectedItem.productId === item.id)?.quantity}
+                                disabled={!selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)}
+                                variant="outlined"
+                                size="small"
+                                sx={{ width: 70 }}
+                            />
 
-                    </div>
-                ))}
-            </div>
+                            {item.stockQuantity == 0 ? item.name + " (Indisponível)" : item.name}
+
+                        </div>
+                    ))}
+                </div>
         )
     }
 
     const BuyerStep = () => {
 
         return (
-            <div>
-
+            <Fade in={step === 1} timeout={500}>
+                <div>
+                
                 <TextField
                     label="Nome"
                     {...register("name", { required: "Insira o seu nome" })}
@@ -203,62 +227,79 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 {/* Input de forma de pagamento: Credito, Debito ou Dinheiro */}
 
             </div>
+            </Fade>
         )
     }
 
     const ConfirmationStep = () => {
 
-        const selectedProducts = selectedItems.map((item) => {
-            const product = selectedSupermarket?.stock?.find((stockItem) => stockItem.id === item.productId) as Product;
-            return { id: product.id, itemName: product.name, price: product.price, quantity: item.quantity };
-        })
-        
         return (
-            <div>
+            <Fade in={step === 2} timeout={500}>
+                <div>
 
-                <p>Por favor, confirme os dados da sua encomenda</p>
+                    <p>Por favor, confirme os dados da sua encomenda</p>
 
-                <h3>Supermercado:</h3>
+                    <h3>Supermercado:</h3>
 
-                <p>{selectedSupermarket?.name}</p>
+                    <p>{selectedSupermarket?.name}</p>
 
-                <h3>Itens:</h3>
+                    <h3>Dados</h3>
 
-                <table>
-                    <tr>
-                        <th>Item</th>
-                        <th>Preço</th>
-                        <th>Quantidade</th>
-                        <th>Sub-Total</th>
-                    </tr>
-                    {selectedProducts.map((selectedProduct) => (
-                    <tr key={selectedProduct.id}>
-                        <td>{selectedProduct.itemName}</td>
-                        <td>{selectedProduct.price}</td>
-                        <td>{selectedProduct.quantity}</td>
-                        <td>{selectedProduct.quantity * selectedProduct.price}</td>
-                    </tr>
-                    ))}
-                </table>
+                    <p>Nome: {getValues("name")}</p>
 
-                <h3>Dados</h3>
+                    <p>Telefone: {getValues("phone")}</p>
 
-                <p>Nome: {getValues("name")}</p>
+                    <p>Endereço: {getValues("address")}</p>
 
-                <p>Telefone: {getValues("phone")}</p>
+                    <p>Forma de Pagamento: {getValues("paymentMethod")}</p>
 
-                <p>Endereço: {getValues("address")}</p>
+                    <h3>Itens:</h3>
 
-                <p>Forma de Pagamento: {getValues("paymentMethod")}</p>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Item</TableCell>
+                                <TableCell>Preço</TableCell>
+                                <TableCell>Quantidade</TableCell>
+                                <TableCell>Sub-Total</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {selectedProducts.map((selectedProduct) => (
+                            <TableRow key={selectedProduct.id}>
+                                <TableCell>{selectedProduct.itemName}</TableCell>
+                                <TableCell>{selectedProduct.price}</TableCell>
+                                <TableCell>{selectedProduct.quantity}</TableCell>
+                                <TableCell>{selectedProduct.quantity * selectedProduct.price}</TableCell>
+                            </TableRow>
+                            ))}
 
-                <Button onClick={handleSubmit(submitData)} variant="contained">Fazer Encomenda</Button>
-            </div>
+                            <TableRow>
+                                <TableCell rowSpan={3} colSpan={2} />
+                                <TableCell>Frete</TableCell>
+                                <TableCell align="left">R$ {frete}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Subtotal</TableCell>
+                                <TableCell align="left">R$ {subtotal.toFixed(2)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Total</TableCell>
+                                <TableCell align="left">R$ {(Number(frete) + subtotal)}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+
+                    <Button onClick={handleSubmit(submitData)} variant="contained">Fazer Encomenda</Button>
+                </div>
+            </Fade>
         )
     }
 
     const Completed = () => {
             
         return (
+            <Fade in={completed} timeout={500}>
             <div>
                 <h3>Encomenda feita com sucesso!</h3>
 
@@ -275,6 +316,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 }} 
                 variant="contained">Fazer outra encomenda</Button>
             </div>
+            </Fade>
         )
     }
 
@@ -338,6 +380,8 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                     return false;
                 }
 
+                shipping()
+
                 break;
         }
 
@@ -346,7 +390,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     async function submitData(data: FormDataType) {
 
-        const orderData = { selectedSupermarketId, selectedItems, ...data }
+        const orderData = { selectedSupermarketId, selectedItems, frete, subtotal, ...data }
 
         toast.promise(
             async () => {
@@ -374,7 +418,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 
                 : 
                 
-                (<div>
+                (<>
                 
                     <BackButton />
 
@@ -384,7 +428,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                     <Arrows />
 
-                </div>)
+                </>)
             }
             
 		</div>
