@@ -55,7 +55,6 @@ const Form = () => {
 	};
 
 	return (
-		<ThemeProvider theme={theme}>
 			<div className={styles.container} >
 				<Grid container spacing={2} className={styles.box}>
 					<Grid item xs={6}>
@@ -116,7 +115,6 @@ const Form = () => {
 					</Grid>
 				</Grid>
 			</div>
-		</ThemeProvider>
 	)
 }
 
