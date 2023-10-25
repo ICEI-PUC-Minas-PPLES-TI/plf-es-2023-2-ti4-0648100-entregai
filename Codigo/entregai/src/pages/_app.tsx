@@ -1,5 +1,5 @@
 import ".././styles/globals.scss";
-import { Suspense, type ReactElement, type ReactNode, useState } from "react";
+import { type ReactElement, type ReactNode, useState } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { CircularProgress, ThemeProvider } from "@mui/material";
@@ -8,7 +8,6 @@ import { UserContextProvider } from "@/components/context/UserContext";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Router } from "next/router";
-import CustomBackdrop from "@/components/misc/CustomBackdrop";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 	getLayout?: (page: ReactElement) => ReactNode;

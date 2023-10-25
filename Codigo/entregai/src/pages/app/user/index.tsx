@@ -5,7 +5,6 @@ import { getAllSupermarkets } from "@/libs/service/supermarketService";
 import { getAllUsers } from "@/libs/service/userService";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { User } from "@/libs/types/User";
-import { NextPageWithLayout } from "@/pages/_app";
 import { ReactElement } from "react";
 
 const UsersPage = ({ systemSupermarkets, systemUsers }: { systemSupermarkets: Supermarket[], systemUsers: User[] }) => {
