@@ -10,7 +10,7 @@ import { Product } from "@/libs/types/Product";
 import { Item } from "@/libs/types/Item";
 import { toast } from "react-toastify";
 import toastConfig from "@/libs/toast/toastConfig";
-import { CheckCircle, ShoppingBasket, Place, Badge, LocalPhone, CreditCard } from '@mui/icons-material';
+import { CheckCircle, ShoppingBasket, Place, Badge, LocalPhone, CreditCard, Send } from '@mui/icons-material';
 import styles from './Order.module.scss';
 
 const MAX_NUMBER_OF_STEPS = 2
@@ -321,9 +321,9 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                             labelId="selectLabel"
                                             startAdornment={
                                                 <ListItemIcon>
-                                                  <CreditCard  />
+                                                    <CreditCard />
                                                 </ListItemIcon>
-                                              }
+                                            }
                                         >
                                             <MenuItem value={"Credito"}>Crédito</MenuItem>
                                             <MenuItem value={"Debito"}>Débito</MenuItem>
@@ -335,8 +335,6 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                 {errors.paymentMethod?.message && <FormHelperText>{errors.paymentMethod?.message}</FormHelperText>}
                             </FormControl>
                         </Box>
-
-                        {/* Input de forma de pagamento: Credito, Debito ou Dinheiro */}
                     </Box>
                 </div>
             </Fade>
@@ -359,60 +357,80 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                         </Stepper>
                     </Box>
 
-                    <p>Por favor, confirme os dados da sua encomenda</p>
+                    <Box className={styles.content}>
+                        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', margin: '2rem 0' }}>
+                            Por favor, confirme os dados do pedido:
+                        </Typography>
 
-                    <h3>Supermercado:</h3>
 
-                    <p>{selectedSupermarket?.name}</p>
+                        <Typography variant="h6" sx={{ fontWeight: 'fontWeightBold', margin: '0.2rem 0' }}>
+                            Unidade
+                        </Typography>
 
-                    <h3>Dados</h3>
+                        <Typography variant="body1" sx={{ fontWeight: 'fontWeightRegular' }}>
+                            {selectedSupermarket?.name}
+                        </Typography>
 
-                    <p>Nome: {getValues("name")}</p>
+                        <Divider sx={{ margin: '1rem 0' }} />
 
-                    <p>Telefone: {getValues("phone")}</p>
+                        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', margin: '0.2rem 0' }}>
+                            Dados do cliente
+                        </Typography>
 
-                    <p>Endereço: {getValues("address")}</p>
+                        <Typography variant="body1" sx={{ fontWeight: 'fontWeightRegular' }}>
+                            <span style={{ fontWeight: 'bold' }}>Nome:</span> {getValues("name")} <br />
+                            <span style={{ fontWeight: 'bold' }}>Telefone:</span> {getValues("phone")} <br />
+                            <span style={{ fontWeight: 'bold' }}>Endereço de entrega:</span> {getValues("address")} <br />
+                            <span style={{ fontWeight: 'bold' }}>Forma de Pagamento:</span> {getValues("paymentMethod")} <br />
+                        </Typography>
 
-                    <p>Forma de Pagamento: {getValues("paymentMethod")}</p>
+                        <Divider sx={{ margin: '1rem 0' }} />
 
-                    <h3>Itens:</h3>
+                        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', margin: '0.2rem 0' }}>
+                            Itens do pedido
+                        </Typography>
 
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Item</TableCell>
-                                <TableCell>Preço</TableCell>
-                                <TableCell>Quantidade</TableCell>
-                                <TableCell>Sub-Total</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {selectedProducts.map((selectedProduct) => (
-                                <TableRow key={selectedProduct.id}>
-                                    <TableCell>{selectedProduct.itemName}</TableCell>
-                                    <TableCell>{selectedProduct.price}</TableCell>
-                                    <TableCell>{selectedProduct.quantity}</TableCell>
-                                    <TableCell>{selectedProduct.quantity * selectedProduct.price}</TableCell>
+                        <Table sx={{ marginBottom: '1.5rem' }}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Item</TableCell>
+                                    <TableCell>Preço</TableCell>
+                                    <TableCell>Quantidade</TableCell>
+                                    <TableCell>Sub-Total</TableCell>
                                 </TableRow>
-                            ))}
+                            </TableHead>
+                            <TableBody>
+                                {selectedProducts.map((selectedProduct) => (
+                                    <TableRow key={selectedProduct.id}>
+                                        <TableCell>{selectedProduct.itemName}</TableCell>
+                                        <TableCell>{selectedProduct.price}</TableCell>
+                                        <TableCell>{selectedProduct.quantity}</TableCell>
+                                        <TableCell>{selectedProduct.quantity * selectedProduct.price}</TableCell>
+                                    </TableRow>
+                                ))}
 
-                            <TableRow>
-                                <TableCell rowSpan={3} colSpan={2} />
-                                <TableCell>Frete</TableCell>
-                                <TableCell align="left">R$ {frete}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Subtotal</TableCell>
-                                <TableCell align="left">R$ {subtotal.toFixed(2)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Total</TableCell>
-                                <TableCell align="left">R$ {(Number(frete) + subtotal)}</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+                                <TableRow>
+                                    <TableCell rowSpan={3} colSpan={2} />
+                                    <TableCell>Frete</TableCell>
+                                    <TableCell align="left">R$ {frete}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Subtotal</TableCell>
+                                    <TableCell align="left">R$ {subtotal.toFixed(2)}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Total</TableCell>
+                                    <TableCell align="left">R$ {(Number(frete) + subtotal)}</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
 
-                    <Button onClick={handleSubmit(submitData)} variant="contained">Fazer Encomenda</Button>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Button onClick={handleSubmit(submitData)} variant="contained" endIcon={<Send />} size="large">
+                                Confirmar pedido
+                            </Button>
+                        </div>
+                    </Box>
                 </div>
             </Fade>
         )
@@ -422,24 +440,33 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
         return (
             <Fade in={completed} timeout={500}>
-                <div>
-                    <h3>Encomenda feita com sucesso!</h3>
+                <div className={styles.successContainer}>
+                    <div className={styles.success}>
 
-                    <CheckCircle />
+                        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'fontWeightBold' }}>
+                            Pedido realizado com sucesso!
+                        </Typography>
+                        
+                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
+                            <CheckCircle />
+                            Seu pedido será entregue em breve.
+                        </Typography>
+                        
+                        <Button onClick={() => {
+                            setCompleted(false);
+                            setStep(0);
+                            setSelectedSupermarketId('');
+                            setSelectedItems([]);
+                            reset();
+                        }} variant="contained">
+                            Fazer outro pedido
+                        </Button>
+                    </div>
 
-                    <p>Seu pedido será entregue em breve.</p>
-
-                    <Button onClick={() => {
-                        setCompleted(false)
-                        setStep(0)
-                        setSelectedSupermarketId('')
-                        setSelectedItems([])
-                        reset()
-                    }}
-                        variant="contained">Fazer outra encomenda</Button>
                 </div>
             </Fade>
-        )
+        );
+
     }
 
     const Arrows = () => {
@@ -529,9 +556,9 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                     })
             },
             {
-                pending: 'Fazendo encomenda...',
-                success: 'Encomenda feita com sucesso!',
-                error: 'Não foi possível fazer a encomenda.',
+                pending: 'Fazendo pedido...',
+                success: 'Pedido realizado com sucesso!',
+                error: 'Não foi possível fazer o pedido.',
             },
             toastConfig
         )

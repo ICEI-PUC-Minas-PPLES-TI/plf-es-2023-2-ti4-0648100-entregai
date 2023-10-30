@@ -9,13 +9,27 @@ import coverImage from '/src/styles/img/index_cover.jpg'
 
 const ClientMainPage = () => {
     return (
-        <Box className={styles.background} 
-            sx={{ background: `url(${coverImage.src}) center / cover`, width: '100%', height: '100vh' }} 
+        <Box
+            className={styles.background}
+            sx={{
+                background: `url(${coverImage.src}) center / cover no-repeat`,
+                width: '100vw',
+                height: '100vh',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                '@media (max-width: 600px)': {
+                    width: '180% !important',
+                    height: '180%',
+                    backgroundSize: 'contain'
+                },
+            }}
         >
+
             <Image
                 src={entregaiLogo}
                 alt="Logo"
-                width={500}
+                width={430}
                 className={styles.logo}
             />
 
@@ -51,7 +65,7 @@ const ClientMainPage = () => {
                     </Button>
                 </Toolbar>
             </footer>
-        </Box>
+        </Box >
     )
 }
 
