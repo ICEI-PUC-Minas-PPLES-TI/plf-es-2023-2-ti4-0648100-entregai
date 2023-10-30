@@ -1,5 +1,12 @@
+.successContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
 .container {
-    width: 450px;
+    width: 380px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -16,6 +23,11 @@
     background-color: #400084;
     color: #fff;
     text-align: center;
+}
+
+.background {
+    background-size: cover;
+    background-position: center;
 }
 
 .logo {
