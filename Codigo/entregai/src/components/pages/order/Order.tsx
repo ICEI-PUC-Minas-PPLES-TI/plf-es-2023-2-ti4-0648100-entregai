@@ -1,6 +1,6 @@
 import BackButton from "@/components/misc/BackButton";
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Box, Button, Checkbox, Fade, FormControl, FormHelperText, IconButton, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent, Slide, Step, StepLabel, Stepper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Divider, Fade, FormControl, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Slide, Step, StepLabel, Stepper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -10,7 +10,7 @@ import { Product } from "@/libs/types/Product";
 import { Item } from "@/libs/types/Item";
 import { toast } from "react-toastify";
 import toastConfig from "@/libs/toast/toastConfig";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { CheckCircle, ShoppingBasket, Place, Badge, LocalPhone, CreditCard } from '@mui/icons-material';
 import styles from './Order.module.scss';
 
 const MAX_NUMBER_OF_STEPS = 2
@@ -128,11 +128,13 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 </Box>
 
                 <Box className={styles.content}>
+
                     <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: 2 }}>
+                        <Place sx={{ marginRight: 1.5, color: "primary.dark" }} />
                         Selecione o supermercado mais próximo:
                     </Typography>
 
-                    <FormControl sx={{ width: 350 }}>
+                    <FormControl sx={{ width: 300 }}>
 
                         <InputLabel id="supermarketSelectLabel">Supermercados</InputLabel>
 
@@ -159,6 +161,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 <Box className={styles.content}>
 
                     <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: 2 }}>
+                        <ShoppingBasket sx={{ marginRight: 1.5, color: "primary.dark" }} />
                         Selecione os produtos e quantidade que deseja:
                     </Typography>
 
@@ -207,30 +210,6 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                             </TableBody>
                         </Table>
                     </TableContainer>
-
-
-                    {/* {selectedSupermarket?.stock?.map((item: Product) => (
-
-                        <div key={item.id}>
-
-                            <Checkbox
-                                checked={selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)}
-                                onChange={() => handleCheckbox(item.id)}
-                            />
-
-                            <TextField
-                                onChange={(event) => handleTextField(item.id, event)}
-                                value={selectedItems.find((selectedItem: Item) => selectedItem.productId === item.id)?.quantity}
-                                disabled={!selectedItems.some((selectedItem: Item) => selectedItem.productId === item.id)}
-                                variant="outlined"
-                                size="small"
-                                sx={{ width: 50, marginRight: 1.5 }}
-                            />
-
-                            {item.stockQuantity == 0 ? item.name + " (Indisponível)" : item.name}
-
-                        </div>
-                    ))} */}
                 </Box>
             </div>
         )
@@ -251,63 +230,114 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                         </Stepper>
                     </Box>
 
-                    <TextField
-                        label="Nome"
-                        {...register("name", { required: "Insira o seu nome" })}
-                        error={Boolean(errors.name?.message)}
-                        helperText={errors.name?.message}
-                        variant="outlined"
-                    />
+                    <Box className={styles.content}>
 
-                    <TextField
-                        variant="outlined"
-                        {...register("phone", {
-                            required: "Insira o telefone",
-                            pattern: {
-                                value: /^\d+$/,
-                                message: "Insira apenas números"
-                            }
-                        })}
-                        error={Boolean(errors.phone?.message)}
-                        helperText={errors.phone?.message}
-                        label="Telefone"
-                    />
+                        <Divider textAlign="center">
+                            <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
+                                Dados do cliente
+                            </Typography>
+                        </Divider>
 
-                    <TextField
-                        label="Endereço"
-                        {...register("address", { required: "Insira o seu endereço" })}
-                        error={Boolean(errors.address?.message)}
-                        helperText={errors.address?.message}
-                        variant="outlined"
-                    />
+                        <Box sx={{ margin: '2rem 0' }}>
+                            <Grid container rowSpacing={3} columnSpacing={1}>
+                                <Grid item xs={8}>
+                                    <TextField
+                                        label="Nome"
+                                        {...register("name", { required: "Por favor, insira o seu nome" })}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Badge />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                        sx={{ width: '100%' }}
+                                        error={Boolean(errors.name?.message)}
+                                        helperText={errors.name?.message}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        label="Telefone"
+                                        {...register("phone", {
+                                            required: "Por favor, insira seu número de telefone",
+                                            pattern: {
+                                                value: /^\d+$/,
+                                                message: "Insira apenas números"
+                                            }
+                                        })}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <LocalPhone />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                        sx={{ width: '100%' }}
+                                        error={Boolean(errors.phone?.message)}
+                                        helperText={errors.phone?.message}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Endereço de entrega"
+                                        {...register("address", { required: "Por favor, insira o seu endereço" })}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Place />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                        sx={{ width: '100%' }}
+                                        error={Boolean(errors.address?.message)}
+                                        helperText={errors.address?.message}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Box>
 
-                    <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth error={Boolean(errors.paymentMethod?.message)}>
-                            <InputLabel id="selectLabel">Forma de Pagamento</InputLabel>
-                            <Controller
-                                name="paymentMethod"
-                                control={control}
-                                rules={{ required: 'Escolha a forma de pagamento' }}
-                                render={({ field: { onChange, value } }) => (
-                                    <Select
-                                        value={value}
-                                        onChange={onChange}
-                                        label="Forma de Pagamento"
-                                        labelId="selectLabel"
-                                    >
-                                        <MenuItem value={"Credito"}>Credito</MenuItem>
-                                        <MenuItem value={"Debito"}>Debito</MenuItem>
-                                        <MenuItem value={"Dinheiro"}>Dinheiro</MenuItem>
-                                    </Select>
-                                )}
-                                defaultValue=""
-                            />
-                            {errors.paymentMethod?.message && <FormHelperText>{errors.paymentMethod?.message}</FormHelperText>}
-                        </FormControl>
+                        <Divider textAlign="center">
+                            <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
+                                Dados do pagamento
+                            </Typography>
+                        </Divider>
+
+                        <Box sx={{ minWidth: 120, margin: '2rem 0' }}>
+                            <FormControl fullWidth error={Boolean(errors.paymentMethod?.message)}>
+                                <InputLabel id="selectLabel">Forma de Pagamento</InputLabel>
+                                <Controller
+                                    name="paymentMethod"
+                                    control={control}
+                                    rules={{ required: 'Escolha a forma de pagamento' }}
+                                    render={({ field: { onChange, value } }) => (
+                                        <Select
+                                            value={value}
+                                            onChange={onChange}
+                                            label="Forma de Pagamento"
+                                            labelId="selectLabel"
+                                            startAdornment={
+                                                <ListItemIcon>
+                                                  <CreditCard  />
+                                                </ListItemIcon>
+                                              }
+                                        >
+                                            <MenuItem value={"Credito"}>Crédito</MenuItem>
+                                            <MenuItem value={"Debito"}>Débito</MenuItem>
+                                            <MenuItem value={"Dinheiro"}>Dinheiro</MenuItem>
+                                        </Select>
+                                    )}
+                                    defaultValue=""
+                                />
+                                {errors.paymentMethod?.message && <FormHelperText>{errors.paymentMethod?.message}</FormHelperText>}
+                            </FormControl>
+                        </Box>
+
+                        {/* Input de forma de pagamento: Credito, Debito ou Dinheiro */}
                     </Box>
-
-                    {/* Input de forma de pagamento: Credito, Debito ou Dinheiro */}
-
                 </div>
             </Fade>
         )
@@ -395,7 +425,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 <div>
                     <h3>Encomenda feita com sucesso!</h3>
 
-                    <CheckCircleIcon />
+                    <CheckCircle />
 
                     <p>Seu pedido será entregue em breve.</p>
 
