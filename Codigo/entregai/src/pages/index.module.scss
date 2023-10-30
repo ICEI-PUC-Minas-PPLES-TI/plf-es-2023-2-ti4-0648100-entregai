@@ -1,5 +1,5 @@
 .container {
-    width: 480px;
+    width: 450px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -13,19 +13,14 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #333;
+    background-color: #400084;
     color: #fff;
     text-align: center;
 }
 
 .logo {
     display: block;
-    margin: 10rem auto 1rem;
-}
-
-.background {
-    background-image: url('/src/styles/img/index_cover.jpg');
-    background-size: cover;
-    background-position: center;
-    position: relative;
+    margin: auto;
+    padding-top: 12.5rem;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
 }

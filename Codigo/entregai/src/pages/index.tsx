@@ -1,14 +1,17 @@
 import ClientLayout from "@/components/layout/ClientLayout";
-import { Button, Paper, Toolbar, Typography } from "@mui/material";
+import { Box, Button, Paper, Toolbar, Typography } from "@mui/material";
 import Link from "next/link";
 import Image from 'next/image'
-import entregaiLogo from "/src/styles/img/entregai_logo_dark_blue.png";
+import entregaiLogo from "/src/styles/img/entregai_logo_white_shadow.png";
 import { ReactElement } from "react";
 import styles from './index.module.scss';
+import coverImage from '/src/styles/img/index_cover.jpg'
 
 const ClientMainPage = () => {
     return (
-        <div className={styles.background}>
+        <Box className={styles.background} 
+            sx={{ background: `url(${coverImage.src}) center / cover`, width: '100%', height: '100vh' }} 
+        >
             <Image
                 src={entregaiLogo}
                 alt="Logo"
@@ -22,12 +25,12 @@ const ClientMainPage = () => {
                 </Typography>
 
                 <Link href="/order">
-                    <Button 
-                        variant="contained" 
+                    <Button
+                        variant="contained"
                         color="primary"
                         sx={{ margin: 0.5, width: 200 }}
                     >
-                        Fazer Pedido</Button>
+                        Fazer pedido</Button>
                 </Link>
 
                 <Link href="/track">
@@ -36,7 +39,7 @@ const ClientMainPage = () => {
                         color="primary"
                         sx={{ margin: 0.5, width: 200 }}
                     >
-                        Acompanhar Pedido
+                        Acompanhar pedido
                     </Button>
                 </Link>
             </Paper>
@@ -48,7 +51,7 @@ const ClientMainPage = () => {
                     </Button>
                 </Toolbar>
             </footer>
-        </div>
+        </Box>
     )
 }
 
