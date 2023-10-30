@@ -45,8 +45,8 @@ const ClientMainPage = () => {
             </Paper>
 
             <footer className={styles.footer}>
-                <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end', height: 25 }}>
-                    <Button color="inherit">
+                <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button color="inherit" sx={{ '&:hover': { color: 'secondary.contrastText', backgroundColor: 'secondary.main' } }}>
                         <Link href="/login">Área do supermercado</Link>
                     </Button>
                 </Toolbar>
