@@ -1,40 +1,66 @@
 import ClientLayout from "@/components/layout/ClientLayout";
-import { Button } from "@mui/material";
+import { Button, Paper, Toolbar, Typography } from "@mui/material";
 import Link from "next/link";
+import Image from 'next/image'
+import entregaiLogo from "/src/styles/img/entregai_logo_dark_blue.png";
 import { ReactElement } from "react";
+import styles from './index.module.scss';
 
 const ClientMainPage = () => {
     return (
-        <div>
+        <div className={styles.background}>
+            <Image
+                src={entregaiLogo}
+                alt="Logo"
+                width={500}
+                className={styles.logo}
+            />
 
-            <h1>Bem-Vindo ao Entregai</h1>
+            <Paper sx={{ boxShadow: 'none' }} className={styles.container}>
+                <Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', padding: '1rem' }}>
+                    Seja bem-vindo(a)!
+                </Typography>
 
-            <Link href="/order">
-                <Button variant="contained" color="primary">Fazer Pedido</Button>
-            </Link>
+                <Link href="/order">
+                    <Button 
+                        variant="contained" 
+                        color="primary"
+                        sx={{ margin: 0.5, width: 200 }}
+                    >
+                        Fazer Pedido</Button>
+                </Link>
 
-            <Link href="/track">
-                <Button variant="contained" color="primary">Acompanhar Pedido</Button>
-            </Link>
+                <Link href="/track">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ margin: 0.5, width: 200 }}
+                    >
+                        Acompanhar Pedido
+                    </Button>
+                </Link>
+            </Paper>
 
-            {/* Criar um rodapé e colocar lá */}
-            <Link href="/login">Painel</Link>
-
+            <footer className={styles.footer}>
+                <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end', height: 25 }}>
+                    <Button color="inherit">
+                        <Link href="/login">Área do supermercado</Link>
+                    </Button>
+                </Toolbar>
+            </footer>
         </div>
     )
 }
 
 ClientMainPage.getLayout = function getLayout(page: ReactElement) {
-    
+
     return (
         <ClientLayout>
 
-          {page}
+            {page}
 
         </ClientLayout>
     )
 }
 
 export default ClientMainPage
-  
-  
