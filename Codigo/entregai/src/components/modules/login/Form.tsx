@@ -6,9 +6,8 @@ import Image from 'next/image';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import theme from "@/libs/theme/theme";
 import styles from './Form.module.scss';
-import loginCoverImage from "../../../styles/img/login_cover.png";
+import loginCoverImage from "/src/styles/img/login_cover.png";
 import { toast } from "react-toastify";
 import toastConfig from "@/libs/toast/toastConfig";
 
@@ -110,7 +109,7 @@ const Form = () => {
 
 					<Grid item xs={6}>
 						<div className={styles.imageContainer}>
-							<Image src={loginCoverImage} alt="Some text" />
+							<Image src={loginCoverImage} alt="Background image" />
 						</div>
 					</Grid>
 				</Grid>
