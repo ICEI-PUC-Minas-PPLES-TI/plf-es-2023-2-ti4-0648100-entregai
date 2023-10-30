@@ -16,8 +16,8 @@ const ClientMainPage = () => {
                 className={styles.logo}
             />
 
-            <Paper sx={{ boxShadow: 'none' }} className={styles.container}>
-                <Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', padding: '1rem' }}>
+            <Paper className={styles.container}>
+                <Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', padding: '0.5rem' }}>
                     Seja bem-vindo(a)!
                 </Typography>
 
