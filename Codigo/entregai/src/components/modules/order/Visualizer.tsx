@@ -77,7 +77,12 @@ const Visualizer = ({ supermarket }: { supermarket: Supermarket }) => {
     
                     <TableCell align="left">{order.buyer.name}</TableCell>
     
-                    <TableCell align="left">{order.buyer.address}</TableCell>
+                    <TableCell align="left">
+                        {order.buyer.address.street},
+                        {order.buyer.address.neighborhood},
+                        {order.buyer.address.number},
+                        {order.buyer.address.complement}
+                    </TableCell>
     
                     <TableCell align="left">{order.buyer.phone}</TableCell>
     

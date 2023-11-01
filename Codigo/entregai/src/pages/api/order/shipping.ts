@@ -11,13 +11,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const supermarket: Supermarket = await getSupermarketById(selectedSupermarketId)
 
         var distance = 0
-
+        
         try {
 
             await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${supermarket.address}&origins=${address}&units=metric&key=${process.env.GOOGLE_MAPS_API_KEY}`)
                 .then((response) => {
                     distance = response.data.rows[0].elements[0].distance.value
-            })
+                })
+                .catch(() => {
+                    throw new Error('Erro ao calcular o frete')
+                })
 
             return res.status(200).json({ distance })
 

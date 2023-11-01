@@ -1,5 +1,7 @@
+import { Address } from "./Address";
+
 export interface Buyer {
     name: string,
-    address: string,
+    address: Address,
     phone: string,
 }
