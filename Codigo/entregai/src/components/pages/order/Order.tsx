@@ -15,11 +15,17 @@ import styles from './Order.module.scss';
 
 const MAX_NUMBER_OF_STEPS = 2
 
+// cep, rua, bairro, complemento, numero, cidade, estado
+
 type FormDataType = {
     paymentMethod: string,
     name: string,
     phone: string,
-    address: string,
+    cep: string,
+    street: string,
+    neighborhood: string,
+    complement: string,
+    number: string,
 }
 
 const steps = [
@@ -35,7 +41,9 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     const [step, setStep] = useState(0)
 
-    const [completed, setCompleted] = useState<boolean>(false)
+    const [ validCep, setValidCep ] = useState<boolean>(false)
+
+    const [completed, setCompleted] = useState({ status: false, trackingCode: ''})
 
     const [frete, setFrete] = useState('0')
 
@@ -54,23 +62,72 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     const subtotal = selectedProducts.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0)
 
-    const shipping = async () => {
-
-        await axios.post('/api/order/shipping', { selectedSupermarketId, address: getValues("address") })
+    const calculateShipping = async () => {
+        return await axios.post('/api/order/shipping', { selectedSupermarketId, address: `${getValues("street")}, ${getValues("neighborhood")}, ${getValues("number")}, ${getValues("complement")}` })
             .then((res) => {
 
+                console.log(res.status);
+                
                 var price = (Number(res.data.distance) / 1000) * pricePerKilometer
 
                 setFrete(price.toFixed(2))
             })
+            
+            .catch((err) => { 
+                
+                throw new Error('teste')
+            })
     }
 
-    const { register, getValues, reset, trigger, handleSubmit, control, formState: { errors } } = useForm({
+    const validateCep = async () => {
+
+        const cep = getValues("cep")
+
+        toast.promise(
+            async () => {
+                return await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then((res) => {
+    
+                        if (res.data.erro) {
+
+                            setValidCep(false)
+
+                            throw new Error("CEP Inválido")
+
+                        } else {
+
+                            const { logradouro, bairro } = res.data
+
+                            setValidCep(true)
+
+                            setValue("street", logradouro)
+                            setValue("neighborhood", bairro)
+                        }
+                    }
+                )
+            },
+            {
+                pending: 'Validando CEP...',
+                success: 'CEP validado com sucesso!',
+                error: 'CEP Inválido',
+            },
+            toastConfig
+        )
+    }
+
+    const { register, getValues, setValue, reset, trigger, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
             paymentMethod: "",
             name: "",
             phone: "",
             address: "",
+            cep: "",
+            street: "",
+            neighborhood: "",
+            complement: "",
+            number: "",
+            city: "",
+            state: "",
         }
     })
 
@@ -177,6 +234,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                 {selectedSupermarket?.stock?.map((item: Product) => (
                                     <TableRow key={item.id}>
                                         <TableCell>
+                                            {/* Essa checkbox está dando problemas, olhar no console do cliente */}
                                             <Checkbox
                                                 checked={selectedItems.some(
                                                     (selectedItem: Item) => selectedItem.productId === item.id
@@ -280,10 +338,11 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                         variant="outlined"
                                     />
                                 </Grid>
+
                                 <Grid item xs={12}>
                                     <TextField
-                                        label="Endereço de entrega"
-                                        {...register("address", { required: "Por favor, insira o seu endereço" })}
+                                        label="CEP"
+                                        {...register("cep", { required: "Por favor, insira o seu CEP" })}
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -292,8 +351,76 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                             ),
                                         }}
                                         sx={{ width: '100%' }}
-                                        error={Boolean(errors.address?.message)}
-                                        helperText={errors.address?.message}
+                                        error={Boolean(errors.cep?.message)}
+                                        helperText={errors.cep?.message}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+
+                                <Button onClick={validateCep} variant="contained">Validar Cep</Button>
+
+                                <Grid item xs={12}>
+                                    <Controller 
+                                        control={control}
+                                        name="street"
+                                        rules={{ required: "Por favor, insira a sua rua" }}
+                                        render={({ field: { onChange, value }}) => (
+                                            <TextField
+                                                label="Rua"
+                                                onChange={onChange}
+                                                value={value}
+                                                sx={{ width: '100%' }}
+                                                disabled={true}
+                                                error={Boolean(errors.street?.message)}
+                                                helperText={errors.street?.message}
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    
+                                    />
+                                    
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <Controller 
+                                        name="neighborhood"
+                                        control={control}
+                                        rules={{ required: "Por favor, insira o bairro" }}
+                                        render={({ field: { onChange, value }}) => (
+                                            <TextField
+                                                label="Bairro"
+                                                onChange={onChange}
+                                                value={value}
+                                                sx={{ width: '100%' }}
+                                                disabled={true}
+                                                error={Boolean(errors.neighborhood?.message)}
+                                                helperText={errors.neighborhood?.message}
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Numero"
+                                        {...register("number", { required: "Por favor, insira o numero" })}
+                                        sx={{ width: '100%' }}
+                                        disabled={!validCep}
+                                        error={Boolean(errors.number?.message)}
+                                        helperText={errors.number?.message}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Complemento"
+                                        {...register("complement", { required: "Por favor, insira o complemento" })}
+                                        sx={{ width: '100%' }}
+                                        disabled={!validCep}
+                                        error={Boolean(errors.complement?.message)}
+                                        helperText={errors.complement?.message}
                                         variant="outlined"
                                     />
                                 </Grid>
@@ -420,7 +547,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Total</TableCell>
-                                    <TableCell align="left">R$ {(Number(frete) + subtotal)}</TableCell>
+                                    <TableCell align="left">R$ {(Number(frete) + subtotal).toFixed(2)}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -439,7 +566,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
     const Completed = () => {
 
         return (
-            <Fade in={completed} timeout={500}>
+            <Fade in={completed.status} timeout={500}>
                 <div className={styles.successContainer}>
                     <div className={styles.success}>
 
@@ -451,9 +578,11 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                             <CheckCircle />
                             Seu pedido será entregue em breve.
                         </Typography>
+
+                        <Typography></Typography>
                         
                         <Button onClick={() => {
-                            setCompleted(false);
+                            setCompleted({ status: false, trackingCode: '' });
                             setStep(0);
                             setSelectedSupermarketId('');
                             setSelectedItems([]);
@@ -536,7 +665,19 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                     return false;
                 }
 
-                shipping()
+                if (!validCep) {
+                    toast.error('Por favor, insira um CEP válido', toastConfig)
+                    return false;
+                }
+
+                await toast.promise(
+                    await calculateShipping, 
+                    {
+                        pending: 'Calculando frete...',
+                        success: 'Frete calculado com sucesso!',
+                        error: 'Erro ao calcular o frete',
+                    },
+                    toastConfig)
 
                 break;
         }
@@ -552,7 +693,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
             async () => {
                 return await axios.post('/api/order/handler', orderData)
                     .then((res) => {
-                        setCompleted(true)
+                        setCompleted({ status: true, trackingCode: res.data.trackingCode })
                     })
             },
             {
@@ -568,7 +709,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     return (
         <div>
-            {completed ?
+            {completed.status ?
 
                 (<Completed />)
 
