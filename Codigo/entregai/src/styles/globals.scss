@@ -34,7 +34,13 @@
   src: url('./fonts/raleway-v29-latin-900.woff2') format('woff2');
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 a {
   text-decoration: none;
   color: inherit;
 }
+
