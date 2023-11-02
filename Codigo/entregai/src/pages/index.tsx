@@ -12,16 +12,17 @@ const ClientMainPage = () => {
         <Box
             className={styles.background}
             sx={{
-                background: `url(${coverImage.src}) center / cover no-repeat`,
+                background: `url(${coverImage.src}) center / cover`,
                 width: '100vw',
                 height: '100vh',
-                position: 'absolute',
-                top: 0,
-                left: 0,
+                position: 'relative',
                 '@media (max-width: 600px)': {
-                    width: '180% !important',
-                    height: '180%',
-                    backgroundSize: 'contain'
+                    width: '150vw !important',
+                    height: '150vh',
+                },
+                '@media (max-width: 300px)': {
+                    width: '180vw !important',
+                    height: '180vh',
                 },
             }}
         >
@@ -65,6 +66,7 @@ const ClientMainPage = () => {
                     </Button>
                 </Toolbar>
             </footer>
+
         </Box >
     )
 }
