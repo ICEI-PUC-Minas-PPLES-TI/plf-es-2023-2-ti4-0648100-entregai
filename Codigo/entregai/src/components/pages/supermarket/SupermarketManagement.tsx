@@ -10,11 +10,11 @@ const SupermarketManagement = ({ systemSupermarkets }: { systemSupermarkets: Sup
 
     return (
         <Box>
-            <Typography variant="h4" noWrap component="div" sx={{ padding: '0 0 1.5rem 0' }}>
+            <Typography variant="h4" noWrap component="div" sx={{ padding: '1.5rem 0' }}>
                 Gerenciar supermercados
             </Typography>
 
-            <Grid container spacing={4}>
+            <Grid container spacing={2} sx={{ marginRight: '1.5rem' }}>
 
                 <Registration setSupermarkets={setSupermarkets} />
 
@@ -24,4 +24,5 @@ const SupermarketManagement = ({ systemSupermarkets }: { systemSupermarkets: Sup
         </Box>
     );
 }
+
 export default SupermarketManagement;

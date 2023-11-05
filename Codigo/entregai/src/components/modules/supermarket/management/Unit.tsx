@@ -1,25 +1,26 @@
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Box, Button, Card, CardContent, CardMedia, Fade, Grow, Slide, ThemeProvider, Typography, Zoom } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Grow, Typography } from "@mui/material";
 
 const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
 	return (
 		<Grow in={true} {...{ timeout: 1000 }}>
-			<Card sx={{ maxWidth: 300 }}>
-
+			<Card >
 				{supermarket.imageUrl !== '' && <CardMedia
 					sx={{ height: 200 }}
 					image={supermarket.imageUrl}
 					title={supermarket.name}
 				/>}
 
-				<CardContent>
-					<Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'fontWeightMedium' }}>
-						{supermarket.name}
-					</Typography>
-					<Typography variant="body2" color="text.secondary">
-						{supermarket.address}
-					</Typography>
-				</CardContent>
+				<Box sx={{ height: 180 }}>
+					<CardContent>
+						<Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'fontWeightMedium' }}>
+							{supermarket.name}
+						</Typography>
+						<Typography variant="body2" color="text.secondary">
+							{supermarket.address}
+						</Typography>
+					</CardContent>
+				</Box>
 
 				<Box display="flex" justifyContent="flex-end" p={2}>
 					<Button
