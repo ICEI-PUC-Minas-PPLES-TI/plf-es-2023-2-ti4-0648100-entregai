@@ -13,8 +13,8 @@ const Visualizer = ({ supermarkets }: { supermarkets: Supermarket[] }) => {
 
     return (<>
         {filteredSupermarkets.map((supermarket) => (
-            <Grid item xs={2.4} key={supermarket.id}>
-                <Unit key={supermarket.id} supermarket={supermarket} />
+            <Grid item xs={2.4} key={supermarket.id} sx={{ boxSizing: 'content-box', minWidth: 180, maxWidth: 300, height: 450 }} >
+                <Unit key={supermarket.id} supermarket={supermarket}/>
             </Grid>
         ))}
     </>)
