@@ -2,7 +2,7 @@ import ".././styles/globals.scss";
 import { type ReactElement, type ReactNode, useState } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { CircularProgress, ThemeProvider } from "@mui/material";
+import { Box, CircularProgress, ThemeProvider } from "@mui/material";
 import theme from "@/libs/theme/theme";
 import { UserContextProvider } from "@/components/context/UserContext";
 import { ToastContainer } from "react-toastify";
@@ -34,7 +34,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 		<ThemeProvider theme={theme}>
 
 			<UserContextProvider>
-				
+
 				{/* {loading ? <CustomBackdrop /> : (getLayout(
 						<Component {...pageProps} />
 					)) 
@@ -44,8 +44,21 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 					( loading ? <h1>Loading</h1> : <Component {...pageProps} /> )
 				)} */}
 
-				{ getLayout( loading ? <CircularProgress color="inherit" /> : <Component {...pageProps } /> )}
-
+				{getLayout(
+					loading ? (
+						<Box
+							display="flex"
+							justifyContent="center"
+							alignItems="center"
+							height="100vh"
+						>
+							<CircularProgress color="inherit" />
+						</Box>
+					) : (
+						<Component {...pageProps} />
+					)
+				)}
+				
 				{/* { getLayout(
 					<Component {...pageProps} />
 				)} */}
@@ -53,7 +66,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 			</UserContextProvider>
 
 			<ToastContainer pauseOnFocusLoss={false} />
-			
+
 		</ThemeProvider>
 	)
 }
