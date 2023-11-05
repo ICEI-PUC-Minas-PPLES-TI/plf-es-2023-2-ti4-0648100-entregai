@@ -1,7 +1,9 @@
-import { registerOrder } from "@/libs/service/orderService"
+import { updateOrder, registerOrder } from "@/libs/service/orderService"
+import { getSupermarketById } from "@/libs/service/supermarketService"
 import { Address } from "@/libs/types/Address"
 import { Buyer } from "@/libs/types/Buyer"
 import { Order } from "@/libs/types/Order"
+import { Supermarket } from "@/libs/types/Supermarket"
 import { randomUUID } from "crypto"
 import { NextApiRequest, NextApiResponse } from "next"
 
@@ -38,6 +40,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         } catch (err) {
 
+            return res.status(400).json({})
+        }
+    }
+
+    if (req.method === 'PATCH') {
+
+        const supermarketId = req.query.supermarketId
+
+        const orderId = req.query.orderId
+
+        const updateCode = req.query.updateCode
+
+        try {
+                
+            await updateOrder(orderId as string, supermarketId as string, parseInt(updateCode as string) as Order["status"])
+
+            const supermarket: Supermarket = await getSupermarketById(supermarketId as string)
+
+            return res.status(200).json({ supermarket })
+
+        } catch (err) {
+                
             return res.status(400).json({})
         }
     }

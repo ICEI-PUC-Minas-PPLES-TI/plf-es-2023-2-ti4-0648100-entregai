@@ -1,7 +1,7 @@
 import { Buyer } from "./Buyer";
 import { Item } from "./Item";
 
-// Aguardando, Aprovado (ou Recusado), Em Transporte, Entregue
+// Aguardando, Aprovado, Em Transporte, Entregue, Finalizado, Recusado, Cancelado,
 export interface Order {
     id: string,
     date: string,
@@ -10,5 +10,5 @@ export interface Order {
     items: Item[]
     subtotal: string,
     shipping: string,
-    status?: 0 | 1 | 2 | 3 | 4
+    status?: 0 | 1 | 2 | 3 | 4 | 5 | 6
 }

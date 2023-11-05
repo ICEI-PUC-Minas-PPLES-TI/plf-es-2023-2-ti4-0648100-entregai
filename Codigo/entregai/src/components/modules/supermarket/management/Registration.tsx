@@ -20,7 +20,7 @@ const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
     const { user } = useAuth()
     const [open, setOpen] = useState(false);
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, reset, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             name: "",
             address: "",
@@ -39,6 +39,8 @@ const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
                 return await axios.post('/api/supermarket/handler', { name, address, phone, cnpj })
                     .then((res) => {
                         setSupermarkets(res.data.supermarkets)
+
+                        reset()
                     })
             },
             {
