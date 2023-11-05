@@ -280,10 +280,6 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
                                 required
                             >
 
-                                <MenuItem value={0}>
-                                    <Chip label="EM ANALISE" color="warning" />
-                                </MenuItem>
-
                                 <MenuItem value={1}>
                                     <Chip label="APROVADO" color="success" />
                                 </MenuItem>

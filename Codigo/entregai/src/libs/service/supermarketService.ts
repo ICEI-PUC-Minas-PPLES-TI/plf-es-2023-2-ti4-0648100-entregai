@@ -2,6 +2,7 @@ import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "
 import { db, storage } from "../firebase/firebase-config"
 import { Supermarket } from "@/libs/types/Supermarket";
 import { deleteObject, getDownloadURL, ref } from "firebase/storage";
+import { getAllUsers } from "./userService";
 
 export const getAllSupermarkets = async (): Promise<Supermarket[]> => {
     return new Promise(async (resolve, reject) => {
@@ -133,6 +134,20 @@ export const deleteSupermarket = async (id: string) => {
             await deleteDoc(supermarketRef)
 
             await deleteSupermarketImage(id)
+
+            const usersCollection = collection(db, 'users');
+
+            const querySnapshot = await getDocs(usersCollection);
+
+            for (const doc of querySnapshot.docs) {
+
+                const { selectedSupermarkets } = doc.data();
+
+                const updatedSupermarkets = selectedSupermarkets.filter((supId: string) => supId !== id);
+
+                await updateDoc(doc.ref, { selectedSupermarkets: updatedSupermarkets });
+
+            }
 
             resolve(supermarketRef)
 

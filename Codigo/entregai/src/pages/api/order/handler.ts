@@ -1,4 +1,5 @@
-import { updateOrder, registerOrder } from "@/libs/service/orderService"
+import { updateOrder, registerOrder, getOrderById } from "@/libs/service/orderService"
+import { updateProductQuantityInStock } from "@/libs/service/productService"
 import { getSupermarketById } from "@/libs/service/supermarketService"
 import { Address } from "@/libs/types/Address"
 import { Buyer } from "@/libs/types/Buyer"
@@ -55,6 +56,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
                 
             await updateOrder(orderId as string, supermarketId as string, parseInt(updateCode as string) as Order["status"])
+
+            const order: Order = await getOrderById(supermarketId as string, orderId as string) 
+
+            if (parseInt(updateCode as string) === 1) {
+                for (const item of order.items) {
+                    await updateProductQuantityInStock(supermarketId as string, item.productId, item.quantity, 1)
+                }
+            } else if (parseInt(updateCode as string) === 5 || parseInt(updateCode as string) === 6) {
+                for (const item of order.items) {
+                    await updateProductQuantityInStock(supermarketId as string, item.productId, item.quantity, 2)
+                }
+            }
 
             const supermarket: Supermarket = await getSupermarketById(supermarketId as string)
 
