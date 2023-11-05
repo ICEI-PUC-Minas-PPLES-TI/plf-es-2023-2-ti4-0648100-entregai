@@ -90,7 +90,7 @@ const Visualizer = ({ supermarket, setSupermarketDetails }: { supermarket: Super
 
 										<TableCell align="center">{stockItem.soldQuantity}</TableCell>
 
-										<TableCell align="center">{(Number(stockItem.soldQuantity) * Number(stockItem.price))}</TableCell>
+										<TableCell align="center">{(Number(stockItem.soldQuantity) * Number(stockItem.price)).toFixed(2)}</TableCell>
 
 										<TableCell align="center">
 
