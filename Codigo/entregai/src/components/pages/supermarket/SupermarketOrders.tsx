@@ -12,9 +12,9 @@ const SupermarketOrders = ({ supermarketInfo }: { supermarketInfo: Supermarket }
 
             <BackButton />
 
-            <h1>Encomendas</h1>
+            <h1>Pedidos</h1>
 
-            <Visualizer supermarket={supermarket} />
+            <Visualizer setSupermarket={setSupermarket} supermarket={supermarket} />
   
         </div>
     )
