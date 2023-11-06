@@ -597,33 +597,12 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                             Pedido realizado com sucesso!
                         </Typography>
 
-<<<<<<< Updated upstream
-                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: '1rem' }}>
-                            <CheckCircle />
-                            Seu pedido será entregue em breve.
-                        </Typography>
-
-                        <Typography></Typography>
-=======
                         <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>Codigo de Rastreio: {completed.trackingCode}</Typography>
                         
                         <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
                             <CheckCircle />
                             Seu pedido será entregue em breve.
                         </Typography>
-                        
-                        <Button onClick={() => {
-                            setCompleted({ status: false, trackingCode: '' });
-                            setStep(0);
-                            setSelectedSupermarketId('');
-                            setSelectedItems([]);
-                            reset();
-                            router.replace('/order')
-                        }} variant="contained">
-                            Fazer outro pedido
-                        </Button>
-                    </div>
->>>>>>> Stashed changes
 
                         <div style={{ textAlign: 'center' }}>
                             <Button onClick={() => {
@@ -632,6 +611,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                 setSelectedSupermarketId('');
                                 setSelectedItems([]);
                                 reset();
+                                router.replace('/order')
                             }} variant="contained">
                                 Fazer outro pedido
                             </Button>
