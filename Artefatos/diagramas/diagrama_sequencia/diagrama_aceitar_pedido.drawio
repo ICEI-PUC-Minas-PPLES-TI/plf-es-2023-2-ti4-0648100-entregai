@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net" modified="2023-11-06T21:28:58.254Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="QGZUlDRmfr2LZRN1iZLY" version="22.0.8" type="device">
+  <diagram name="Página-1" id="uYTGxHe2zonrcBd2Ts0N">
+    <mxGraphModel dx="954" dy="586" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4vp3sQJ_EMkId5xXsH_M-1" value=":orderHandler" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="120" y="80" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="4vp3sQJ_EMkId5xXsH_M-2" value=":orderServices" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="410" y="80" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="4vp3sQJ_EMkId5xXsH_M-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="4vp3sQJ_EMkId5xXsH_M-2">
+          <mxGeometry x="45" y="150" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4vp3sQJ_EMkId5xXsH_M-5" value="resolve" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;exitX=0.51;exitY=0.433;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" target="4vp3sQJ_EMkId5xXsH_M-4" parent="4vp3sQJ_EMkId5xXsH_M-2" source="4vp3sQJ_EMkId5xXsH_M-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="130" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="90" y="130" />
+              <mxPoint x="90" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4vp3sQJ_EMkId5xXsH_M-3" value="updateOrder(orderId)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" edge="1" parent="1" target="4vp3sQJ_EMkId5xXsH_M-2">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="170" y="160" as="sourcePoint" />
+            <mxPoint x="250" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4vp3sQJ_EMkId5xXsH_M-6" value="res.status(200)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="320" as="sourcePoint" />
+            <mxPoint x="40" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
