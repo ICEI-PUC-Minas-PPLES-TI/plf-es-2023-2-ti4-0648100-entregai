@@ -1,13 +1,10 @@
-<<<<<<< Updated upstream
-import { ArrowForwardIos } from "@mui/icons-material"
-import { Button, IconButton, TextField } from "@mui/material"
-=======
 import toastConfig from "@/libs/toast/toastConfig"
 import { Item } from "@/libs/types/Item"
 import { Order } from "@/libs/types/Order"
 import { Product } from "@/libs/types/Product"
 import { Supermarket } from "@/libs/types/Supermarket"
-import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from "@mui/material"
+import { ArrowForwardIos } from "@mui/icons-material"
+import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
@@ -37,7 +34,6 @@ type OrderProduct = {
     product: Product,
     quantity: number
 }
->>>>>>> Stashed changes
 
 const Tracker = () => {
 
@@ -102,17 +98,13 @@ const Tracker = () => {
                 id="orderCode"
                 label="Código do pedido"
                 variant="outlined"
-<<<<<<< Updated upstream
-                size="small"
+                size="small" 
                 sx={{ mb: 2, marginRight: '1rem', height: '2.5rem' }}
+                {...register("orderCode")}
             />
 
-            <Button
-                variant="contained"
-                sx={{ height: '2.5rem' }}
-            >
-                Buscar
-                <IconButton
+            <Button variant="contained" sx={{ height: '2.5rem' }} onClick={handleSubmit(submitData)}>Buscar
+            <IconButton
                     size="small"
                     edge="end"
                     color="inherit"
@@ -120,13 +112,6 @@ const Tracker = () => {
                     <ArrowForwardIos />
                 </IconButton>
             </Button>
-=======
-                size="small" 
-                sx={{ mb: 2 }}
-                {...register("orderCode")}
-            />
-
-            <Button variant="contained" onClick={handleSubmit(submitData)}>Buscar</Button>
 
             {order.id && <div>
 
@@ -236,7 +221,6 @@ const Tracker = () => {
                         </Table>
 
             </div>}
->>>>>>> Stashed changes
         </div>
     )
 }
