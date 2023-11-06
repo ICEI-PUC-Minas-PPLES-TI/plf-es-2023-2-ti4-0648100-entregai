@@ -1,7 +1,7 @@
 import { Order } from "@/libs/types/Order";
 import { Supermarket } from "@/libs/types/Supermarket"
-import { Box, Button, Chip, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Fade, FormControl, IconButton, InputLabel, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
-import React, { useMemo, useState } from "react";
+import { Box, Button, Chip, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Fade, FormControl, IconButton, InputLabel, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TextField, Typography } from "@mui/material"
+import React, { useEffect, useMemo, useState } from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { TransitionGroup } from "react-transition-group";
@@ -373,6 +373,8 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
 
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(5)
+    const [ orders, setOrders ] = useState<Order[]>(supermarket.orders!)
+    useEffect(() => { setOrders(supermarket.orders!) }, [ supermarket ])
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - supermarket.orders!.length) : 0
 
@@ -383,44 +385,69 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
         setPage(0)
     }
 
+    function search(searchString: string) {
+
+		if (page !== 0) {
+			setPage(0)
+		}
+
+		const filteredRows = supermarket.orders!.filter((order) => {
+			return order.buyer.name.toLowerCase().includes(searchString.toLowerCase())
+		})
+
+		setOrders(filteredRows)
+	}
+
     return (
-        <TableContainer component={Paper}>
+        <div>
+            <TextField onChange={(event) => { search(event.target.value) }} label="Nome do Cliente" />
 
-            <Table sx={{ minWidth: 600 }}>
+            <TableContainer component={Paper}>
 
-                <TableHead>
+                <Table sx={{ minWidth: 600 }}>
 
-                    <TableRow>
+                    <TableHead>
 
-                        <TableCell />
+                        <TableRow>
 
-                        {columns.map((column) => (
-                            <TableCell key={column.id} align="left" style={{ minWidth: column.minWidth }}>
-                                {column.label}
-                            </TableCell>
-                        ))}
+                            <TableCell />
 
-                    </TableRow>
+                            {columns.map((column) => (
+                                <TableCell key={column.id} align="left" style={{ minWidth: column.minWidth }}>
+                                    {column.label}
+                                </TableCell>
+                            ))}
 
-                </TableHead>
+                        </TableRow>
 
-                <TableBody>
+                    </TableHead>
 
-                    <TransitionGroup component={null}>
-                    
-                        {(rowsPerPage > 0 ? supermarket.orders!.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : supermarket.orders!).map((order: Order) => (
+                    <TableBody>
+
+                        {(rowsPerPage > 0 ? orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : orders).map((order: Order) => (
 
                             <Row key={order.id} order={order} />
 
                         ))}
 
-                    </TransitionGroup>
+                        {emptyRows > 0 && (
+							<TableRow style={{ height: 53 * emptyRows }}>
+								<TableCell colSpan={7} />
+							</TableRow>
+						)}
 
-                </TableBody>
+                    </TableBody>
 
-            </Table>
+                    <TableFooter>
+						<TableRow>
+							<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={7} count={orders.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+						</TableRow>
+					</TableFooter>
 
-        </TableContainer>
+                </Table>
+
+            </TableContainer>
+        </div>
     )
 }
 

@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import toastConfig from "@/libs/toast/toastConfig";
 import { CheckCircle, ShoppingBasket, Place, Badge, LocalPhone, CreditCard, Send } from '@mui/icons-material';
 import styles from './Order.module.scss';
+import { useRouter } from "next/navigation";
 
 const MAX_NUMBER_OF_STEPS = 2
 
@@ -37,6 +38,8 @@ const steps = [
 
 const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) => {
 
+    const router = useRouter()
+
     const pricePerKilometer = 2.5
 
     const [step, setStep] = useState(0)
@@ -54,6 +57,8 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
     const selectedSupermarket: Supermarket = useMemo(() => {
         return systemSupermarkets.find((sup) => sup.id === selectedSupermarketId) as Supermarket;
     }, [selectedSupermarketId, systemSupermarkets]);
+
+    const [ stock, setStock ] = useState<Product[]>([] as Product[])
 
     const selectedProducts = selectedItems.map((item) => {
         const product = selectedSupermarket?.stock?.find((stockItem) => stockItem.id === item.productId) as Product;
@@ -136,6 +141,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
         function handleSupermarket(event: SelectChangeEvent) {
             setSelectedSupermarketId(event.target.value);
             setSelectedItems([]);
+            setStock(systemSupermarkets.find((sup) => sup.id === event.target.value)?.stock!);
         };
 
         function handleCheckbox(itemId: string) {
@@ -170,6 +176,15 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
             });
 
             setSelectedItems(newSelectedItems);
+        }
+
+        function search(searchString: string) {
+    
+            const filteredRows = selectedSupermarket.stock!.filter((item) => {
+                return item.name.toLowerCase().includes(searchString.toLowerCase())
+            })
+    
+            setStock(filteredRows)
         }
 
         return (
@@ -222,31 +237,37 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                         Selecione os produtos e quantidade que deseja:
                     </Typography>
 
+                <TextField onChange={(event) => { search(event.target.value) }} label="Nome do Produto" />
+
                     <TableContainer>
                         <Table size="small">
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Item</TableCell>
                                     <TableCell>Quantidade</TableCell>
+                                    <TableCell>Quantidade em Estoque</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {selectedSupermarket?.stock?.map((item: Product) => (
+                                {stock.map((item: Product) => (
                                     <TableRow key={item.id}>
                                         <TableCell>
                                             {/* Essa checkbox está dando problemas, olhar no console do cliente */}
-                                            <Checkbox
-                                                checked={selectedItems.some(
-                                                    (selectedItem: Item) => selectedItem.productId === item.id
-                                                )}
-                                                onChange={() => handleCheckbox(item.id)}
-                                            />
                                             {item.stockQuantity === 0 ? (
-                                                <span>
+                                                <div>
+                                                    <Checkbox disabled={true} />
                                                     {item.name} (Indisponível)
-                                                </span>
+                                                </div>
                                             ) : (
-                                                item.name
+                                                <div>
+                                                    <Checkbox
+                                                    checked={selectedItems.some(
+                                                        (selectedItem: Item) => selectedItem.productId === item.id
+                                                    )}
+                                                    onChange={() => handleCheckbox(item.id)}
+                                                    />
+                                                    {item.name}
+                                                </div>
                                             )}
                                         </TableCell>
                                         <TableCell>
@@ -262,6 +283,9 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                                 size="small"
                                                 sx={{ width: 50, marginRight: 1.5 }}
                                             />
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.stockQuantity}
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -573,12 +597,33 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                             Pedido realizado com sucesso!
                         </Typography>
 
+<<<<<<< Updated upstream
                         <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: '1rem' }}>
                             <CheckCircle />
                             Seu pedido será entregue em breve.
                         </Typography>
 
                         <Typography></Typography>
+=======
+                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>Codigo de Rastreio: {completed.trackingCode}</Typography>
+                        
+                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
+                            <CheckCircle />
+                            Seu pedido será entregue em breve.
+                        </Typography>
+                        
+                        <Button onClick={() => {
+                            setCompleted({ status: false, trackingCode: '' });
+                            setStep(0);
+                            setSelectedSupermarketId('');
+                            setSelectedItems([]);
+                            reset();
+                            router.replace('/order')
+                        }} variant="contained">
+                            Fazer outro pedido
+                        </Button>
+                    </div>
+>>>>>>> Stashed changes
 
                         <div style={{ textAlign: 'center' }}>
                             <Button onClick={() => {
@@ -652,6 +697,11 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                 if (selectedItems.find((item) => { return item.quantity <= 0 })) {
                     toast.error('Por favor, insira uma quantidade válida para todos os itens', toastConfig)
+                    return false;
+                }
+
+                if (selectedItems.find((item) => { return item.quantity > selectedSupermarket?.stock?.find((stockItem) => stockItem.id === item.productId)?.stockQuantity! })) {
+                    toast.error('Por favor, insira uma quantidade menor ou igual a quantidade em estoque para todos os itens', toastConfig)
                     return false;
                 }
 

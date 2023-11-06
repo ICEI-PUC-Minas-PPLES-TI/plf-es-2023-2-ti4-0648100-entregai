@@ -1,4 +1,5 @@
 import { useAuth } from "@/components/context/UserContext"
+import { Typography } from "@mui/material"
 
 const Info = () => {
 
@@ -6,9 +7,17 @@ const Info = () => {
 
     return (
         <div>
-            <h1>Olá {user.name}</h1>
-            <h1>Email: {user.email}</h1>
-            <h1>Permission: {user.permissionLevel ? "Yes" : "No"}</h1>
+            <Typography variant="h3">Perfil</Typography>
+
+            <hr></hr>
+
+            <Typography variant="h5">Olá {user.name}</Typography>
+
+            <Typography variant="body1">Email: {user.email}</Typography>
+
+            <Typography variant="body1">Nível de Permissão: {user.permissionLevel ? "ADMINISTRADOR" : "USUÁRIO"}</Typography>
+
+            <Typography variant="body1">ID: #{user.id}</Typography>
         </div>
     )
 }
