@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material"
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -54,7 +54,9 @@ const Delete = ({ targetUser, setUsers }: { targetUser: User, setUsers: Function
 
                 <DialogTitle>Deletando Usuário: {targetUser.name}</DialogTitle>
 
-                <DialogContent>Deseja mesmo deletar este usuário?</DialogContent>
+                <DialogContent>
+                    <Typography variant="body1">Tem certeza que deseja deletar o usuário {targetUser.name}?</Typography>
+                </DialogContent>
 
                 <DialogActions>
 
