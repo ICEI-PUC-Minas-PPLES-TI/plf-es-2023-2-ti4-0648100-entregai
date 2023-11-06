@@ -4,6 +4,50 @@ import { auth, db } from "../firebase/firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import admin from "../firebase/firebase-admin-config";
 
+export const getNotifications = async (uid: string): Promise<any[]> => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            const userRef = doc(db, 'users', uid)
+
+            const userDocument = await getDoc(userRef)
+
+            const user = userDocument.data()
+
+            const notifications = user!.notifications
+
+            resolve(notifications)
+
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+
+export const addNotification = async (uid: string, notification: any): Promise<void> => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            const userRef = doc(db, 'users', uid)
+
+            const userDocument = await getDoc(userRef)
+
+            const user = userDocument.data()
+
+            const notifications = user!.notifications
+
+            notifications.push(notification)
+
+            await updateDoc(userRef, { notifications })
+
+            resolve()
+
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+
 export const getAllUsers = async (): Promise<User[]> => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -134,5 +178,5 @@ export const tryToCreateAdminUser = async (email: string, password: string): Pro
 export const createUserDocument = async (uid: string, name: string, email: string, permissionLevel: boolean, selectedSupermarkets: string[]) => {
     const userRef = doc(db, "users", uid);
             
-    await setDoc(userRef, { name, email, permissionLevel, selectedSupermarkets });
+    await setDoc(userRef, { name, email, permissionLevel, selectedSupermarkets, notifications: [] });
 }

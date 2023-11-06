@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { Order } from "../types/Order";
 import { db } from "../firebase/firebase-config";
 import { getAllSupermarkets } from "./supermarketService";
@@ -89,11 +89,47 @@ export const registerOrder = async (order: Order, supermarketId: string): Promis
 
             if (docSnap.exists()) {
 
-                const { orders } = docSnap.data();
+                const { orders, name } = docSnap.data();
 
                 orders.push(order)
 
                 await updateDoc(supermarketRef, { orders })
+
+                // send notification to all users
+
+                const usersCollection = collection(db, 'users');
+
+                const querySnapshot = await getDocs(usersCollection);
+    
+                for (const doc of querySnapshot.docs) {
+
+                    const user = doc.data()
+
+                    if (user.selectedSupermarkets.indexOf(supermarketId) !== -1 || user.permissionLevel) {
+
+                        const notification = {
+                            supermarketName: name,
+                            title: "Novo pedido",
+                            body: `Um novo pedido foi feito no supermercado ${name}!`,
+                            date: new Date().toLocaleString(),
+                            checked: false
+                        }
+
+                        user.notifications.push(notification)
+
+                        await updateDoc(doc.ref, { notifications: user.notifications })
+
+                    }
+    
+                    // const supermarket = { id: doc.id, ...doc.data() } as Supermarket
+    
+                    // const url = await getSupermarketImageUrl(doc.id)
+    
+                    // supermarket.imageUrl = url
+    
+                    // supermarkets.push(supermarket);
+                }
+
 
                 resolve(order)
             }

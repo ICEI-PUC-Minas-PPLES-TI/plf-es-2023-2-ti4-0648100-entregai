@@ -8,6 +8,7 @@ import { UserContextProvider } from "@/components/context/UserContext";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Router } from "next/router";
+import Notifications from "@/components/context/Notifications";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -62,6 +63,8 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 				{/* { getLayout(
 					<Component {...pageProps} />
 				)} */}
+
+				<Notifications />
 
 			</UserContextProvider>
 
