@@ -1,17 +1,22 @@
 import BackButton from "@/components/misc/BackButton"
 import Tracker from "@/components/modules/track/Tracker"
+import { Box, Typography } from "@mui/material"
 
 const Tracking = () => {
     return (
-        <div>
+        <Box sx={{ padding: '1.5rem' }}>
             <BackButton />
 
-            <h1>Acompanhar Encomenda</h1>
-        
-            <p>Por favor, digite o código do seu pedido</p>
+            <Typography variant="h4" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', margin: '1.5rem 0'}}>
+                Acompanhar pedido
+            </Typography>
+
+            <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', margin: '0.5rem 0'}}>
+                Digite abaixo o código do pedido:
+            </Typography>
 
             <Tracker />
-        </div>
+        </Box>
     )
 }
 
