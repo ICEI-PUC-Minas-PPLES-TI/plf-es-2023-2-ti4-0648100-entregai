@@ -373,8 +373,16 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
 
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(5)
-    const [ orders, setOrders ] = useState<Order[]>(supermarket.orders!)
-    useEffect(() => { setOrders(supermarket.orders!) }, [ supermarket ])
+    const [ orders, setOrders ] = useState<Order[]>([] as Order[])
+
+    useEffect(() => {
+        const sortedOrders = supermarket.orders!.sort((orderA, orderB) => {
+            return orderA.status! - orderB.status!;
+        });
+
+        setOrders(sortedOrders);
+
+    }, [ supermarket ])
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - supermarket.orders!.length) : 0
 
