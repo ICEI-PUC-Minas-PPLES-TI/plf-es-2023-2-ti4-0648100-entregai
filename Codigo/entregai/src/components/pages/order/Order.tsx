@@ -67,14 +67,14 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
             .then((res) => {
 
                 console.log(res.status);
-                
+
                 var price = (Number(res.data.distance) / 1000) * pricePerKilometer
 
                 setFrete(price.toFixed(2))
             })
-            
-            .catch((err) => { 
-                
+
+            .catch((err) => {
+
                 throw new Error('teste')
             })
     }
@@ -87,7 +87,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
             async () => {
                 return await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
                     .then((res) => {
-    
+
                         if (res.data.erro) {
 
                             setValidCep(false)
@@ -104,7 +104,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                             setValue("neighborhood", bairro)
                         }
                     }
-                )
+                    )
             },
             {
                 pending: 'Validando CEP...',
@@ -360,11 +360,11 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                 <Button onClick={validateCep} variant="contained">Validar Cep</Button>
 
                                 <Grid item xs={12}>
-                                    <Controller 
+                                    <Controller
                                         control={control}
                                         name="street"
                                         rules={{ required: "Por favor, insira a sua rua" }}
-                                        render={({ field: { onChange, value }}) => (
+                                        render={({ field: { onChange, value } }) => (
                                             <TextField
                                                 label="Rua"
                                                 onChange={onChange}
@@ -376,17 +376,17 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                                 variant="outlined"
                                             />
                                         )}
-                                    
+
                                     />
-                                    
+
                                 </Grid>
 
                                 <Grid item xs={12}>
-                                    <Controller 
+                                    <Controller
                                         name="neighborhood"
                                         control={control}
                                         rules={{ required: "Por favor, insira o bairro" }}
-                                        render={({ field: { onChange, value }}) => (
+                                        render={({ field: { onChange, value } }) => (
                                             <TextField
                                                 label="Bairro"
                                                 onChange={onChange}
@@ -403,8 +403,8 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                                 <Grid item xs={12}>
                                     <TextField
-                                        label="Numero"
-                                        {...register("number", { required: "Por favor, insira o numero" })}
+                                        label="Número"
+                                        {...register("number", { required: "Por favor, insira o número" })}
                                         sx={{ width: '100%' }}
                                         disabled={!validCep}
                                         error={Boolean(errors.number?.message)}
@@ -567,31 +567,31 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
         return (
             <Fade in={completed.status} timeout={500}>
-                <div className={styles.successContainer}>
-                    <div className={styles.success}>
-
-                        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'fontWeightBold' }}>
+                <div className={styles.success}>
+                    <div>
+                        <Typography variant="h4" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', marginBottom: '1rem' }}>
                             Pedido realizado com sucesso!
                         </Typography>
-                        
-                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
+
+                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: '1rem' }}>
                             <CheckCircle />
                             Seu pedido será entregue em breve.
                         </Typography>
 
                         <Typography></Typography>
-                        
-                        <Button onClick={() => {
-                            setCompleted({ status: false, trackingCode: '' });
-                            setStep(0);
-                            setSelectedSupermarketId('');
-                            setSelectedItems([]);
-                            reset();
-                        }} variant="contained">
-                            Fazer outro pedido
-                        </Button>
-                    </div>
 
+                        <div style={{ textAlign: 'center' }}>
+                            <Button onClick={() => {
+                                setCompleted({ status: false, trackingCode: '' });
+                                setStep(0);
+                                setSelectedSupermarketId('');
+                                setSelectedItems([]);
+                                reset();
+                            }} variant="contained">
+                                Fazer outro pedido
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </Fade>
         );
@@ -671,7 +671,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 }
 
                 await toast.promise(
-                    await calculateShipping, 
+                    await calculateShipping,
                     {
                         pending: 'Calculando frete...',
                         success: 'Frete calculado com sucesso!',
