@@ -1,5 +1,6 @@
 import { Buyer } from "./Buyer";
 import { Item } from "./Item";
+import { Product } from "./Product";
 
 // Aguardando, Aprovado, Em Transporte, Entregue, Finalizado, Recusado, Cancelado,
 export interface Order {

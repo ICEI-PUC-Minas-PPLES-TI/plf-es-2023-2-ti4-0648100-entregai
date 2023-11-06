@@ -45,6 +45,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
     }
 
+    if (req.method === 'DELETE') {
+        
+        const orderId = req.query.orderId
+
+        try {
+
+            await updateOrder(orderId as string, "", 6)
+
+            return res.status(200).json({})
+
+        } catch (err) {
+                    
+            return res.status(400).json({})
+        }
+    }
+
     if (req.method === 'PATCH') {
 
         const supermarketId = req.query.supermarketId
