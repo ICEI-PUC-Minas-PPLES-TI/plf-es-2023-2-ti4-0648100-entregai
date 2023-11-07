@@ -1,4 +1,4 @@
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, SelectChangeEvent, TextField } from "@mui/material"
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Fab, FormControlLabel, IconButton, SelectChangeEvent, TextField } from "@mui/material"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import Selector from "./Selector"
@@ -7,6 +7,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 import toastConfig from "@/libs/toast/toastConfig"
+import { Add } from "@mui/icons-material"
 
 type FormDataType = {
     name: string,
@@ -18,8 +19,8 @@ type FormDataType = {
 
 const UserRegistration = ({ systemSupermarkets, setUsers }: { systemSupermarkets: Supermarket[], setUsers: Function }) => {
 
-    const [ open, setOpen ] = useState(false)
-    const [ selectedSupermarkets, setSelectedSupermarkets ] = useState<string[]>([])
+    const [open, setOpen] = useState(false)
+    const [selectedSupermarkets, setSelectedSupermarkets] = useState<string[]>([])
 
     const { register, trigger, getValues, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -51,7 +52,7 @@ const UserRegistration = ({ systemSupermarkets, setUsers }: { systemSupermarkets
                 return await axios.post('/api/user/handler', { email, password, name, permissionLevel, selectedSupermarkets })
                     .then((res) => {
                         setUsers(res.data.users)
-                })
+                    })
             },
             {
                 pending: "Cadastrando usuário...",
@@ -68,8 +69,17 @@ const UserRegistration = ({ systemSupermarkets, setUsers }: { systemSupermarkets
 
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen}>Adicionar Usuário</Button>
-        
+
+            <Fab onClick={handleOpen} style={{ position: 'absolute', right: '1.5rem', bottom: '1.5rem' }} color="secondary">
+                <IconButton
+                    size="small"
+                    edge="start"
+                    color="inherit"
+                >
+                    <Add />
+                </IconButton>
+            </Fab>
+
             <Dialog open={open} onClose={handleClose}>
 
                 <DialogTitle>Adicionar Usuário</DialogTitle>
@@ -79,54 +89,54 @@ const UserRegistration = ({ systemSupermarkets, setUsers }: { systemSupermarkets
                     <DialogContent>
 
                         <TextField
-                            margin="dense" 
-                            variant="standard" 
-                            type="text" 
-                            {...register("name", { required: "Insira o nome completo" })} 
+                            margin="dense"
+                            variant="standard"
+                            type="text"
+                            {...register("name", { required: "Insira o nome completo" })}
                             error={Boolean(errors.name?.message)}
-							helperText={errors.name?.message}
-                            label="Nome Completo" 
-                            fullWidth 
+                            helperText={errors.name?.message}
+                            label="Nome Completo"
+                            fullWidth
                         />
 
-                        <TextField 
-                            margin="dense" 
-                            variant="standard" 
-                            type="email" 
-                            {...register("email", { required: "Insira o email" })} 
+                        <TextField
+                            margin="dense"
+                            variant="standard"
+                            type="email"
+                            {...register("email", { required: "Insira o email" })}
                             error={Boolean(errors.email?.message)}
-							helperText={errors.email?.message}
-                            label="Email" 
-                            fullWidth 
+                            helperText={errors.email?.message}
+                            label="Email"
+                            fullWidth
                         />
 
-                        <TextField 
-                            margin="dense" 
-                            variant="standard" 
-                            type="password" 
-                            {...register("password", { 
+                        <TextField
+                            margin="dense"
+                            variant="standard"
+                            type="password"
+                            {...register("password", {
                                 required: "Insira a senha",
                                 minLength: { value: 6, message: "A senha deve ter pelo menos 6 caracteres" }
-                            })} 
+                            })}
                             error={Boolean(errors.password?.message)}
-							helperText={errors.password?.message}
-                            label="Senha" 
-                            fullWidth 
+                            helperText={errors.password?.message}
+                            label="Senha"
+                            fullWidth
                         />
 
-                        <TextField 
-                            margin="dense" 
-                            variant="standard" 
-                            type="password" 
-                            {...register("confirmPassword", { 
+                        <TextField
+                            margin="dense"
+                            variant="standard"
+                            type="password"
+                            {...register("confirmPassword", {
                                 validate: (value) => {
                                     return value === getValues("password") || "Senhas não coincidem";
                                 },
                             })}
                             error={Boolean(errors.confirmPassword?.message)}
-							helperText={errors.confirmPassword?.message}
-                            label="Confirme a Senha" 
-                            fullWidth 
+                            helperText={errors.confirmPassword?.message}
+                            label="Confirme a Senha"
+                            fullWidth
                         />
 
                         <FormControlLabel control={<Checkbox {...register("permissionLevel")} />} label="Administrador" />
@@ -139,7 +149,7 @@ const UserRegistration = ({ systemSupermarkets, setUsers }: { systemSupermarkets
 
                         <Button onClick={handleClose}>Cancelar</Button>
 
-						<Button type="submit">Cadastrar</Button>
+                        <Button type="submit">Cadastrar</Button>
 
                     </DialogActions>
 

@@ -37,22 +37,22 @@ type OrderProduct = {
 
 const Tracker = () => {
 
-    const [ order, setOrder ] = useState<Order>({ items: [] as Item[]} as Order)
+    const [order, setOrder] = useState<Order>({ items: [] as Item[] } as Order)
 
-    const [ supermarket, setSupermarket ] = useState<Supermarket>({} as Supermarket)
+    const [supermarket, setSupermarket] = useState<Supermarket>({} as Supermarket)
 
-    const [ cancelModal, setCancelModal ] = useState<boolean>(false)
+    const [cancelModal, setCancelModal] = useState<boolean>(false)
 
     const { register, handleSubmit } = useForm()
 
     const router = useRouter()
 
     const items: OrderProduct[] = order.items.map((orderItem) => {
-            
+
         const stockItem = supermarket.stock!.find((stockItem) => orderItem.productId === stockItem.id)
-    
+
         const orderProduct: OrderProduct = { product: stockItem as Product, quantity: orderItem.quantity }
-    
+
         return orderProduct
     })
 
@@ -61,10 +61,10 @@ const Tracker = () => {
             async () => {
                 return await axios.post('/api/order/track', data)
                     .then((res) => {
-                        setOrder(res.data.order) 
+                        setOrder(res.data.order)
                         setSupermarket(res.data.supermarket)
                     })
-            }, 
+            },
             {
                 pending: 'Buscando pedido...',
                 success: 'Pedido encontrado!',
@@ -72,7 +72,7 @@ const Tracker = () => {
             },
             toastConfig
         )
-    } 
+    }
 
     function cancelOrder() {
 
@@ -98,13 +98,13 @@ const Tracker = () => {
                 id="orderCode"
                 label="Código do pedido"
                 variant="outlined"
-                size="small" 
+                size="small"
                 sx={{ mb: 2, marginRight: '1rem', height: '2.5rem' }}
                 {...register("orderCode")}
             />
 
             <Button variant="contained" sx={{ height: '2.5rem' }} onClick={handleSubmit(submitData)}>Buscar
-            <IconButton
+                <IconButton
                     size="small"
                     edge="end"
                     color="inherit"
@@ -128,7 +128,7 @@ const Tracker = () => {
                 </Dialog>
 
                 <Typography variant="h6" noWrap component="div" sx={{ padding: '1.5rem 0' }}>
-                    Pedido 
+                    Pedido
                 </Typography>
 
                 <Typography variant="body1" noWrap component="div">
@@ -180,45 +180,45 @@ const Tracker = () => {
                 <Typography>
                     Método de Pagamento: {order.paymentMethod}
                 </Typography>
-                
+
                 <Typography variant="body1" noWrap component="div">
                     Total: {order.subtotal}
                 </Typography>
 
                 <Table sx={{ marginBottom: '1.5rem' }}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Item</TableCell>
-                                    <TableCell>Preço</TableCell>
-                                    <TableCell>Quantidade</TableCell>
-                                    <TableCell>Sub-Total</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {items.map((item) => (
-                                    <TableRow key={item.product.id}>
-                                        <TableCell>{item.product.name}</TableCell>
-                                        <TableCell>{item.product.price}</TableCell>
-                                        <TableCell>{item.quantity}</TableCell>
-                                        <TableCell>{item.quantity * item.product.price}</TableCell>
-                                    </TableRow>
-                                ))}
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Item</TableCell>
+                            <TableCell>Preço</TableCell>
+                            <TableCell>Quantidade</TableCell>
+                            <TableCell>Sub-Total</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {items.map((item) => (
+                            <TableRow key={item.product.id}>
+                                <TableCell>{item.product.name}</TableCell>
+                                <TableCell>{item.product.price}</TableCell>
+                                <TableCell>{item.quantity}</TableCell>
+                                <TableCell>{item.quantity * item.product.price}</TableCell>
+                            </TableRow>
+                        ))}
 
-                                <TableRow>
-                                    <TableCell rowSpan={3} colSpan={2} />
-                                    <TableCell>Frete</TableCell>
-                                    <TableCell align="left">R$ {order.shipping}</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>Subtotal</TableCell>
-                                    <TableCell align="left">R$ {order.subtotal}</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>Total</TableCell>
-                                    <TableCell align="left">R$ {(Number(order.shipping) + Number(order.subtotal)).toFixed(2)}</TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
+                        <TableRow>
+                            <TableCell rowSpan={3} colSpan={2} />
+                            <TableCell>Frete</TableCell>
+                            <TableCell align="left">R$ {order.shipping}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Subtotal</TableCell>
+                            <TableCell align="left">R$ {order.subtotal}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Total</TableCell>
+                            <TableCell align="left">R$ {(Number(order.shipping) + Number(order.subtotal)).toFixed(2)}</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
 
             </div>}
         </div>

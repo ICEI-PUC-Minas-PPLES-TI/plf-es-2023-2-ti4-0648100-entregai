@@ -7,31 +7,31 @@ import Delete from "./Delete";
 import { TransitionGroup } from "react-transition-group";
 
 const columns = [
-    { id: 'name', label: 'Nome', minWidth: 100 },
-    { id: 'email', label: 'Email', minWidth: 100 },
-    { id: 'permission', label: 'Permissão', minWidth: 100 },
-    { id: 'supermarkets', label: 'Supermercados', minWidth: 100},
-    { id: 'editar', label: 'Gerenciar', minWidth: 5 },
+	{ id: 'name', label: 'Nome', minWidth: 100 },
+	{ id: 'email', label: 'Email', minWidth: 100 },
+	{ id: 'permission', label: 'Permissão', minWidth: 100 },
+	{ id: 'supermarkets', label: 'Supermercados', minWidth: 100 },
+	{ id: 'editar', label: 'Gerenciar', minWidth: 5 },
 ]
 
 const Visualizer = ({ users, setUsers, systemSupermarkets }: { users: User[], setUsers: Function, systemSupermarkets: Supermarket[] }) => {
 
-    const [ page, setPage ] = useState(0)
-    const [ rowsPerPage, setRowsPerPage ] = useState(5)
+	const [page, setPage] = useState(0)
+	const [rowsPerPage, setRowsPerPage] = useState(5)
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0
 
-    function handleChangePage(event: React.MouseEvent | null, newPage: number) { setPage(newPage) }
+	function handleChangePage(event: React.MouseEvent | null, newPage: number) { setPage(newPage) }
 
-    function handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement>) {
-        setRowsPerPage(parseInt(event.target.value, 10))
-        setPage(0)
-    }
+	function handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement>) {
+		setRowsPerPage(parseInt(event.target.value, 10))
+		setPage(0)
+	}
 
 	return (
-		<TableContainer component={Paper}>
+		<TableContainer component={Paper} sx={{ margin: '1.5rem 0', maxWidth: '98%' }}>
 
-			<Table sx={{ minWidth: 500 }}>
+			<Table sx={{ minWidth: 400 }}>
 
 				{/* Cabeçalho da Tabela */}
 
@@ -52,7 +52,7 @@ const Visualizer = ({ users, setUsers, systemSupermarkets }: { users: User[], se
 					<TransitionGroup component={null}>
 
 						{(rowsPerPage > 0 ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : users).map((user) => (
-							
+
 							<Fade in key={user.id}>
 
 								<TableRow>
@@ -72,14 +72,14 @@ const Visualizer = ({ users, setUsers, systemSupermarkets }: { users: User[], se
 											.join(", ")}
 									</TableCell>
 
-									<TableCell align="center">
-
-										<Edit targetUser={user} setUsers={setUsers} systemSupermarkets={systemSupermarkets} />
-										
-										<Delete targetUser={user} setUsers={setUsers} />
-
+									<TableCell align="center" sx={{ display: 'flex', alignItems: 'center' }}>
+										<div>
+											<Edit targetUser={user} setUsers={setUsers} systemSupermarkets={systemSupermarkets} />
+										</div>
+										<div>
+											<Delete targetUser={user} setUsers={setUsers} />
+										</div>
 									</TableCell>
-
 								</TableRow>
 
 							</Fade>
@@ -88,11 +88,11 @@ const Visualizer = ({ users, setUsers, systemSupermarkets }: { users: User[], se
 
 					</TransitionGroup>
 
-				{emptyRows > 0 && (
-					<TableRow style={{ height: 53 * emptyRows }}>
-						<TableCell colSpan={5} />
-					</TableRow>
-				)}
+					{emptyRows > 0 && (
+						<TableRow style={{ height: 53 * emptyRows }}>
+							<TableCell colSpan={5} />
+						</TableRow>
+					)}
 
 				</TableBody>
 
