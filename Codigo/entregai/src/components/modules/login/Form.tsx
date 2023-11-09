@@ -34,15 +34,15 @@ const Form = () => {
 			async () => {
 				return await signInWithEmailAndPassword(auth, email, password)
 					.then(async (userCredential) => {
-	
-					const token = await userCredential.user.getIdToken()
-	
-					const res = await axios.post('/api/login/auth', { token })
-	
-					setCookie('session', res.data.sessionCookie)
-	
-					router.push("/app/supermarket")
-				})
+
+						const token = await userCredential.user.getIdToken()
+
+						const res = await axios.post('/api/login/auth', { token })
+
+						setCookie('session', res.data.sessionCookie)
+
+						router.push("/app/supermarket")
+					})
 			},
 			{
 				pending: 'Carregando...',
@@ -54,66 +54,65 @@ const Form = () => {
 	};
 
 	return (
-			<div className={styles.container} >
-				<Grid container spacing={2} className={styles.box}>
-					<Grid item xs={6}>
-						<div className={styles.formContainer}>
-							<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', padding: '1rem' }}>
-								Login
-							</Typography>
-
-							<form onSubmit={handleSubmit(submitData)} className={styles.form}>
-
-								<Grid container spacing={2}>
-									<Grid item xs={12}>
-										<TextField
-											id="outlined-basic"
-											label="Email"
-											type="email" {...register("email")}
-											variant="outlined"
-											className={styles.label}
-										/>
-									</Grid>
-
-									<Grid item xs={12}>
-										<TextField
-											id="outlined-basic"
-											label="Senha"
-											type="password" {...register("password")}
-											variant="outlined"
-											className={styles.label}
-										/>
-									</Grid>
-
-									<Grid item xs={12}>
-										<Button
-											type="submit"
-											variant="contained"
-											id="submit"
-											className={styles.button}
-											sx={{
-												backgroundColor: 'secondary.main',
-												color: 'secondary.contrastText',
-												'&:hover': {
-													backgroundColor: 'secondary.dark',
-												},
-											}}
-										>
-											Logar
-										</Button>
-									</Grid>
-								</Grid>
-							</form>
-						</div>
-					</Grid>
-
-					<Grid item xs={6}>
-						<div className={styles.imageContainer}>
-							<Image src={loginCoverImage} alt="Background image" />
-						</div>
-					</Grid>
+		<div className={styles.page}>
+			<Grid container spacing={2} className={styles.grid}>
+				<Grid item xs={6}>
+					<div className={styles.imageContainer}>
+						<Image src={loginCoverImage} alt="Background image" />
+					</div>
 				</Grid>
-			</div>
+				<Grid item xs={6}>
+					<div className={styles.formContainer}>
+						<Typography variant="h3" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', padding: '1rem' }}>
+							Login
+						</Typography>
+
+						<form onSubmit={handleSubmit(submitData)} className={styles.form}>
+
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<TextField
+										id="outlined-basic"
+										label="Email"
+										type="email" {...register("email")}
+										variant="outlined"
+										className={styles.label}
+									/>
+								</Grid>
+
+								<Grid item xs={12}>
+									<TextField
+										id="outlined-basic"
+										label="Senha"
+										type="password" {...register("password")}
+										variant="outlined"
+										className={styles.label}
+									/>
+								</Grid>
+
+								<Grid item xs={12}>
+									<Button
+										type="submit"
+										variant="contained"
+										id="submit"
+										className={styles.button}
+										sx={{
+											backgroundColor: 'secondary.main',
+											color: 'secondary.contrastText',
+											'&:hover': {
+												backgroundColor: 'secondary.dark',
+											},
+										}}
+									>
+										Logar
+									</Button>
+								</Grid>
+							</Grid>
+						</form>
+					</div>
+				</Grid>
+			</Grid>
+		</div>
 	)
 }
 
