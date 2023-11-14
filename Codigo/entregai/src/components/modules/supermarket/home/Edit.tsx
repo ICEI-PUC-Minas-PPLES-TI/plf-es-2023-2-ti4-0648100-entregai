@@ -13,6 +13,7 @@ type FormDataType = {
     address: string;
     phone: string;
     cnpj: string;
+    pricePerKm: string;
 }
 
 const Edit = ({ supermarket, setSupermarketDetails }: { supermarket: Supermarket, setSupermarketDetails: Function }) => {
@@ -24,19 +25,19 @@ const Edit = ({ supermarket, setSupermarketDetails }: { supermarket: Supermarket
             name: supermarket.name,
             address: supermarket.address,
             phone: supermarket.phone,
-            cnpj: supermarket.id,
-
+            cnpj: supermarket.cnpj,
+            pricePerKm: supermarket.pricePerKm,
         }
     });
 
     function submitData(data: FormDataType) {
-        const { name, address, phone, cnpj } = data
+        const { name, address, phone, cnpj, pricePerKm } = data
 
         setOpen(false)
 
         toast.promise(
             async () => {
-                return await axios.patch(`/api/supermarket/handler?supermarketId=${supermarket.id}`, { name, address, phone, cnpj })
+                return await axios.patch(`/api/supermarket/handler?supermarketId=${supermarket.id}`, { name, address, phone, cnpj, pricePerKm })
                     .then(async (res) => {
 
                         const updatedSupermarket: Supermarket = await getSupermarketById(supermarket.id)
@@ -119,6 +120,24 @@ const Edit = ({ supermarket, setSupermarketDetails }: { supermarket: Supermarket
                             error={Boolean(errors.cnpj?.message)}
                             helperText={errors.cnpj?.message}
                             label="CNPJ"
+                            fullWidth
+                        />
+
+                        <TextField
+                            margin="dense"
+                            variant="standard"
+                            {...register("pricePerKm", {
+                                required: "Insira o preco por kilômetro",
+                                validate: (value) => {
+                                    if (!/^[0-9]+(\.[0-9]{2,})?$/.test(value)) {
+                                        return "Insira um valor numérico positivo com pelo menos duas casas decimais"
+                                    }
+                                    return true
+                                }
+                            })}
+                            error={Boolean(errors.pricePerKm?.message)}
+                            helperText={errors.pricePerKm?.message}
+                            label="Preço por KM"
                             fullWidth
                         />
 

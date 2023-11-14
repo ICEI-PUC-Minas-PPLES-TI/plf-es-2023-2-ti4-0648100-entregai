@@ -7,13 +7,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === 'POST') {
     
-        const { name, address, phone, cnpj } = req.body
+        const { name, address, phone, cnpj, pricePerKm } = req.body
 
         try {
 
             const id = randomUUID()
 
-            await registerSupermarket(id, name, address, phone, cnpj)
+            await registerSupermarket(id, name, address, phone, cnpj, pricePerKm)
 
             const supermarkets: Supermarket[] = await getAllSupermarkets()
 
@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         const { supermarketId } = req.query
 
-        const { name, address, phone, cnpj } = req.body
+        const { name, address, phone, cnpj, pricePerKm } = req.body
 
         try {
 
@@ -39,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 name,
                 address,
                 phone,
+                pricePerKm,
             }
 
             const updatedSupermarket: Supermarket = await updateSupermarket(supermarket)

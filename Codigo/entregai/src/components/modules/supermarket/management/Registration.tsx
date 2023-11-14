@@ -13,6 +13,7 @@ type FormDataType = {
     address: string;
     phone: string;
     cnpj: string;
+    pricePerKm: string;
 }
 
 const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
@@ -25,7 +26,8 @@ const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
             name: "",
             address: "",
             phone: "",
-            cnpj: ""
+            cnpj: "",
+            pricePerKm: ""
         }
     })
 
@@ -132,6 +134,25 @@ const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
                             error={Boolean(errors.cnpj?.message)}
                             helperText={errors.cnpj?.message}
                             label="CNPJ"
+                            fullWidth
+                        />
+
+
+                        <TextField
+                            margin="dense"
+                            variant="standard"
+                            {...register("pricePerKm", {
+                                required: "Insira o preco por kilômetro",
+                                validate: (value) => {
+                                    if (!/^[0-9]+(\.[0-9]{2,})?$/.test(value)) {
+                                        return "Insira um valor numérico positivo com pelo menos duas casas decimais"
+                                    }
+                                    return true
+                                }
+                            })}
+                            error={Boolean(errors.pricePerKm?.message)}
+                            helperText={errors.pricePerKm?.message}
+                            label="Preço por KM"
                             fullWidth
                         />
 
