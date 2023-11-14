@@ -36,11 +36,11 @@ export const updateSupermarket = async (supermarket: Supermarket): Promise<Super
     return new Promise(async (resolve, reject) => {
         try {
 
-            const { id, name, address, phone, cnpj } = supermarket
+            const { id, name, address, phone, cnpj, pricePerKm } = supermarket
 
             const supermarketRef = doc(db, "supermarkets", id);
 
-            await updateDoc(supermarketRef, { name, address, phone, cnpj })
+            await updateDoc(supermarketRef, { name, address, phone, cnpj, pricePerKm })
 
             resolve(supermarket)
             
@@ -103,7 +103,7 @@ export const getSupermarketById = async (id: string): Promise<Supermarket> => {
     })
 }
 
-export const registerSupermarket = async (id: string, name: string, address: string, phone: string, cnpj: string) => {
+export const registerSupermarket = async (id: string, name: string, address: string, phone: string, cnpj: string, pricePerKm: string) => {
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -114,11 +114,12 @@ export const registerSupermarket = async (id: string, name: string, address: str
                 address,
                 cnpj,
                 phone,
+                pricePerKm,
                 orders: [],
                 stock: []
             });
 
-            resolve({ id, name, address, phone, cnpj })
+            resolve({ id, name, address, phone, cnpj, pricePerKm })
 
         } catch (err) {
             reject(err)

@@ -58,16 +58,17 @@ const MenuBar = () => {
 					{/* Lista dinâmica conforme os itens de menuItems */}
 					<List>
 						{menuItems.map((item, index) => (
-							<ListItem key={item.text} disablePadding> {/* Ex.: Supermercados */}
-								<Link href={`/app/${item.link}`}> {/* Ex.: /app/supermarket */}
+							<Link href={`/app/${item.link}`} key={item.text}>
+							<ListItem  disablePadding> {/* Ex.: Supermercados */}
+								 {/* Ex.: /app/supermarket */}
 									<ListItemButton>
 										<ListItemIcon sx={{ color: 'primary.contrastText' }}>
 											{<item.icon />}
 										</ListItemIcon>
 										<ListItemText primary={item.text} sx={{ color: 'primary.contrastText' }} />
 									</ListItemButton>
-								</Link>
 							</ListItem>
+							</Link>
 						))}
 					</List>
 
@@ -75,26 +76,26 @@ const MenuBar = () => {
 
 					<List>
 						{/* Item "Meu Perfil" */}
-						<ListItem disablePadding>
-							<Link href="/app/user/profile">
+						<Link href="/app/user/profile">
+							<ListItem disablePadding>
 								<ListItemButton>
 									<ListItemIcon sx={{ color: 'primary.contrastText' }}>
 										<PersonOutlineOutlinedIcon />
 									</ListItemIcon>
 									<ListItemText primary="Meu Perfil" sx={{ color: 'primary.contrastText' }} />
 								</ListItemButton>
-							</Link>
-						</ListItem>
+							</ListItem>
+						</Link>
 
 						{/* Item "Deslogar" */}
-						<ListItem disablePadding>
-							<ListItemButton onClick={userSignOut}>
+						<ListItemButton onClick={userSignOut}>
+							<ListItem disablePadding>
 								<ListItemIcon sx={{ color: 'primary.contrastText' }}>
 									<ExitToAppOutlinedIcon />
 								</ListItemIcon>
 								<ListItemText primary="Sair" sx={{ color: 'primary.contrastText' }} />
-							</ListItemButton>
-						</ListItem>
+							</ListItem>
+						</ListItemButton>
 					</List>
 				</Box>
 			</Drawer>

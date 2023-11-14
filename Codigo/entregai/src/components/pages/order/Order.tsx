@@ -40,7 +40,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     const router = useRouter()
 
-    const pricePerKilometer = 2.5
+    const [ pricePerKilometer, setPricePerKilometer ] = useState<number>(0)
 
     const [step, setStep] = useState(0)
 
@@ -142,6 +142,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
             setSelectedSupermarketId(event.target.value);
             setSelectedItems([]);
             setStock(systemSupermarkets.find((sup) => sup.id === event.target.value)?.stock!);
+            setPricePerKilometer(Number(systemSupermarkets.find((sup) => sup.id === event.target.value)?.pricePerKm!))
         };
 
         function handleCheckbox(itemId: string) {

@@ -9,5 +9,6 @@ export interface Supermarket {
     phone: string,
     orders?: Order[],
     stock?: Product[],
-    imageUrl?: string
+    imageUrl?: string,
+    pricePerKm: string,
 }
