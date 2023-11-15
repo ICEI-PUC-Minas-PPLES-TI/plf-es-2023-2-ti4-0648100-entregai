@@ -10,7 +10,7 @@ import { Product } from "@/libs/types/Product";
 import { Item } from "@/libs/types/Item";
 import { toast } from "react-toastify";
 import toastConfig from "@/libs/toast/toastConfig";
-import { CheckCircle, ShoppingBasket, Place, Badge, LocalPhone, CreditCard, Send } from '@mui/icons-material';
+import { CheckCircle, ShoppingBasket, Search, Place, Badge, LocalPhone, CreditCard, Send } from '@mui/icons-material';
 import styles from './Order.module.scss';
 import { useRouter } from "next/navigation";
 
@@ -40,13 +40,13 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
     const router = useRouter()
 
-    const [ pricePerKilometer, setPricePerKilometer ] = useState<number>(0)
+    const [pricePerKilometer, setPricePerKilometer] = useState<number>(0)
 
     const [step, setStep] = useState(0)
 
-    const [ validCep, setValidCep ] = useState<boolean>(false)
+    const [validCep, setValidCep] = useState<boolean>(false)
 
-    const [completed, setCompleted] = useState({ status: false, trackingCode: ''})
+    const [completed, setCompleted] = useState({ status: false, trackingCode: '' })
 
     const [frete, setFrete] = useState('0')
 
@@ -58,7 +58,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
         return systemSupermarkets.find((sup) => sup.id === selectedSupermarketId) as Supermarket;
     }, [selectedSupermarketId, systemSupermarkets]);
 
-    const [ stock, setStock ] = useState<Product[]>([] as Product[])
+    const [stock, setStock] = useState<Product[]>([] as Product[])
 
     const selectedProducts = selectedItems.map((item) => {
         const product = selectedSupermarket?.stock?.find((stockItem) => stockItem.id === item.productId) as Product;
@@ -180,11 +180,11 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
         }
 
         function search(searchString: string) {
-    
+
             const filteredRows = selectedSupermarket.stock!.filter((item) => {
                 return item.name.toLowerCase().includes(searchString.toLowerCase())
             })
-    
+
             setStock(filteredRows)
         }
 
@@ -202,7 +202,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                 <Box className={styles.content}>
 
-                    <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: 2 }}>
+                    <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: '1.5rem'}}>
                         <Place sx={{ marginRight: 1.5, color: "primary.dark" }} />
                         Selecione o supermercado mais próximo:
                     </Typography>
@@ -228,17 +228,28 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                         </Select>
 
                     </FormControl>
-
                 </Box>
 
                 <Box className={styles.content}>
 
-                    <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: 2 }}>
+                    <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: '1.5rem' }}>
                         <ShoppingBasket sx={{ marginRight: 1.5, color: "primary.dark" }} />
                         Selecione os produtos e quantidade que deseja:
                     </Typography>
 
-                <TextField onChange={(event) => { search(event.target.value) }} label="Nome do Produto" />
+                    <TextField
+                        onChange={(event) => { search(event.target.value) }}
+                        label="Nome do Produto"
+                        variant="standard"
+                        sx={{ marginBottom: '2rem ', width: 300 }}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Search />
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
 
                     <TableContainer>
                         <Table size="small">
@@ -262,10 +273,10 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                             ) : (
                                                 <div>
                                                     <Checkbox
-                                                    checked={selectedItems.some(
-                                                        (selectedItem: Item) => selectedItem.productId === item.id
-                                                    )}
-                                                    onChange={() => handleCheckbox(item.id)}
+                                                        checked={selectedItems.some(
+                                                            (selectedItem: Item) => selectedItem.productId === item.id
+                                                        )}
+                                                        onChange={() => handleCheckbox(item.id)}
                                                     />
                                                     {item.name}
                                                 </div>
@@ -317,12 +328,20 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                         <Divider textAlign="center">
                             <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
-                                Dados do cliente
+                                Informações do cliente
                             </Typography>
                         </Divider>
 
                         <Box sx={{ margin: '2rem 0' }}>
+
                             <Grid container rowSpacing={3} columnSpacing={1}>
+
+                                <Grid item xs={12}>
+                                    <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
+                                        Dados pessoais:
+                                    </Typography>
+                                </Grid>
+
                                 <Grid item xs={8}>
                                     <TextField
                                         label="Nome"
@@ -365,24 +384,37 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                 </Grid>
 
                                 <Grid item xs={12}>
-                                    <TextField
-                                        label="CEP"
-                                        {...register("cep", { required: "Por favor, insira o seu CEP" })}
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Place />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                        sx={{ width: '100%' }}
-                                        error={Boolean(errors.cep?.message)}
-                                        helperText={errors.cep?.message}
-                                        variant="outlined"
-                                    />
+                                    <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
+                                        Endereço de entrega:
+                                    </Typography>
                                 </Grid>
 
-                                <Button onClick={validateCep} variant="contained">Validar Cep</Button>
+                                <Grid item xs={12}>
+                                    <Grid container spacing={2}>
+                                        <Grid item lg={10}>
+                                            <TextField
+                                                label="CEP"
+                                                {...register("cep", { required: "Por favor, insira o seu CEP" })}
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <Place />
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                                sx={{ width: '100%' }}
+                                                error={Boolean(errors.cep?.message)}
+                                                helperText={errors.cep?.message}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid item lg={2}>
+                                            <Button onClick={validateCep} variant="contained" sx={{ width: '100%', height: '100%' }} endIcon={<ArrowForwardIosIcon />}>
+                                                Validar Cep
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
 
                                 <Grid item xs={12}>
                                     <Controller
@@ -403,7 +435,6 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                         )}
 
                                     />
-
                                 </Grid>
 
                                 <Grid item xs={12}>
@@ -427,28 +458,33 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                 </Grid>
 
                                 <Grid item xs={12}>
-                                    <TextField
-                                        label="Número"
-                                        {...register("number", { required: "Por favor, insira o número" })}
-                                        sx={{ width: '100%' }}
-                                        disabled={!validCep}
-                                        error={Boolean(errors.number?.message)}
-                                        helperText={errors.number?.message}
-                                        variant="outlined"
-                                    />
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                label="Número"
+                                                {...register("number", { required: "Por favor, insira o número" })}
+                                                sx={{ width: '100%' }}
+                                                disabled={!validCep}
+                                                error={Boolean(errors.number?.message)}
+                                                helperText={errors.number?.message}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                label="Complemento"
+                                                {...register("complement", { required: "Por favor, insira o complemento" })}
+                                                sx={{ width: '100%' }}
+                                                disabled={!validCep}
+                                                error={Boolean(errors.complement?.message)}
+                                                helperText={errors.complement?.message}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                    </Grid>
+
                                 </Grid>
 
-                                <Grid item xs={12}>
-                                    <TextField
-                                        label="Complemento"
-                                        {...register("complement", { required: "Por favor, insira o complemento" })}
-                                        sx={{ width: '100%' }}
-                                        disabled={!validCep}
-                                        error={Boolean(errors.complement?.message)}
-                                        helperText={errors.complement?.message}
-                                        variant="outlined"
-                                    />
-                                </Grid>
                             </Grid>
                         </Box>
 
@@ -551,6 +587,7 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                     <TableCell>Sub-Total</TableCell>
                                 </TableRow>
                             </TableHead>
+
                             <TableBody>
                                 {selectedProducts.map((selectedProduct) => (
                                     <TableRow key={selectedProduct.id}>
@@ -563,15 +600,15 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                                 <TableRow>
                                     <TableCell rowSpan={3} colSpan={2} />
-                                    <TableCell>Frete</TableCell>
+                                    <TableCell> <strong>Frete</strong> </TableCell>
                                     <TableCell align="left">R$ {frete}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Subtotal</TableCell>
+                                    <TableCell> <strong>Subtotal</strong> </TableCell>
                                     <TableCell align="left">R$ {subtotal.toFixed(2)}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Total</TableCell>
+                                    <TableCell> <strong>Total</strong> </TableCell>
                                     <TableCell align="left">R$ {(Number(frete) + subtotal).toFixed(2)}</TableCell>
                                 </TableRow>
                             </TableBody>
@@ -598,22 +635,38 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                             Pedido realizado com sucesso!
                         </Typography>
 
-                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>Codigo de Rastreio: {completed.trackingCode}</Typography>
-                        
-                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular' }}>
-                            <CheckCircle />
+                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: '1rem' }}>
+                            Codigo de Rastreio: {completed.trackingCode}
+                        </Typography>
+
+                        <Typography variant="body1" noWrap component="div" sx={{ fontWeight: 'fontWeightRegular', marginBottom: '1rem' }}>
+                            <CheckCircle sx={{ marginRight: '0.5rem' }} />
                             Seu pedido será entregue em breve.
                         </Typography>
 
                         <div style={{ textAlign: 'center' }}>
-                            <Button onClick={() => {
-                                setCompleted({ status: false, trackingCode: '' });
-                                setStep(0);
-                                setSelectedSupermarketId('');
-                                setSelectedItems([]);
-                                reset();
-                                router.replace('/order')
-                            }} variant="contained">
+                            <Button
+                                onClick={() => {
+                                    setCompleted({ status: false, trackingCode: '' });
+                                    setStep(0);
+                                    setSelectedSupermarketId('');
+                                    setSelectedItems([]);
+                                    reset();
+                                    router.replace('/')
+                                }} sx={{ marginRight: '0.5rem' }}
+                            >
+                                Voltar à página inicial
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setCompleted({ status: false, trackingCode: '' });
+                                    setStep(0);
+                                    setSelectedSupermarketId('');
+                                    setSelectedItems([]);
+                                    reset();
+                                    router.replace('/order')
+                                }} variant="contained"
+                            >
                                 Fazer outro pedido
                             </Button>
                         </div>
@@ -621,7 +674,6 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                 </div>
             </Fade>
         );
-
     }
 
     const Arrows = () => {
@@ -748,11 +800,15 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
 
                 (<>
 
-                    <BackButton />
+                    <Box sx={{ display: 'flex', flexDirection: 'row', padding: '2rem 5rem' }}>
 
-                    <Typography variant="h4" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', padding: '1.5rem' }}>
-                        Novo pedido
-                    </Typography>
+                        <BackButton />
+
+                        <Typography variant="h4" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', marginLeft: '0.5rem' }}>
+                            Novo pedido
+                        </Typography>
+                    </Box>
+
 
                     {stepOrder[step]()}
 
