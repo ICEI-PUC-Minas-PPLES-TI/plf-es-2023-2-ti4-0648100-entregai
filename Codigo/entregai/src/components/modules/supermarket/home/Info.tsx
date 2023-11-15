@@ -2,45 +2,41 @@ import { Supermarket } from "@/libs/types/Supermarket"
 import Picture from "./Picture"
 import { Box, Grid, ThemeProvider, Typography } from "@mui/material"
 import theme from "@/libs/theme/theme"
+import styles from './Info.module.scss'
 
 const Info = ({ supermarket }: { supermarket: Supermarket }) => {
     return (
         <ThemeProvider theme={theme}>
-            <div>
-                <Typography variant="h4" noWrap component="div" sx={{ padding: '1.5rem 0 1.5rem 0' }}>
-                    {supermarket.name}
-                </Typography>
+            <Typography variant="h4" noWrap component="div" sx={{ padding: '1.5rem 0' }}>
+                {supermarket.name}
+            </Typography>
 
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <Picture imageUrl={supermarket.imageUrl!} />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Box>
-                            <Typography variant="body1" noWrap component="body">
-                                <Typography variant="button" sx={{ color: 'primary.dark' }}>Endereço: </Typography>
-                                {supermarket.address}
-                            </Typography>
+            <Box position="relative">
+                <div className={styles.pictureContainer}>
+                    <div className={styles.blurredContent}></div>
+                    <Picture imageUrl={supermarket.imageUrl!} />
+                </div>
 
-                            <Typography variant="body1" noWrap component="body">
-                                <Typography variant="button" sx={{ color: 'primary.dark' }}>Telefone: </Typography>
-                                {supermarket.phone}
-                            </Typography>
+                <div className={styles.overlayContent}>
+                    <Typography variant="body1" noWrap component="body" sx={{ color: 'white' }}>
+                        <Typography variant="button" sx={{ color: 'white' }}>Endereço: </Typography>
+                        {supermarket.address}
+                    </Typography>
 
-                            <Typography variant="body1" noWrap component="body">
-                                <Typography variant="button" sx={{ color: 'primary.dark' }}>CNPJ: </Typography>
-                                {supermarket.cnpj}
-                            </Typography>
-                        </Box>
-                    </Grid>
+                    <Typography variant="body1" noWrap component="body" sx={{ color: 'white' }}>
+                        <Typography variant="button" sx={{ color: 'white' }}>Telefone: </Typography>
+                        {supermarket.phone}
+                    </Typography>
 
-                </Grid>
+                    <Typography variant="body1" noWrap component="body" sx={{ color: 'white' }}>
+                        <Typography variant="button" sx={{ color: 'white' }}>CNPJ: </Typography>
+                        {supermarket.cnpj}
+                    </Typography>
+                </div>
+            </Box>
 
-
-
-            </div>
         </ThemeProvider>
-    )
+    );
 }
 
 export default Info

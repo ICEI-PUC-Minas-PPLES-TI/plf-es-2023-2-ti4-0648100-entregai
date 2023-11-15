@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Fab, Grid } from "@mui/material";
+import { Box, Fab, Grid, Divider, Button } from "@mui/material";
 import Link from "next/link";
 import Info from "../../modules/supermarket/home/Info";
 import Edit from "../../modules/supermarket/home/Edit";
@@ -17,45 +17,39 @@ const SupermarketHome = ({ supermarket }: { supermarket: Supermarket }) => {
     const [supermarketDetails, setSupermarketDetails] = useState<Supermarket>(supermarket)
 
     return (
-        <div>
+        <Box sx={{ marginTop: '1rem' }}>
             <BackButton />
 
-            <Grid container spacing={1}>    {/* Outer grid */}
+            <Grid container spacing={0} sx={{ maxWidth: 1100 }}>
                 <Grid item lg={8}>
                     <Info supermarket={supermarketDetails} />
                 </Grid>
 
-                <Grid item lg={4} className={styles.actions} >
-                    <Grid container spacing={1}>    {/* Inner grid */}
-                        <Grid item lg={12}>
-                            <Upload setSupermarketDetails={setSupermarketDetails} supermarket={supermarketDetails} />
-                        </Grid>
-                        <Grid item lg={12}>
-                            <Edit setSupermarketDetails={setSupermarketDetails} supermarket={supermarketDetails} />
-                        </Grid>
-                        <Grid item lg={12}>
-                            <Delete supermarket={supermarketDetails} />
-                        </Grid>
-                    </Grid>
+                <Grid item lg={4}>
+                    <div className={styles.actions}>
+                        <Link href={`/app/supermarket/${supermarketDetails.id}/orders`}>
+                            <Button variant="contained" size='large' startIcon={<DescriptionIcon />} sx={{ margin: '0.5rem', width: 240 }}>
+                                Gerenciar pedidos
+                            </Button>
+                        </Link>
+
+                        <Link href={`/app/supermarket/${supermarketDetails.id}/stock`}>
+                            <Button variant="contained" size='large' startIcon={<InventoryIcon />} sx={{ margin: '0.5rem', width: 240 }}>
+                                Gerenciar estoque
+                            </Button>
+                        </Link>
+
+                    </div>
                 </Grid>
 
-                <Grid item lg={12} className={styles.options}>
-                    <Link href={`/app/supermarket/${supermarketDetails.id}/orders`}>
-                        <Fab variant="extended" size="medium" color="primary" sx={{ marginTop: 2 }}>
-                            <DescriptionIcon />
-                            Pedidos
-                        </Fab>
-                    </Link>
-
-                    <Link href={`/app/supermarket/${supermarketDetails.id}/stock`}>
-                        <Fab variant="extended" size="medium" color="primary" sx={{ marginTop: 2 }}>
-                            <InventoryIcon />
-                            Estoque
-                        </Fab>
-                    </Link>
-                </Grid>
             </Grid>
-        </div>
+
+            <div className={styles.options}>
+                <Upload setSupermarketDetails={setSupermarketDetails} supermarket={supermarketDetails} />
+                <Edit setSupermarketDetails={setSupermarketDetails} supermarket={supermarketDetails} />
+                <Delete supermarket={supermarketDetails} />
+            </div>
+        </Box>
     )
 }
 
