@@ -377,12 +377,19 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
 
     useEffect(() => {
         const sortedOrders = supermarket.orders!.sort((orderA, orderB) => {
-            return orderA.status! - orderB.status!;
+            
+            const statusComparison = orderA.status! - orderB.status!;
+            
+            if (statusComparison !== 0) {
+                return statusComparison;
+            }
+    
+            return new Date(orderB.date!).getTime() - new Date(orderA.date!).getTime()
         });
 
         setOrders(sortedOrders);
-
-    }, [ supermarket ])
+    
+    }, [supermarket]);
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - supermarket.orders!.length) : 0
 

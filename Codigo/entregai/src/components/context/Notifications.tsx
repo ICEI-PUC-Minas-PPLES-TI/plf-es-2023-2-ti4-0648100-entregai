@@ -12,10 +12,6 @@ const Notifications = () => {
 
     let audio = new Audio("/sounds/notification.mp3")
 
-    const start = () => {
-        audio.play()
-    }
-
     useEffect(() => {
 
         const fetchNotifications = async (uid: string) => {
@@ -30,7 +26,7 @@ const Notifications = () => {
 
                     toast.info("Você tem um novo pedido no supermercado " + notificationsData[notificationsData.length - 1].supermarketName + "!", toastConfig)
 
-                    start()
+                    audio.play()
 
                     setNotifications(notificationsData)
 
