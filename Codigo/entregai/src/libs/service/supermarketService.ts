@@ -61,8 +61,12 @@ export const getSupermarketImageUrl = async (id: string): Promise<string> => {
             })
 
         } catch (err) {
-            
-            resolve('')
+
+            const imgRef = ref(storage, `images/sem-imagem.jpg`)
+
+            await getDownloadURL(imgRef).then((url) => {
+                resolve(url)
+            })
         }
     })
 }

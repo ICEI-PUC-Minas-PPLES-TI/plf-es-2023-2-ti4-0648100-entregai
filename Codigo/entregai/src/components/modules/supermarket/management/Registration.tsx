@@ -32,13 +32,13 @@ const Registration = ({ setSupermarkets }: { setSupermarkets: Function }) => {
     })
 
     function submitData(data: FormDataType) {
-        const { name, address, phone, cnpj } = data
+        const { name, address, phone, cnpj, pricePerKm } = data
 
         setOpen(false)
 
         toast.promise(
             async () => {
-                return await axios.post('/api/supermarket/handler', { name, address, phone, cnpj })
+                return await axios.post('/api/supermarket/handler', { name, address, phone, cnpj, pricePerKm })
                     .then((res) => {
                         setSupermarkets(res.data.supermarkets)
 

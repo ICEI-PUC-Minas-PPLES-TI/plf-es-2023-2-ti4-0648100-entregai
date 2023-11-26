@@ -15,9 +15,6 @@ const Info = () => {
             </Typography>
 
             <Box sx={{ padding: '1rem 0' }}>
-                <Typography variant="body1" noWrap component="div">
-                    Olá, {user.name}!
-                </Typography>
 
                 <div className={styles.container}>
                     <Image src={userImage} alt="User Icon" className={styles.userIcon} />

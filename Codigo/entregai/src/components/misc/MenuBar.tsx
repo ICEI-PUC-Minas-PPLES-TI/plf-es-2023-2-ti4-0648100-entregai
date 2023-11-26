@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { auth } from '@/libs/firebase/firebase-config';
 import { deleteCookie, getCookie } from 'cookies-next';
 import axios from 'axios';
+import { useAuth } from '../context/UserContext';
 
 
 const drawerWidth = 240;
@@ -36,12 +37,18 @@ const MenuBar = () => {
 			})
 	};
 
+	const { user } = useAuth()
+
 	return (
 		<Box sx={{ display: 'flex' }} >
-			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, boxShadow: 'none' }}>
-				<Toolbar>
+			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, boxShadow: 'none'}}>
+				<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 					<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightBold' }}>
 						Entregaí
+					</Typography>
+
+					<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightBold' }}>
+						Olá, {user.name} 
 					</Typography>
 				</Toolbar>
 			</AppBar >

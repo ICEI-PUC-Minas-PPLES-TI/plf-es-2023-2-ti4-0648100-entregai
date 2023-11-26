@@ -1,10 +1,11 @@
 import { Supermarket } from "@/libs/types/Supermarket"
-import { TextField, Autocomplete, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Fade } from "@mui/material";
+import { TextField, Autocomplete, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Fade, InputAdornment, Divider } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import Edit from "./Edit";
 import { Product } from "@/libs/types/Product";
 import Delete from "./Delete";
 import { TransitionGroup } from "react-transition-group";
+import { Search } from "@mui/icons-material";
 
 const columns = [
 	{ id: 'code', label: 'Codigo', minWidth: 100 },
@@ -50,7 +51,19 @@ const Visualizer = ({ supermarket, setSupermarketDetails }: { supermarket: Super
     return (    
 		<div>
 
-			<TextField onChange={(event) => { search(event.target.value) }} label="Busca Item por Nome" />
+			<TextField 
+				onChange={(event) => { search(event.target.value) }} 
+				label="Nome do Item"
+				InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Search />
+                        </InputAdornment>
+                    ),
+                }} 
+			/>
+
+			<Divider sx={{ marginTop: '2rem' }} />
 
 			<TableContainer component={Paper}>
 
@@ -92,7 +105,7 @@ const Visualizer = ({ supermarket, setSupermarketDetails }: { supermarket: Super
 
 										<TableCell align="left">{(Number(stockItem.soldQuantity) * Number(stockItem.price)).toFixed(2)}</TableCell>
 
-										<TableCell align="center">
+										<TableCell align="center" sx={{ display: 'flex', alignItems: 'center'}}>
 
 											<Edit setSupermarketDetails={setSupermarketDetails} supermarket={supermarket} product={stockItem}/>
 
@@ -119,7 +132,10 @@ const Visualizer = ({ supermarket, setSupermarketDetails }: { supermarket: Super
 
 					<TableFooter>
 						<TableRow>
-							<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={7} count={stock!.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+							<TablePagination 
+								labelDisplayedRows={({ from, to, count }) => `Exibindo da página ${from} até ${to}`}
+								labelRowsPerPage={"Linhas por página"} 
+								rowsPerPageOptions={[5, 10, 25]} colSpan={7} count={stock!.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
 						</TableRow>
 					</TableFooter>
 
