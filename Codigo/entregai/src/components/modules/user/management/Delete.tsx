@@ -52,10 +52,10 @@ const Delete = ({ targetUser, setUsers }: { targetUser: User, setUsers: Function
 
             <Dialog open={open} onClose={handleClose}>
 
-                <DialogTitle>Deletando Usuário: {targetUser.name}</DialogTitle>
+                <DialogTitle>Deletar Usuário</DialogTitle>
 
                 <DialogContent>
-                    <Typography variant="body1">Tem certeza que deseja deletar o usuário {targetUser.name}?</Typography>
+                    <Typography variant="body1">Tem certeza que deseja deletar o usuário <strong>{targetUser.name}?</strong></Typography>
                 </DialogContent>
 
                 <DialogActions>

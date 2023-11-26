@@ -1,8 +1,7 @@
 import { Product } from "@/libs/types/Product"
 import { Supermarket } from "@/libs/types/Supermarket"
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material"
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -48,7 +47,7 @@ const Delete = ({ setSupermarketDetails, supermarket, product }: { setSupermarke
 
                 <DialogTitle>{product.name}</DialogTitle>
 
-                <DialogContent>Deseja mesmo remove este produto do estoque?</DialogContent>
+                <DialogContent><Typography variant="body1">Deseja mesmo remover este produto do estoque?</Typography></DialogContent>
 
                 <DialogActions>
 

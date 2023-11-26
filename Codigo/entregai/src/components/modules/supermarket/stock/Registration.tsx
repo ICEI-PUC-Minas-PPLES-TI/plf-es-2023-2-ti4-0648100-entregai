@@ -1,11 +1,11 @@
 import toastConfig from "@/libs/toast/toastConfig";
 import { Supermarket } from "@/libs/types/Supermarket";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, TextField } from "@mui/material"
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import AddIcon from '@mui/icons-material/Add';
 
 type FormDataType = {
     name: string;
@@ -52,9 +52,20 @@ const Registration = ({ supermarket, setSupermarketDetails }: { supermarket: Sup
 
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen}>
-				Novo Produto
-			</Button>
+
+            <Fab onClick={handleOpen}
+                sx={{
+                    backgroundColor: 'secondary.main',
+                    color: 'secondary.contrastText',
+                    position: 'fixed',
+                    bottom: 30,
+                    right: 30,
+                    '&:hover': {
+                        backgroundColor: 'secondary.dark',
+                    },
+                }}>
+                <AddIcon />
+            </Fab>
 
 			<Dialog open={open} onClose={handleClose}>
 

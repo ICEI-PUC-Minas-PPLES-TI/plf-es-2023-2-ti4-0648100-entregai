@@ -2,9 +2,10 @@ import { Supermarket } from "@/libs/types/Supermarket";
 import { Box, Button, Card, CardContent, CardMedia, Grow, Typography } from "@mui/material";
 
 const Unit = ({ supermarket }: { supermarket: Supermarket }) => {
+
 	return (
 		<Grow in={true} {...{ timeout: 1000 }}>
-			<Card >
+			<Card elevation={4} >
 				{supermarket.imageUrl !== '' && <CardMedia
 					sx={{ height: 200 }}
 					image={supermarket.imageUrl}
