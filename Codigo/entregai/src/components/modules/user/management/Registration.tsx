@@ -139,7 +139,7 @@ const UserRegistration = ({ systemSupermarkets, setUsers }: { systemSupermarkets
                             fullWidth
                         />
 
-                        <FormControlLabel control={<Checkbox {...register("permissionLevel")} />} label="Administrador" />
+                        <FormControlLabel sx={{ display: 'block', marginTop: '1rem', marginBottom: '1rem' }} control={<Checkbox {...register("permissionLevel")} />} label="Administrador" />
 
                         <Selector systemSupermarkets={systemSupermarkets} selectedSupermarkets={selectedSupermarkets} setSelectedSupermarkets={setSelectedSupermarkets} />
 

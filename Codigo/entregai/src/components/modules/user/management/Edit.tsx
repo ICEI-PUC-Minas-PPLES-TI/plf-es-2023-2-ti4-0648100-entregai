@@ -124,6 +124,7 @@ const Edit = ({ targetUser, systemSupermarkets, setUsers }: { targetUser: User, 
 						{/* Seletor Supermercados */}
 
 						<FormControlLabel
+							sx={{ marginTop: '1rem' }}
 							control={
 								<Checkbox
 									checked={editPassword}
@@ -136,7 +137,7 @@ const Edit = ({ targetUser, systemSupermarkets, setUsers }: { targetUser: User, 
 									}}
 								/>
 							}
-							label="Alterar Senha"
+							label="Deseja alterar a senha?"
 						/>
 
 						<TextField
@@ -159,7 +160,7 @@ const Edit = ({ targetUser, systemSupermarkets, setUsers }: { targetUser: User, 
 							})}
 							error={Boolean(errors.password?.message)}
 							helperText={errors.password?.message}
-							label="Senha"
+							label="Nova Senha"
 							fullWidth
 						/>
 
@@ -182,11 +183,13 @@ const Edit = ({ targetUser, systemSupermarkets, setUsers }: { targetUser: User, 
 							fullWidth
 						/>
 
-						<FormControlLabel control={
-							<Checkbox 
-								defaultChecked={targetUser.permissionLevel} 
-								{...register("permissionLevel")}
-							/>}
+						<FormControlLabel 
+							sx={{ display: 'block', marginTop: '1rem', marginBottom: '1rem' }}
+							control={
+								<Checkbox 
+									defaultChecked={targetUser.permissionLevel} 
+									{...register("permissionLevel")}
+								/>}
 							
 						label="Administrador" 
 						/>

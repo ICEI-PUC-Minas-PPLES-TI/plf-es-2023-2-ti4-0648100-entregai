@@ -30,6 +30,7 @@ const Selector = ({ selectedSupermarkets, systemSupermarkets, setSelectedSuperma
 				multiple
 				value={selectedSupermarkets}
 				onChange={handleChange}
+				sx={{ width: '100%' }}
 				input={<OutlinedInput label="Supermercados" />}
 				MenuProps={MenuProps}
 				renderValue={(selected: string[]) => (

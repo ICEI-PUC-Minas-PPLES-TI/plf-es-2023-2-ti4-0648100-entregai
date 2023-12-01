@@ -1,6 +1,6 @@
 import { Order } from "@/libs/types/Order";
 import { Supermarket } from "@/libs/types/Supermarket"
-import { Box, Button, Chip, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Fade, FormControl, IconButton, InputLabel, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TextField, Typography } from "@mui/material"
+import { Box, Button, Chip, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Fade, FormControl, IconButton, InputAdornment, InputLabel, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TextField, Typography } from "@mui/material"
 import React, { useEffect, useMemo, useState } from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -14,6 +14,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import toastConfig from "@/libs/toast/toastConfig";
 import EditIcon from '@mui/icons-material/Edit';
+import { Search } from "@mui/icons-material";
 
 const columns = [
     { id: 'id', label: 'ID', minWidth: 100 },
@@ -97,11 +98,15 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
                             <Box sx={{ margin: 1 }}>  
 
                                 <Typography variant="h6" gutterBottom component="div">
-                                    Cliente
+                                    Detalhes
                                 </Typography>
 
                                 <Typography variant="body2" gutterBottom component="div">
-                                    Nome: {order.buyer.name}
+                                    ID Pedido: <strong>#{order.id}</strong>
+                                </Typography>
+
+                                <Typography variant="body2" gutterBottom component="div">
+                                    Cliente: {order.buyer.name}
                                 </Typography>
 
                                 <Typography variant="body2" gutterBottom component="div">
@@ -115,7 +120,9 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
                                 <Typography variant="h6" gutterBottom component="div">
                                     Produtos
                                 </Typography>
-    
+
+                                <Divider />
+
                                 <Table size="small">
     
                                     <TableHead>
@@ -377,12 +384,19 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
 
     useEffect(() => {
         const sortedOrders = supermarket.orders!.sort((orderA, orderB) => {
-            return orderA.status! - orderB.status!;
+            
+            const statusComparison = orderA.status! - orderB.status!;
+            
+            if (statusComparison !== 0) {
+                return statusComparison;
+            }
+    
+            return new Date(orderB.date!).getTime() - new Date(orderA.date!).getTime()
         });
 
         setOrders(sortedOrders);
-
-    }, [ supermarket ])
+    
+    }, [supermarket]);
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - supermarket.orders!.length) : 0
 
@@ -408,7 +422,19 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
 
     return (
         <div>
-            <TextField onChange={(event) => { search(event.target.value) }} label="Nome do Cliente" />
+            <TextField 
+                onChange={(event) => { search(event.target.value) }} 
+                label="Nome do Cliente" 
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Search />
+                        </InputAdornment>
+                    ),
+                }}
+            />
+
+            <Divider sx={{ marginTop: '2rem' }} />
 
             <TableContainer component={Paper}>
 
@@ -448,7 +474,11 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
 
                     <TableFooter>
 						<TableRow>
-							<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={7} count={orders.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+							<TablePagination 
+                                labelDisplayedRows={({ from, to, count }) => `Exibindo da página ${from} até ${to}`}
+                                labelRowsPerPage={"Linhas por página"} 
+                                rowsPerPageOptions={[5, 10, 25]} 
+                                colSpan={7} count={orders.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
 						</TableRow>
 					</TableFooter>
 
