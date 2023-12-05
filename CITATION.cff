@@ -2,30 +2,28 @@ cff-version: 1.0.1
 message: Please cite this software using these metadata.
 title: 
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names:
+  - family-names: Rodrigues Nalon
+    given-names: Yan
+  - family-names: Teixeira Lott Carvalho
+    given-names: Letícia
+  - family-names: Rodrigues de Freitas Faria
+    given-names: André
+  - family-names: Andrade Alves
+    given-names: Gustavo
+  - family-names: Silva e Melo Oliveira
+    given-names: Carlos Emanuel
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Ishitani
+    given-names: Lucila
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Lúcia da Silva
+    given-names: Soraia
 keywords:
-  - 
-  - 
-repository-code: 
+  - Delivery
+  - Desenvolvimento Web
+repository-code: https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2023-2-ti4-0648100-entregai/
 license: CC-BY-4.0
 version: 1.0.0
-date-released: 2022-07-14
+date-released: 2023-12-12
