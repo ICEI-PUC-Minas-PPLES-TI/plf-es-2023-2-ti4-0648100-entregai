@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar } from '@mui/material';
 import Link from 'next/link';
+import Image from 'next/image'
 import { Box, Drawer, List, Typography, Divider } from '@mui/material';
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import {
@@ -15,6 +16,7 @@ import { auth } from '@/libs/firebase/firebase-config';
 import { deleteCookie, getCookie } from 'cookies-next';
 import axios from 'axios';
 import { useAuth } from '../context/UserContext';
+import logo from "/src/styles/img/entregai_logo_white.png"
 
 
 const drawerWidth = 240;
@@ -43,11 +45,9 @@ const MenuBar = () => {
 		<Box sx={{ display: 'flex' }} >
 			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, boxShadow: 'none'}}>
 				<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-					<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightBold' }}>
-						Entregaí
-					</Typography>
+					<Image src={logo} alt="Entregaí" height={40} />
 
-					<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightBold' }}>
+					<Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'fontWeightMedium' }}>
 						Olá, {user.name} 
 					</Typography>
 				</Toolbar>

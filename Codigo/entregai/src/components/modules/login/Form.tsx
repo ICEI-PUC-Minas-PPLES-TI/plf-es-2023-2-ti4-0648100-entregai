@@ -1,5 +1,5 @@
 import { auth } from "@/libs/firebase/firebase-config";
-import { Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
 import axios from "axios";
 import { setCookie } from "cookies-next";
 import Image from 'next/image';
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import styles from './Form.module.scss';
 import loginCoverImage from "/src/styles/img/login_cover.png";
+import iconLogo from "/src/styles/img/entregai_logo_dark_blue.png";
 import { toast } from "react-toastify";
 import toastConfig from "@/libs/toast/toastConfig";
 
@@ -62,10 +63,16 @@ const Form = () => {
 					</div>
 				</Grid>
 				<Grid item xs={6}>
+
 					<div className={styles.formContainer}>
-						<Typography variant="h3" noWrap component="div" sx={{ fontWeight: 'fontWeightBold', padding: '1rem' }}>
-							Login
+
+						<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightMedium', padding: '0.5rem', color: 'primary.dark' }}>
+							Seja bem-vindo(a) ao
 						</Typography>
+
+						<Box sx={{ marginBottom: '2rem' }}>
+							<Image src={iconLogo} alt="Logo" height={80}/>
+						</Box>
 
 						<form onSubmit={handleSubmit(submitData)} className={styles.form}>
 
