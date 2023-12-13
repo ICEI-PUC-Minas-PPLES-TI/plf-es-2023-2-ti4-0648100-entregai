@@ -409,7 +409,12 @@ const Order = ({ systemSupermarkets }: { systemSupermarkets: Supermarket[] }) =>
                                             />
                                         </Grid>
                                         <Grid item lg={2}>
-                                            <Button onClick={validateCep} variant="contained" sx={{ width: '100%', height: '100%' }} endIcon={<ArrowForwardIosIcon />}>
+                                            <Button 
+                                                onClick={validateCep} 
+                                                variant="contained" 
+                                                sx={{ width: '100%', height: '100%', maxHeight: 56 }} 
+                                                endIcon={<ArrowForwardIosIcon />}
+                                            >
                                                 Validar Cep
                                             </Button>
                                         </Grid>
