@@ -1,6 +1,7 @@
 # Entregaí
+![Entregaí Logo](/Codigo/entregai/src/styles/img/entregai_logo_white_shadow.png)
 
-“Entregaí” — aplicação web integrada ao WhatsApp cujo objetivo é relacionar a realização de pedidos de delivery ao gerenciamento de produtos e entregas de diversas unidades de uma rede de supermercados.
+Uma aplicação web que tem como objetivorelacionar a realização de pedidos de delivery ao gerenciamento de produtos e entregas de diversas unidades de uma rede de supermercados.
 
 ## Problema e contextualização
 
@@ -11,7 +12,7 @@ Atualmente, a empresa possui três unidades físicas, nas quais tem-se percebido
 Contudo, as ferramentas existentes no mercado, como, por exemplo, a “Deli”, apresentam soluções muito abrangentes, acentuando a necessidade do cliente de uma plataforma especializada em suas necessidades e regras de negócio. Além disso, o cliente ressaltou a importância da simplicidade e facilidade de uso da plataforma desejada, visto que esta deverá se alinhar ao público-alvo do negócio, o qual não apresenta, de forma geral, alta literacia digital.
 
 ## Proposta de solução
-A solução proposta pela equipe é 
+A solução proposta pela equipe é desenvolver um sistema para gerenciamento de solicitações de entregas de um supermercado, informatizando o recebimento de pedidos de delivery e implementando uma visão de sistema contendo o estoque dos produtos disponíveis nas unidades de supermercado.
 
 ## Alunos integrantes da equipe
 
