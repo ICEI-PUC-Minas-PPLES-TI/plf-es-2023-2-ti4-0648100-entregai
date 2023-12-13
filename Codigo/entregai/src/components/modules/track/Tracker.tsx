@@ -143,8 +143,6 @@ const Tracker = () => {
                     Status: {getStatus(order.status!)}
                 </Typography>
 
-                {order.status! < 4 && <Button variant="contained" onClick={() => { setCancelModal(true) }}>Cancelar Pedido</Button>}
-
                 <Typography variant="h6" noWrap component="div" sx={{ padding: '1.5rem 0' }}>
                     Cliente
                 </Typography>
@@ -219,6 +217,8 @@ const Tracker = () => {
                         </TableRow>
                     </TableBody>
                 </Table>
+
+                {order.status! < 4 && <Button variant="contained" onClick={() => { setCancelModal(true) }}>Cancelar Pedido</Button>}
 
             </div>}
         </div>
