@@ -43,12 +43,15 @@ const MenuBar = () => {
 
 	return (
 		<Box sx={{ display: 'flex' }} >
-			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, boxShadow: 'none'}}>
+			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, boxShadow: 'none' }}>
 				<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-					<Image src={logo} alt="Entregaí" height={40} />
 
+					<Link href="/app/supermarket" passHref>
+						<Image src={logo} alt="Entregaí" height={40} />
+					</Link>
+					
 					<Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'fontWeightMedium' }}>
-						Olá, {user.name} 
+						Olá, {user.name}
 					</Typography>
 				</Toolbar>
 			</AppBar >
@@ -66,15 +69,15 @@ const MenuBar = () => {
 					<List>
 						{menuItems.map((item, index) => (
 							<Link href={`/app/${item.link}`} key={item.text}>
-							<ListItem  disablePadding> {/* Ex.: Supermercados */}
-								 {/* Ex.: /app/supermarket */}
+								<ListItem disablePadding> {/* Ex.: Supermercados */}
+									{/* Ex.: /app/supermarket */}
 									<ListItemButton>
 										<ListItemIcon sx={{ color: 'primary.contrastText' }}>
 											{<item.icon />}
 										</ListItemIcon>
 										<ListItemText primary={item.text} sx={{ color: 'primary.contrastText' }} />
 									</ListItemButton>
-							</ListItem>
+								</ListItem>
 							</Link>
 						))}
 					</List>
