@@ -1,6 +1,6 @@
 import { Supermarket } from "@/libs/types/Supermarket";
 import { User } from "@/libs/types/User";
-import { Box, Collapse, Fade, Grow, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Zoom } from "@mui/material";
+import { Fade, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useState } from "react";
 import Edit from "./Edit";
 import Delete from "./Delete";
@@ -100,7 +100,14 @@ const Visualizer = ({ users, setUsers, systemSupermarkets }: { users: User[], se
 
 				<TableFooter>
 					<TableRow>
-						<TablePagination rowsPerPageOptions={[5, 10, 25]} colSpan={5} count={users.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+						<TablePagination 
+							colSpan={5} count={users.length} 
+							rowsPerPageOptions={[5, 10, 25]} 
+							rowsPerPage={rowsPerPage} page={page} 
+							onPageChange={handleChangePage} 
+							onRowsPerPageChange={handleChangeRowsPerPage} 
+							labelRowsPerPage="Linhas por página"
+						/>
 					</TableRow>
 				</TableFooter>
 
