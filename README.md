@@ -30,4 +30,44 @@ A solução proposta pela equipe é desenvolver um sistema para gerenciamento de
 
 ## Instruções de utilização
 
-[Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.]
+
+## Instruções de execução
+
+Você pode acessar o Entregaí a partir do link https://entregai.vercel.app.
+
+Se preferir executar a aplicação localmente, siga os seguintes passos:
+
+1. **Pré-requisitos**
+    - Certifique-se de que você possui o node.js instalado em sua máquina.
+
+2. **Clone o Repositório**
+    - Abra um terminal e execute o seguinte comando para clonar o repositório:
+      ```bash
+        git clone https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2023-2-ti4-0648100-entregai
+      ```
+   - Alternativamente, você pode fazer download do projeto na página deste repositório no GitHub. Para isso, clique em `Code > Download ZIP`
+   
+3. **Navegue até a Pasta do Projeto**
+    - Vá para o diretório da aplicação Spring Boot usando o comando:
+      ```bash
+        cd Codigo/entregai
+      ```
+
+4. **Instale as dependências**
+    - Instale as dependências necessárias para execução do projeto com:
+      ```bash
+        npm i
+      ```
+
+5. **Execute a aplicação**
+    - Após a conclusão da instalação de dependências, você pode iniciar o aplicativo com o seguinte comando:
+      ```bash
+        npm run dev
+      ```
+
+6. **Acesse a Aplicação:**
+    - Após a aplicação ser iniciada com sucesso, abra um navegador web e acesse a URL:
+      ```http://localhost:3000```
+
+    - Certifique-se de que a aplicação esteja em execução enquanto você a utiliza.
+
