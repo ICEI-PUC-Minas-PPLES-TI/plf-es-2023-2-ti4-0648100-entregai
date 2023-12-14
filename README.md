@@ -1,18 +1,20 @@
 # Entregaí
 ![Entregaí Logo](/Codigo/entregai/src/styles/img/entregai_logo_white_shadow.png)
 
-Uma aplicação web que tem como objetivorelacionar a realização de pedidos de delivery ao gerenciamento de produtos e entregas de diversas unidades de uma rede de supermercados.
+Uma aplicação web que tem como objetivo relacionar a realização de pedidos de delivery ao gerenciamento de produtos e entregas de diversas unidades de uma rede de supermercados.
 
 ## Problema e contextualização
 
 O cliente do projeto atua na administração de diversos setores da rede de supermercados “Preço Baixo”, na cidade de Salvador - BA. 
 
-Atualmente, a empresa possui três unidades físicas, nas quais tem-se percebido uma crescente demanda por delivery de produtos para residentes de suas respectivas regiões. Visando atender essa urgência e aprimorar o desempenho do negócio, o cliente relatou a necessidade de uma ferramenta que permitisse, sobretudo de forma simples, o contato dos clientes com a empresa e a subsequente realização de pedidos, permitindo gerenciamento eficiente e automatizado das solicitações de entrega de mercadorias.
+Atualmente, a empresa possui três unidades físicas, nas quais se tem percebido uma crescente demanda por delivery de produtos para residentes de suas respectivas regiões. Visando atender essa urgência e aprimorar o desempenho do negócio, o cliente relatou a necessidade de uma ferramenta que permitisse, sobretudo de forma simples, o contato dos clientes com a empresa e a subsequente realização de pedidos, permitindo gerenciamento eficiente e automatizado das solicitações de entrega de mercadorias.
 
-Contudo, as ferramentas existentes no mercado, como, por exemplo, a “Deli”, apresentam soluções muito abrangentes, acentuando a necessidade do cliente de uma plataforma especializada em suas necessidades e regras de negócio. Além disso, o cliente ressaltou a importância da simplicidade e facilidade de uso da plataforma desejada, visto que esta deverá se alinhar ao público-alvo do negócio, o qual não apresenta, de forma geral, alta literacia digital.
+Contudo, as ferramentas existentes no mercado apresentam soluções muito abrangentes, acentuando a necessidade do cliente de uma plataforma especializada em suas necessidades e regras de negócio. Além disso, o cliente ressaltou a importância da simplicidade e facilidade de uso da plataforma desejada, visto que esta deverá se alinhar ao público-alvo do negócio, o qual não apresenta, de forma geral, alta literacia digital.
+
 
 ## Proposta de solução
 A solução proposta pela equipe é desenvolver um sistema para gerenciamento de solicitações de entregas de um supermercado, informatizando o recebimento de pedidos de delivery e implementando uma visão de sistema contendo o estoque dos produtos disponíveis nas unidades de supermercado.
+
 
 ## Alunos integrantes da equipe
 
@@ -28,10 +30,8 @@ A solução proposta pela equipe é desenvolver um sistema para gerenciamento de
 * Profa. Lucila Ishitani
 * Profa. Soraia Lúcia da Silva
 
+
 ## Instruções de utilização
-
-
-## Instruções de execução
 
 Você pode acessar o Entregaí a partir do link https://entregai.vercel.app.
 
