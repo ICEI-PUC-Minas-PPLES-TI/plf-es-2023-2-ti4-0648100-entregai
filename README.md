@@ -38,17 +38,17 @@ Você pode acessar o Entregaí a partir do link https://entregai.vercel.app.
 Se preferir executar a aplicação localmente, siga os seguintes passos:
 
 1. **Pré-requisitos**
-    - Certifique-se de que você possui o node.js instalado em sua máquina.
+    - Certifique-se de que você possui o Node.js e o Git instalados em sua máquina.
 
-2. **Clone o Repositório**
+2. **Clone o repositório**
     - Abra um terminal e execute o seguinte comando para clonar o repositório:
       ```bash
         git clone https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2023-2-ti4-0648100-entregai
       ```
    - Alternativamente, você pode fazer download do projeto na página deste repositório no GitHub. Para isso, clique em `Code > Download ZIP`
    
-3. **Navegue até a Pasta do Projeto**
-    - Vá para o diretório da aplicação Spring Boot usando o comando:
+3. **Navegue até a pasta do projeto**
+    - Vá para o diretório da aplicação usando o comando:
       ```bash
         cd Codigo/entregai
       ```
@@ -65,9 +65,8 @@ Se preferir executar a aplicação localmente, siga os seguintes passos:
         npm run dev
       ```
 
-6. **Acesse a Aplicação:**
+6. **Acesse a aplicação:**
     - Após a aplicação ser iniciada com sucesso, abra um navegador web e acesse a URL:
       ```http://localhost:3000```
-
     - Certifique-se de que a aplicação esteja em execução enquanto você a utiliza.
 
