@@ -1,5 +1,5 @@
 import { auth } from "@/libs/firebase/firebase-config";
-import { Box, Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { setCookie } from "cookies-next";
 import Image from 'next/image';
@@ -11,6 +11,7 @@ import loginCoverImage from "/src/styles/img/login_cover.png";
 import iconLogo from "/src/styles/img/entregai_logo_dark_blue.png";
 import { toast } from "react-toastify";
 import toastConfig from "@/libs/toast/toastConfig";
+import BackButton from "@/components/misc/BackButton";
 
 interface FormDataType {
 	email: string,
@@ -63,7 +64,6 @@ const Form = () => {
 					</div>
 				</Grid>
 				<Grid item xs={6}>
-
 					<div className={styles.formContainer}>
 
 						<Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'fontWeightMedium', padding: '0.5rem', color: 'primary.dark' }}>
@@ -116,9 +116,18 @@ const Form = () => {
 								</Grid>
 							</Grid>
 						</form>
+
+						<div className={styles.backButton}><BackButton /></div>
 					</div>
+					
 				</Grid>
 			</Grid>
+
+			
+
+			{/* <IconButton onClick={() => {}}>
+                    <ArrowBackIosIcon />
+            </IconButton> */}
 		</div>
 	)
 }

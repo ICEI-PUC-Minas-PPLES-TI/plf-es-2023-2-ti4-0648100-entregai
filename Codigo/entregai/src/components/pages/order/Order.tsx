@@ -16,8 +16,6 @@ import { useRouter } from "next/navigation";
 
 const MAX_NUMBER_OF_STEPS = 2
 
-// cep, rua, bairro, complemento, numero, cidade, estado
-
 type FormDataType = {
     paymentMethod: string,
     name: string,

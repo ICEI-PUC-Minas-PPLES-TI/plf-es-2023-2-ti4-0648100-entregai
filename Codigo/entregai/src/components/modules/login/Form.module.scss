@@ -15,6 +15,12 @@
     transform: translateY(-1rem);
 }
 
+.backButton {
+    position: absolute;
+    bottom: 0;
+    right: 1.2rem;
+}
+
 .imageContainer {
     overflow: hidden;
     height: 100vh;

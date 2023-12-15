@@ -1,5 +1,5 @@
 import BackButton from "@/components/misc/BackButton";
-import Visualizer from "@/components/modules/order/Visualizer";
+import Visualizer from "@/components/modules/supermarket/order/Visualizer";
 import { Supermarket } from "@/libs/types/Supermarket";
 import { Typography } from "@mui/material";
 import { useState } from "react";

@@ -478,7 +478,12 @@ const Visualizer = ({ setSupermarket, supermarket }: { setSupermarket: Function,
                                 labelDisplayedRows={({ from, to, count }) => `Exibindo da página ${from} até ${to}`}
                                 labelRowsPerPage={"Linhas por página"} 
                                 rowsPerPageOptions={[5, 10, 25]} 
-                                colSpan={7} count={orders.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+                                colSpan={7} 
+                                count={orders.length} 
+                                rowsPerPage={rowsPerPage} 
+                                page={page} 
+                                onPageChange={handleChangePage} 
+                                onRowsPerPageChange={handleChangeRowsPerPage} />
 						</TableRow>
 					</TableFooter>
 
