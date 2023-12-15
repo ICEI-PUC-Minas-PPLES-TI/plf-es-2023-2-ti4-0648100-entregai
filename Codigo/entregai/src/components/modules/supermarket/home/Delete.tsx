@@ -1,6 +1,6 @@
 import toastConfig from "@/libs/toast/toastConfig"
 import { Supermarket } from "@/libs/types/Supermarket"
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -46,7 +46,9 @@ const Delete = ({ supermarket }: { supermarket: Supermarket }) => {
 
                 <DialogTitle>{supermarket.name}</DialogTitle>
 
-                <DialogContent>Deseja mesmo deletar este supermercado?</DialogContent>
+                <DialogContent>
+                    <Typography variant="body1">Deseja mesmo deletar este supermercado?</Typography>
+                </DialogContent>
 
                 <DialogActions>
 

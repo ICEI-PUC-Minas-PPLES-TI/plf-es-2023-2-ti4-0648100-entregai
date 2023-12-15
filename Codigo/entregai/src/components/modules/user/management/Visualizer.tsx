@@ -100,13 +100,15 @@ const Visualizer = ({ users, setUsers, systemSupermarkets }: { users: User[], se
 
 				<TableFooter>
 					<TableRow>
-						<TablePagination 
-							colSpan={5} count={users.length} 
+						<TablePagination
+							labelDisplayedRows={({ from, to, count }) => `Exibindo da página ${from} até ${to}`} 
+							labelRowsPerPage={"Linhas por página"} 
+							colSpan={5} 
+							count={users.length} 
 							rowsPerPageOptions={[5, 10, 25]} 
 							rowsPerPage={rowsPerPage} page={page} 
 							onPageChange={handleChangePage} 
 							onRowsPerPageChange={handleChangeRowsPerPage} 
-							labelRowsPerPage="Linhas por página"
 						/>
 					</TableRow>
 				</TableFooter>
