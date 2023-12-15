@@ -33,12 +33,13 @@ A solução proposta pela equipe é desenvolver um sistema para gerenciamento de
 
 ## Instruções de utilização
 
-Você pode acessar o Entregaí a partir do link https://entregai.vercel.app.
+Você pode acessar o Entregaí a partir do link https://entregai.vercel.app. Para acessar o painel de administração contate um dos contribuidores do repositório.
 
 Se preferir executar a aplicação localmente, siga os seguintes passos:
 
 1. **Pré-requisitos**
-    - Certifique-se de que você possui o Node.js e o Git instalados em sua máquina.
+    - Certifique-se de que você possui o [Node.js](https://nodejs.org/en) em sua versão mais estável e o [Git](https://git-scm.com/) instalados em sua máquina.
+    - Esse projeto faz uso das plataformas [Firebase](https://firebase.google.com/?hl=pt) e [GCP](https://developers.google.com/maps?hl=pt-br). Portanto, será necessário que você possua uma conta Google com acesso a essas ferramentas.
 
 2. **Clone o repositório**
     - Abra um terminal e execute o seguinte comando para clonar o repositório:
@@ -47,26 +48,47 @@ Se preferir executar a aplicação localmente, siga os seguintes passos:
       ```
    - Alternativamente, você pode fazer download do projeto na página deste repositório no GitHub. Para isso, clique em `Code > Download ZIP`
    
-3. **Navegue até a pasta do projeto**
+3. **Navegue até a raiz da pasta do projeto**
     - Vá para o diretório da aplicação usando o comando:
       ```bash
         cd Codigo/entregai
       ```
 
 4. **Instale as dependências**
-    - Instale as dependências necessárias para execução do projeto com:
+    - Instale as dependências necessárias para execução do projeto utilizando o comando:
       ```bash
         npm i
       ```
 
+5. **Configure as variaveis de ambiente**
+    - Com os acessos ao Firebase e GCP, agora será necessário que você configure as variaveis de ambiente do projeto.
+    - No arquivo `Codigo/entregai/.env.example` você encontrará a estrutura padrão das variaveis, mas antes será necessário que você remova o `.example` do nome do arquivo.
+    - Em seguida, insira nos campos vazios as URLs de conexão, chaves privadas de API e IDs correspondentes ao seu projeto no Firebase / GCP.
+    - **Atenção:** O campo `URL` deve ser preenchido com a URL do ambiente atual de execução (localhost). Por exemplo, no caso do deploy na Vercel, esse campo foi alterado para ```https://entregai.vercel.app```.
+    - Os campos sob **Master Credentials** devem ser preenchidos tendo em mente que o usuário criado com essas credenciais será o Administrador Master da aplicação que receberá todos os acessos e permissões.
+
 5. **Execute a aplicação**
-    - Após a conclusão da instalação de dependências, você pode iniciar o aplicativo com o seguinte comando:
+    - Após a conclusão da instalação de dependências e configuração das variaveis de ambinete, inicie o aplicativo com o seguinte comando:
       ```bash
         npm run dev
       ```
+
+6. **Crie o Administrador Master**
+    - Esse passo só deverá ser executado uma vez em todo o ciclo de vida da aplicação.
+    - Após a inicialização do aplicativo, no seu terminal de preferência execute o seguinte comando substituindo os campos `{{URL}}`, `{{ADMIN_EMAIL}}` e `{{ADMIN_PASSWORD}}` pelos campos correspondentes ao arquivo de variaveis de ambiente:
+    ```bash
+      curl --location --request PUT {{URL}}/api/user/handler?email={{ADMIN_EMAIL}}&password={{ADMIN_PASSWORD}}
+    ```
+    - **Atenção:** 
+      - Os campos ADMIN_EMAIL e ADMIN_PASSWORD são sensiveis e devem ser idênticos ao que foi configurado anteriormente.
+      - O campo ADMIN_EMAIL não aceita '@', portanto substitua-o por '%40'.
+      - O campo ADMIN_PASSWORD deve possuir no minimo 6 caracteres.
 
 6. **Acesse a aplicação:**
     - Após a aplicação ser iniciada com sucesso, abra um navegador web e acesse a URL:
       ```http://localhost:3000```
     - Certifique-se de que a aplicação esteja em execução enquanto você a utiliza.
+    - Para o primeiro login, utilize as credenciais de administrador criadas nos passos anteriores.
+
+
 
