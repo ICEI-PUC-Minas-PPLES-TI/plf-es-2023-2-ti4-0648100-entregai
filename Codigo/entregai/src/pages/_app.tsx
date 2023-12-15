@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Router } from "next/router";
 import Notifications from "@/components/context/Notifications";
+import Head from "next/head";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -33,6 +34,10 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
 	return (
 		<ThemeProvider theme={theme}>
+
+			<Head>
+                <title>Entregaí</title>
+            </Head>
 
 			<UserContextProvider>
 

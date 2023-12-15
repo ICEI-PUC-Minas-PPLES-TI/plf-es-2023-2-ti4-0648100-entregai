@@ -1,3 +1,5 @@
 # Documentação do Projeto
 
-Inclua documentação do projeto, como relatórios da PROEX.
+Este diretório está destinado a armazenar dois arquivos: A documentação final do projeto e a pesquisa de satisfação.
+
+---
