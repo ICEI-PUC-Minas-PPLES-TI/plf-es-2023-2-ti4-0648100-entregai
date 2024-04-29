@@ -3,6 +3,18 @@
 
 Uma aplicação web que tem como objetivo relacionar a realização de pedidos de delivery ao gerenciamento de produtos e entregas de diversas unidades de uma rede de supermercados.
 
+
+## 🏆 Entregaí reconhecido como Trabalho Destaque
+<img align="left" height="240px" alt="Badge" src="Codigo/entregai/src/styles/img/badge.png"/>
+
+🎉🚀 Estamos felizes em compartilhar que o Entregaí foi reconhecido como **Trabalho Destaque** pelo Curso de Engenharia de Software da Pontifícia Universidade Católica de Minas Gerais!
+
+Pensando em promover a transformação digital do negócio de nosso cliente, o Entregaí surgiu no último semestre de 2023 como uma solução para gestão de delivery e controle de estoques de uma rede de supermercados em Salvador-BA. 
+
+O software foi construído visando a melhor experiência de desenvolvimento; para isso, utilizamos Next.js, Firebase, Material UI, SCSS e outras tecnologias que aprendemos no caminho.
+
+<br><br>
+
 ## Problema e contextualização
 
 O cliente do projeto atua na administração de diversos setores da rede de supermercados “Preço Baixo”, na cidade de Salvador - BA. 
